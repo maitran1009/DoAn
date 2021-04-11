@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Trang chu</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- css -->
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do" rel="stylesheet">
+
+	<link rel="stylesheet" th:href="@{/css/open-iconic-bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/animate.css}">
+	
+	<link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+	<link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}">
+	<link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
+	
+	<link rel="stylesheet" th:href="@{/css/aos.css}">
+	
+	<link rel="stylesheet" th:href="@{/css/ionicons.min.css}">
+	
+	<link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}">
+	<link rel="stylesheet" th:href="@{/css/jquery.timepicker.css}">
+	
+	<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+	
+	<link rel="stylesheet" th:href="@{/css/flaticon.css}">
+	<link rel="stylesheet" th:href="@{/css/icomoon.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/custom.css}">
+    
+</head>
+
+<body>
+	<!-- header -->
+	<div th:replace="fragments/header :: header"></div>
+
+	<section class="home-slider owl-carousel img" style="background-image: url(images/bg_1.jpg);">
+		<div class="slider-item" style="background-image: url(images/bg_3.jpg);">
+			<div class="overlay"></div>
+			<div class="container">
+				<div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+					<div class="col-md-7 col-sm-12 text-center ftco-animate">
+						<span class="subheading">Chào mừng bạn đã đến với thế giới ăn vặt!</span>
+						<h1 class="mb-4">Với chúng tôi, các bạn chính là thượng đế!</h1>
+						<p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Đặt ngay</a> <a href="#"
+								class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+		<div class="slider-item">
+			<div class="overlay"></div>
+			<div class="container">
+				<div class="row slider-text align-items-center" data-scrollax-parent="true">
+
+					<div class="col-md-6 col-sm-12 col-md-last ftco-animate">
+						<span class="subheading">Crunchy</span>
+						<h1 class="mb-4">Pizza Ý</h1>
+						<p class="mb-4 mb-md-5">Vị giác ra khơi - tận hưởng bữa tiệc hải sản mê li giữa những ngày nắng
+							hè oi ả. Cắn một miếng thôi là đủ đê mê!!!</p>
+						<p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Đặt ngay</a> <a href="#"
+								class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
+					</div>
+					<div class="col-md-6 ftco-animate">
+						<img src="images/bg_2.png" class="img-fluid" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="slider-item">
+			<div class="overlay"></div>
+			<div class="container">
+				<div class="row slider-text align-items-center" data-scrollax-parent="true">
+
+					<div class="col-md-6 col-sm-12 ftco-animate">
+						<span class="subheading">Delicious</span>
+						<h1 class="mb-4">Italian Cuizine</h1>
+						<p><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Đặt ngay</a> <a href="#"
+								class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
+					</div>
+					<div class="col-md-6 ftco-animate">
+						<img src="images/bg_1.png" class="img-fluid" alt="">
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-intro">
+		<div class="container-wrap">
+			<div class="wrap d-md-flex">
+				<div class="info">
+					<div class="row no-gutters ">
+						<div class="col-md-3 d-flex ftco-animate">
+							<div class="icon"><span class="icon-phone"></span></div>
+							<div class="text">
+								<h3>0868257328</h3>
+
+							</div>
+						</div>
+						<div class="col-md-4 d-flex ftco-animate">
+							<div class="icon"><span class="icon-my_location"></span></div>
+							<div class="text">
+								<h3>Số 31, phố Hàng Bông, Hoàn Kiếm, Hà Nội </h3>
+
+							</div>
+						</div>
+						<div class="col-md-5 d-flex ftco-animate">
+							<div class="icon"><span class="icon-clock-o"></span></div>
+							<div class="text">
+								<h3>Ngày mở cửa:Thứ 2-Chủ nhật</h3>
+
+							</div>
+						</div>
+					</div>
+					<div class="row no-gutters ">
+						<div class="col-md-3 d-flex ftco-animate text-items-center">
+							<div class="text">
+								<p style="text-align:center;">Số điện thoại</p>
+							</div>
+						</div>
+						<div class="col-md-4 d-flex ftco-animate">
+							<div class="text">
+								<p style="text-align:center;">Địa chỉ</p>
+							</div>
+						</div>
+						<div class="col-md-5 d-flex ftco-animate">
+							<div class="text">
+								<p style="text-align:center;">Thời gian: 08h00 - 21h00</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="social d-md-flex pl-md-5 p-4 align-items-center">
+					<ul class="social-icon">
+						<li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+						<li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+						<li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-about d-md-flex">
+		<div class="one-half img" style="background-image: url(images/about-1.jpg);"></div>
+		<div class="one-half ftco-animate">
+			<div class="heading-section ftco-animate ">
+				<h2 class="mb-4">Chào mừng bạn đã đến với<span class="flaticon-pizza">MySu</span> Food</h2>
+			</div>
+			<div>
+				<p>
+					MySu Food là cửa hàng đồ ăn mới thành lập nhưng chúng tôi luôn mang lại cho quý khách những trải nghiệm vô cùng
+					tuyệt vời. Không gian vô cùng trẻ trung, năng động. Nếu bạn muốn có một bức ảnh để sống ảo thì đừng ngần ngại với 
+					tới thăm MySu Food. 
+				</p>
+			</div>
+		</div>
+	</section>
+	<section class="ftco-section ftco-services">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row justify-content-center mb-5 pb-3">
+				<div class="col-md-7 heading-section ftco-animate text-center">
+					<h2 class="mb-4">Hệ thống dịch vụ</h2>
+					<p>Cho dù bạn đang ở đâu, miền Bắc 4 mùa, miền Nam sôi động, hay ở miền Trung đầy nắng và gió. Bạn
+						hãy yên tâm vì MySu Food đã có mặt trên toàn quốc. Bất cứ khi nào bạn cần, bạn chỉ việc
+						nhắc máy và đặt món mà bạn yêu thích nhất, còn việc giao hàng cứ để MySu Food lo!
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 ftco-animate">
+					<div class="media d-block text-center block-6 services">
+						<div class="icon d-flex justify-content-center align-items-center mb-5">
+							<span class="flaticon-diet"></span>
+						</div>
+						<div class="media-body">
+							<h3 class="heading">Món ăn bổ dưỡng</h3>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 ftco-animate">
+					<div class="media d-block text-center block-6 services">
+						<div class="icon d-flex justify-content-center align-items-center mb-5">
+							<span class="flaticon-bicycle"></span>
+						</div>
+						<div class="media-body">
+							<h3 class="heading">Giao hàng nhanh gọn</h3>
+							
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 ftco-animate">
+					<div class="media d-block text-center block-6 services">
+						<div class="icon d-flex justify-content-center align-items-center mb-5"><span
+								class="flaticon-pizza-1"></span></div>
+						<div class="media-body">
+							<h3 class="heading">Công thức nấu ăn độc đáo</h3>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center mb-5 pb-3">
+				<div class="col-md-7 heading-section ftco-animate text-center">
+					<h2 class="mb-4">Những món ăn mới</h2>
+				</div>
+			</div>
+		</div>
+		<div class="container-wrap">
+			<div class="row no-gutters d-flex">
+				<div class="col-lg-4 d-flex ftco-animate col-4" th:each="product: ${products}">
+					<div class="services-wrap d-flex row">
+						<img class="col-6" alt="" th:src="@{${product.image}}" style="width: 307px; height: 253px;">
+						<div class="text p-4 col-6">
+							<h3 style="color: black;" th:text="${product.name}"></h3>
+							<p style="color: #394B55;" th:text="${product.description}"></p>
+							<p class="price"><span th:text="${product.price} + đ"></span> 
+							<a th:href="@{/cart/add(id=${product.id})}" class="ml-2 btn btn-white btn-outline-white hovergallery">Thêm vào giỏ hàng</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row justify-content-center mb-5 pb-3 mt-5 pt-5">
+				<div class="col-md-7 heading-section text-center ftco-animate">
+					<h2 class="mb-4">Bảng giá các món ăn</h2>
+					<p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+					
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="pricing-entry d-flex ftco-animate">
+						<div class="img hovergallery" style="background-image: url(images/xucxich.jpg);"></div>
+						<div class="desc pl-3">
+							<div class="d-flex text align-items-center">
+								<h3><span>Xúc xích chiên</span></h3>
+								<span class="price">10.000<u>đ</u></span>
+							</div>
+							<div class="d-block">
+								<p style="color: #394B55;">
+									Nhập khẩu từ Đức đậm vị thịt heo, giá rẻ bất ngờ!
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="pricing-entry d-flex ftco-animate">
+						<div class="img hovergallery" style="background-image: url(images/nemnuong.jpg);"></div>
+						<div class="desc pl-3">
+							<div class="d-flex text align-items-center">
+								<h3><span>Nem nướng Nha Trang</span></h3>
+								<span class="price">29.000<u>đ</u></span>
+							</div>
+							<div class="d-block">
+								<p style="color: #394B55;">Vừa sang vừa ngon, vừa đã mắt vừa đã miệng, nổi tiếng bởi vị ngon đặc biệt và khó thể cưỡng lại.</p>
+							</div>
+						</div>
+					</div>
+					<div class="pricing-entry d-flex ftco-animate">
+						<div class="img hovergallery" style="background-image: url(images/pizza-3.jpg);"></div>
+						<div class="desc pl-3">
+							<div class="d-flex text align-items-center">
+								<h3><span>Pizza Hy-Lạp</span></h3>
+								<span class="price">220.00<u>đ</u></span>
+							</div>
+							<div class="d-block">
+								<p style="color: #394B55;">Đầy ấp Thịt phủ phô mai Mozzarella thơm béo cùng hương vị
+									chua chua của sốt cà chua - Bữa tiệc thịt thịnh soạn với đủ các tầng vị giác khác
+									nhau.</p>
+							</div>
+						</div>
+					</div>
+					<div class="pricing-entry d-flex ftco-animate">
+						<div class="img hovergallery" style="background-image: url(images/pizza-4.jpg);"></div>
+						<div class="desc pl-3">
+							<div class="d-flex text align-items-center">
+								<h3><span>Pizza thịt xông khói giòn</span></h3>
+								<span class="price">120.00<u>đ</u></span>
+							</div>
+							<div class="d-block">
+								<p style="color: #394B55;">Thịt tươi ngọt kèm với sốt cà chua hòa quyện với nhau, giúp
+									giải ngán!</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="pricing-entry d-flex ftco-animate">
+						<div class="img hovergallery" style="background-image: url(images/pizza-5.jpg);"></div>
+						<div class="desc pl-3">
+							<div class="d-flex text align-items-center">
+								<h3><span>Pizza Hawai đặc biệt</span></h3>
+								<span class="price">220.000<u>đ</u></span>
+							</div>
+							<div class="d-block">
+								<p style="color: #394B55;">Muốn chill hết nấc cho dù đang chìm trong deadline hay đang
+									tận hưởng cuối tuần thì sao phải nghĩ - Order ngay Pizza Hawaii rồi mình cùng chill
+									nào!</p>
+							</div>
+						</div>
+					</div>
+					<div class="pricing-entry d-flex ftco-animate">
+						<div class="img hovergallery" style="background-image: url(images/pizza-6.jpg);"></div>
+						<div class="desc pl-3">
+							<div class="d-flex text align-items-center">
+								<h3><span>Pizza độc vị</span></h3>
+								<span class="price">320.000<u>đ</u></span>
+							</div>
+							<div class="d-block">
+								<p style="color: #394B55;">Tận hưởng món ngon thanh đạm tròn vị ngay tại bàn làm việc.
+									Chiếc bánh như mâm hoa quả ngũ sắc, ngũ vị đan xen tạo nên bữa tiệc thỏa mãn đủ 5
+									giác quan.</p>
+							</div>
+						</div>
+					</div>
+					<div class="pricing-entry d-flex ftco-animate">
+						<div class="img hovergallery" style="background-image: url(images/pizza-7.jpg);"></div>
+						<div class="desc pl-3">
+							<div class="d-flex text align-items-center">
+								<h3><span>Pizza thịt xông khói</span></h3>
+								<span class="price">120.000<u>đ</u></span>
+							</div>
+							<div class="d-block">
+								<p style="color: #394B55;">Ngọt và mặn lại đi kèm cùng vị chua nhẹ từ Cà Chua giúp chiếc
+									bánh pizza tập hợp đủ hương vị cần thiết.</p>
+							</div>
+						</div>
+					</div>
+					<div class="pricing-entry d-flex ftco-animate">
+						<div class="img hovergallery" style="background-image: url(images/pizza-8.jpg);"></div>
+						<div class="desc pl-3">
+							<div class="d-flex text align-items-center">
+								<h3><span>Giăm bông &amp; Dứa</span></h3>
+								<span class="price">200.000<u>đ</u></span>
+							</div>
+							<div class="d-block">
+								<p style="color: #394B55;">Vàng tươi như nắng hè, ngọt bùi trong phô mai, bắp và trứng
+									cút, "bao thế hệ" đều mê li với sự kết hợp hương vị không thể chối từ!!</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-gallery">
+		<div class="container-wrap">
+			<div class="row no-gutters">
+				<div class="col-md-3 ftco-animate">
+					<a href="gallery.html" class="gallery img d-flex align-items-center hovergallery "
+						style="background-image: url(images/gallery_1.jpg);">
+						<div class="icon mb-4 d-flex align-items-center justify-content-center">
+							<span class="icon-search"></span>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-3 ftco-animate">
+					<a href="gallery.html" class="gallery img d-flex align-items-center hovergallery "
+						style="background-image: url(images/gallery_2.jpg);">
+						<div class="icon mb-4 d-flex align-items-center justify-content-center">
+							<span class="icon-search"></span>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-3 ftco-animate">
+					<a href="gallery.html" class="gallery img d-flex align-items-center hovergallery "
+						style="background-image: url(images/gallery_3.jpg);">
+						<div class="icon mb-4 d-flex align-items-center justify-content-center">
+							<span class="icon-search"></span>
+						</div>
+					</a>
+				</div>
+				<div class="col-md-3 ftco-animate">
+					<a href="gallery.html" class="gallery img d-flex align-items-center hovergallery "
+						style="background-image: url(images/gallery_4.jpg);">
+						<div class="icon mb-4 d-flex align-items-center justify-content-center">
+							<span class="icon-search"></span>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<section class="ftco-counter ftco-bg-dark img" id="section-counter" style="background-image: url(images/bg-3.jpg);"
+		data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-10">
+					<div class="row">
+						<div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
+							<div class="block-18 text-center">
+								<div class="text">
+									<div class="icon"><span class="flaticon-pizza-1"></span></div>
+									<strong class="number" data-number="3">0</strong>
+									<span>Chi nhánh con của <br>MySu Food</br></span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
+							<div class="block-18 text-center">
+								<div class="text">
+									<div class="icon"><span class="flaticon-medal"></span></div>
+									<strong class="number" data-number="10">0</strong>
+									<span>Danh hiệu và chứng nhận</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
+							<div class="block-18 text-center">
+								<div class="text">
+									<div class="icon"><span class="flaticon-laugh"></span></div>
+									<strong class="number" data-number="10">0</strong>
+									<span>Khách hàng thân thiết</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-lg-3 d-flex justify-content-center counter-wrap ftco-animate">
+							<div class="block-18 text-center">
+								<div class="text">
+									<div class="icon"><span class="flaticon-chef"></span></div>
+									<strong class="number" data-number="10">0</strong>
+									<span>Đầu bếp của Pizza Delicious</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-menu">
+		<div class="container-fluid">
+			<div class="row d-md-flex">
+				<div class="col-lg-4 ftco-animate img f-menu-img mb-5 mb-md-0"
+					style="background-image: url(images/about-2.jpg);">
+				</div>
+				<div class="col-lg-8 ftco-animate p-md-5">
+					<div class="row">
+						<div class="col-md-12 nav-link-wrap mb-5">
+							<div class="nav ftco-animate nav-pills" id="v-pills-tab" role="tablist"
+								aria-orientation="vertical">
+								<a class="nav-link active" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1"
+									role="tab" aria-controls="v-pills-1" aria-selected="true">Đồ ăn</a>
+
+								<a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab"
+									aria-controls="v-pills-2" aria-selected="false">Đồ uống</a>
+
+								<a class="nav-link" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab"
+									aria-controls="v-pills-3" aria-selected="false">Hamburgers</a>
+
+								<a class="nav-link" id="v-pills-4-tab" data-toggle="pill" href="#v-pills-4" role="tab"
+									aria-controls="v-pills-4" aria-selected="false">Pasta</a>
+							</div>
+						</div>
+						<div class="col-md-12 d-flex align-items-center">
+
+							<div class="tab-content ftco-animate" id="v-pills-tabContent">
+
+								<div class="tab-pane fade show active" id="v-pills-1" role="tabpanel"
+									aria-labelledby="v-pills-1-tab">
+									<div class="row">
+										<div class="col-md-4 text-center">
+											<div class="menu-wrap">
+												<a href="#" class="menu-img img mb-4"
+													style="background-image: url(images/xucxich.jpg);"></a>
+												<div class="text">
+													<h3><a href="#">Xúc xích chiên</a></h3>
+												
+													<p class="price"><span>10.000<u>đ</u></span></p>
+													<p><a href="#" class="btn btn-white btn-outline-white">Thêm vào giỏ
+															hàng</a></p>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4 text-center">
+											<div class="menu-wrap">
+												<a href="#" class="menu-img img mb-4"
+													style="background-image: url(images/nemnuong.jpg);"></a>
+												<div class="text">
+													<h3><a href="#">Nem nướng</a></h3>
+													<p class="price"><span>29.000<u>đ</u></span></p>
+													<p><a href="#" class="btn btn-white btn-outline-white">Thêm vào giỏ
+															hàng</a></p>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4 text-center">
+											<div class="menu-wrap">
+												<a href="#" class="menu-img img mb-4"
+													style="background-image: url(images/pizza-3.jpg);"></a>
+												<div class="text">
+													<h3><a href="#">Pizza Hi-Lạp</a></h3>
+													
+													<p class="price"><span>220.000<u>đ</u></span></p>
+													<p><a href="#" class="btn btn-white btn-outline-white">Thêm vào giỏ
+															hàng</a></p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="tab-pane fade" id="v-pills-2" role="tabpanel"
+									aria-labelledby="v-pills-2-tab">
+									<div class="row">
+										<div class="col-md-4 text-center">
+											<div class="menu-wrap">
+												<a href="#" class="menu-img img mb-4"
+													style="background-image: url(images/drink-1.jpg);"></a>
+												<div class="text">
+													<h3><a href="#">Nước ép cam</a></h3>
+													
+													<p class="price"><span>15.000<u>đ</u></span></p>
+													<p><a href="#" class="btn btn-white btn-outline-white">Thêm vào giỏ
+															hàng</a></p>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4 text-center">
+											<div class="menu-wrap">
+												<a href="#" class="menu-img img mb-4"
+													style="background-image: url(images/drink-2.jpg);"></a>
+												<div class="text">
+													<h3><a href="#">Nước ép dứa</a></h3>
+													
+													<p class="price"><span>25.000<u>đ</u></span></p>
+													<p><a href="#" class="btn btn-white btn-outline-white">Thêm vào giỏ
+															hàng</a></p>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4 text-center">
+											<div class="menu-wrap">
+												<a href="#" class="menu-img img mb-4"
+													style="background-image: url(images/drink-3.jpg);"></a>
+												<div class="text">
+													<h3><a href="#">Soda</a></h3>
+													
+													<p class="price"><span>35.000<u>đ</u></span></p>
+													<p><a href="#" class="btn btn-white btn-outline-white">Thêm vào giỏ
+															hàng</a></p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="tab-pane fade" id="v-pills-3" role="tabpanel"
+									aria-labelledby="v-pills-3-tab">
+									<div class="row">
+										<div class="col-md-4 text-center">
+											<div class="menu-wrap">
+												<a href="#" class="menu-img img mb-4"
+													style="background-image: url(images/burger-1.jpg);"></a>
+												<div class="text">
+													<h3><a href="#">Hamburgers phô mai</a></h3>
+													
+													<p class="price"><span>40.000<u>đ</u></span></p>
+													<p><a href="#" class="btn btn-white btn-outline-white">Thêm vào giỏ
+															hàng</a></p>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4 text-center">
+											<div class="menu-wrap">
+												<a href="#" class="menu-img img mb-4"
+													style="background-image: url(images/burger-2.jpg);"></a>
+												<div class="text">
+													<h3><a href="#">Hamburgers thịt xông khói</a></h3>
+													
+													<p class="price"><span>42.000<u>đ</u></span></p>
+													<p><a href="#" class="btn btn-white btn-outline-white">Thêm vào giỏ
+															hàng</a></p>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4 text-center">
+											<div class="menu-wrap">
+												<a href="#" class="menu-img img mb-4"
+													style="background-image: url(images/burger-3.jpg);"></a>
+												<div class="text">
+													<h3><a href="#">Hamburgers bò nấm</a></h3>
+													
+													<p class="price"><span>49.000<u>đ</u></span></p>
+													<p><a href="#" class="btn btn-white btn-outline-white">Thêm vào giỏ
+															hàng</a></p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="tab-pane fade" id="v-pills-4" role="tabpanel"
+									aria-labelledby="v-pills-4-tab">
+									<div class="row">
+										<div class="col-md-4 text-center">
+											<div class="menu-wrap">
+												<a href="#" class="menu-img img mb-4"
+													style="background-image: url(images/pasta-1.jpg);"></a>
+												<div class="text">
+													<h3><a href="#">Pasta bò</a></h3>
+													
+													<p class="price"><span>59.000<u>đ</u></span></p>
+													<p><a href="#" class="btn btn-white btn-outline-white">Thêm vào giỏ
+															hàng</a></p>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4 text-center">
+											<div class="menu-wrap">
+												<a href="#" class="menu-img img mb-4"
+													style="background-image: url(images/pasta-2.jpg);"></a>
+												<div class="text">
+													<h3><a href="#">Pasta thập cẩm</a></h3>
+													
+													<p class="price"><span>69.000<u>đ</u></span></p>
+													<p><a href="#" class="btn btn-white btn-outline-white">Thêm vào giỏ
+															hàng</a></p>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-4 text-center">
+											<div class="menu-wrap">
+												<a href="#" class="menu-img img mb-4"
+													style="background-image: url(images/pasta-3.jpg);"></a>
+												<div class="text">
+													<h3><a href="#">Pasta rau củ</a></h3>
+													
+													<p class="price"><span>49.000<u>đ</u></span></p>
+													<p><a href="#" class="btn btn-white btn-outline-white">Thêm vào giỏ
+															hàng</a></p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center mb-5 pb-3">
+				<div class="col-md-7 heading-section ftco-animate text-center">
+					<h2 class="mb-4">Phản hồi gần đây nhất</h2>
+					
+				</div>
+			</div>
+			<div class="row d-flex">
+				<div class="col-md-4 d-flex ftco-animate">
+					<div class="blog-entry align-self-stretch">
+						<a href="blog-single.html" class="block-20"
+							style="background-image: url('images/image-1.jpg');">
+						</a>
+						<div class="text py-4 d-block">
+							<div class="meta">
+								<div><a href="#">15/10/2019</a></div>
+								<div><a href="#">Admin</a></div>
+								<div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+							</div>
+							<h3 class="heading mt-2"><a href="#">Cảm nhận về Pizza Delicious</a></h3>
+							<p>Đồ ăn ngon, giao hàng tận tay và cực nhanh.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 d-flex ftco-animate">
+					<div class="blog-entry align-self-stretch">
+						<a href="blog-single.html" class="block-20"
+							style="background-image: url('images/image-2.jpg');">
+						</a>
+						<div class="text py-4 d-block">
+							<div class="meta">
+								<div><a href="#">15/10/2019</a></div>
+								<div><a href="#">Admin</a></div>
+								<div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+							</div>
+							<h3 class="heading mt-2"><a href="#">Đồ ăn thật tuyệt!</a></h3>
+							
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 d-flex ftco-animate">
+					<div class="blog-entry align-self-stretch">
+						<a href="blog-single.html" class="block-20"
+							style="background-image: url('images/image-3.jpg');">
+						</a>
+						<div class="text py-4 d-block">
+							<div class="meta">
+								<div><a href="#">15/10/2019</a></div>
+								<div><a href="#">Admin</a></div>
+								<div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+							</div>
+							<h3 class="heading mt-2"><a href="#">Món Pizza yêu thích nhất</a></h3>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<section class="ftco-appointment">
+		<div class="overlay"></div>
+		<div class="container-wrap">
+			<div class="row no-gutters d-md-flex align-items-center">
+				
+				<div class="col-md-12 appointment ftco-animate">
+					<h3 style="color: black;" class="mb-3">Hãy liên hệ với chúng tôi nếu bạn có bất cứ điều gì cần giải
+						đáp nhé!</h3>
+					<form action="#" class="appointment-form">
+						<div class="d-md-flex">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Họ và tên">
+							</div>
+						</div>
+						<div class="d-me-flex">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Email">
+							</div>
+						</div>
+						<div class="form-group">
+							<textarea name="" id="" cols="30" rows="3" class="form-control"
+								placeholder="Phản hồi"></textarea>
+						</div>
+						<div class="form-group">
+							<input type="submit" value="Gửi đi ngay bây giờ" class="btn btn-primary py-3 px-4">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	
+	<!-- footer -->
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<div th:replace="fragments/script :: script"></div>
+</body>
+</html>
