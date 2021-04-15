@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.pizza.service.UserDetailsServiceImpl;
 
@@ -41,27 +42,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests()
-			.antMatchers("/dang-nhap").permitAll()
-			.antMatchers("/trang-chu").hasRole("MEMBER")
-			.antMatchers("/admin/**").hasRole("ADMIN")
-		.and()
-			.formLogin()
-				.loginPage("/dang-nhap")
-				.usernameParameter("email")
-				.passwordParameter("password")
-				.defaultSuccessUrl("/")
-				.failureUrl("/dang-nhap?error")
-		.and()
-			.exceptionHandling().accessDeniedPage("/mySuFood/403");
+		http.authorizeRequests().antMatchers("/dang-nhap", "/403").permitAll().antMatchers("/trang-chu")
+				.hasRole("MEMBER").antMatchers("/admin/**").hasRole("ADMIN").and().formLogin().loginPage("/dang-nhap")
+				.usernameParameter("email").passwordParameter("password").defaultSuccessUrl("/")
+				.failureUrl("/dang-nhap?error");
+		
+		http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 
-		http
-        .logout(logout -> logout                                                
-            .logoutUrl("/mySuFood/logout")                                            
-            .logoutSuccessUrl("/mySuFood/trang-chu")                                      
-            .invalidateHttpSession(true)                                 
-        );
-        
+		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/dang-nhap")
+				.invalidateHttpSession(true);
+
 		// Cấu hình Remember Me.
 		http.authorizeRequests().and() //
 				.rememberMe().tokenRepository(this.persistentTokenRepository()) //

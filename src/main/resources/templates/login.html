@@ -45,27 +45,24 @@
 	<div class="login" style="width:100%; height:500px">
 		<div class="container">
 			<h2>ĐĂNG NHẬP</h2>
-			<p th:if="${error != null}" th:text="${error}"></p>
-			<form th:action="@{/dang-nhap}" th:object="${user}" method="POST">
+			<p th:if="${param.error}" class="error">Email hoặc mật khẩu không chính xác</p>
+			<form th:action="@{/dang-nhap}" method="POST">
 				<div class="form-group row">
 					<label for="staticEmail" class="col-lg-4 col-form-label">Email</label>
 					<div class="col-lg-8">
-						<input th:if="${email == null}" type="text" class="form-control" name="email"> 
-						<input th:unless="${email == null}" type="text" class="form-control" name="email" th:value="${email}">
+						<input type="text" class="form-control" name="email"> 
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="staticEmail" class="col-lg-4 col-form-label">Mật khẩu</label>
 					<div class="col-lg-8">
-						<input th:if="${password == null}" type="password" class="form-control" name="password">
-						<input th:unless="${password == null}" type="password" class="form-control" name="password" th:value="${password}">
+						<input type="password" class="form-control" name="password">
 					</div>
 				</div>
 				<div class="form-group row">
 					<label class="col-lg-4 col-form-label"></label>
 					<div class="col-lg-8 checkSave">
-						<input th:if="${remember == null}" type="checkbox" class="form-control" name="remember" value="true">
-						<input th:unless="${remember == null}" type="checkbox" class="form-control" name="remember" value="true" checked="checked">
+						<input type="checkbox" class="form-control" name="remember" value="true">
 						<p>Lưu mật khẩu</p>
 					</div>
 				</div>

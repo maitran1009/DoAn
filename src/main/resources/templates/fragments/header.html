@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 </head>
 <body>
@@ -25,8 +25,10 @@
 				</ul>
 				<ul class="menu-icon">
 					<li><a th:href="@{/gio-hang}"><i class="fas fa-shopping-cart"></i></a></li>
-					<li th:if="${session.user == null}"><a th:href="@{/dang-nhap}"><i class="fa fa-user"></i></a></li>
-					<a th:unless="${session.user == null}" th:href="@{/logout}" title="Đăng xuất"><p th:text="${session.user.fullname}" style="color: #fff;font-size: 18px;font-weight: 400;"></p></a>
+					<li sec:authorize="!isAuthenticated()"><a th:href="@{/dang-nhap}"><i class="fa fa-user"></i></a></li>
+					<li sec:authorize="isAuthenticated()">
+						<a th:href="@{/logout}" th:title="${#request.userPrincipal.name}"><i class="fa fa-sign-out-alt"></i></a>
+					</li>
 				</ul>
 			</div>
 		</div>
