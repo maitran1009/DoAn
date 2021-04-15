@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pizza.common.PageConstant;
-import com.pizza.common.SendMail;
 import com.pizza.service.HomeService;
 
 @Controller
@@ -18,17 +17,11 @@ public class HomeController {
 	@Autowired
 	private HomeService homeService;
 
-	@Autowired
-	private SendMail sendMail;
-	
 	@GetMapping
 	public String pageIndex(Model model) {
-		model.addAttribute("products", homeService.getListProduct());
-		model.addAttribute("sizes", homeService.getListSize());
-		sendMail.sendSimpleEmail();
-		return PageConstant.PAGE_INDEX;
+		return homeService.getPageHome(model);
 	}
-	
+
 	@GetMapping("/403")
 	public String accessDenied(Principal principal) {
 		System.out.println(principal.getName());

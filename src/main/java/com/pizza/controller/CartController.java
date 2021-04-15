@@ -25,8 +25,8 @@ public class CartController {
 
 	@GetMapping("add")
 	public String addToCart(Model model, HttpSession session, @RequestParam("id") int id,
-			@RequestParam("size") int size) {
-		return cartService.addToCart(model, session, id, size);
+			@RequestParam("detail") int detail) {
+		return cartService.addToCart(model, session, id, detail);
 	}
 
 	@GetMapping("update")

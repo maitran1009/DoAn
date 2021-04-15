@@ -27,6 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private DataSource dataSource;
 
+	@Autowired
+	private MySimpleUrlAuthenticationSuccessHandler successHandler;
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -42,11 +45,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/dang-nhap", "/403").permitAll().antMatchers("/trang-chu")
+		http.authorizeRequests().antMatchers("/dang-nhap", "/403", "/trang-chu", "/").permitAll().antMatchers("/info")
 				.hasRole("MEMBER").antMatchers("/admin/**").hasRole("ADMIN").and().formLogin().loginPage("/dang-nhap")
-				.usernameParameter("email").passwordParameter("password").defaultSuccessUrl("/")
+				.usernameParameter("email").passwordParameter("password").successHandler(successHandler)
 				.failureUrl("/dang-nhap?error");
-		
+
 		http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 
 		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/dang-nhap")

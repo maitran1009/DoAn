@@ -4,9 +4,11 @@ $(document).ready(function() {
 	 	
 	 	$(this).addClass("size-css-active");
 	 
-        var size = $(this).attr("data");
+        var detail = $(this).attr("data");
         var url = $(this).closest("div.change-url").find("#add-cart").attr("href");
-        url = url + "&size=" + size;
+        url = url.split("&")[0];
+        console.log(url);
+        url = url + "&detail=" + detail;
         $(this).closest("div.change-url").find("#add-cart").attr("href", url);
     });
 });

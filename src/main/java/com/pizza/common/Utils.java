@@ -28,7 +28,7 @@ public class Utils {
 		long result = 0;
 		if (!ObjectUtils.isEmpty(carts)) {
 			for (Cart cart : carts) {
-				result += cart.getProductDetail().getProduct().getPrice() * cart.getCount();
+				result += cart.getPrice() * cart.getCount();
 			}
 		}
 		return result;

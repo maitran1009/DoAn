@@ -13,11 +13,10 @@ import org.springframework.util.ObjectUtils;
 import com.pizza.common.PageConstant;
 import com.pizza.common.Utils;
 import com.pizza.model.entity.Product;
-import com.pizza.model.entity.Size;
+import com.pizza.model.entity.ProductDetail;
 import com.pizza.model.output.Cart;
 import com.pizza.repository.ProductDetailRepository;
 import com.pizza.repository.ProductRepository;
-import com.pizza.repository.SizeRepository;
 
 @Service
 public class CartService {
@@ -27,13 +26,10 @@ public class CartService {
 	private static final String SESSION_CART = "carts";
 
 	@Autowired
-	private ProductDetailRepository productDetailRepository;
-
-	@Autowired
 	private ProductRepository productRepository;
 
 	@Autowired
-	private SizeRepository sizeRepository;
+	private ProductDetailRepository productDetailRepository;
 
 	@SuppressWarnings("unchecked")
 	public String pageCart(Model model, HttpSession session) {
@@ -47,7 +43,7 @@ public class CartService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String addToCart(Model model, HttpSession session, int id, int sizeId) {
+	public String addToCart(Model model, HttpSession session, int id, int detail) {
 		try {
 			List<Cart> carts = (List<Cart>) session.getAttribute(SESSION_CART);
 			Cart cart = new Cart();
@@ -62,7 +58,7 @@ public class CartService {
 			} else {
 				// kiêm tra xem sản pham đã có trong giỏ hàng chưa
 				for (Cart item : carts) {
-					if (item.getProductId() == id && item.getSizeId() == sizeId) {
+					if (item.getProductId() == id && item.getProductDetailId() == detail) {
 						cart = item;
 						flag = true;
 						index++;
@@ -76,14 +72,15 @@ public class CartService {
 				carts.set(index - 1, cart);
 			} else {
 				Product product = productRepository.findById(id).get();
-
-				Size size = sizeRepository.findById(sizeId).get();
-
+				ProductDetail productDetail = productDetailRepository.findById(detail).get();
 				cart.setId(cartId);
 				cart.setCount(1);
 				cart.setProductId(id);
-				cart.setSizeId(sizeId);
-				cart.setProductDetail(productDetailRepository.findByProductAndSize(product, size));
+				cart.setPrice(product.getPrice());
+				cart.setProductDetailId(detail);
+				cart.setImage(product.getImage());
+				cart.setName(product.getName());
+				cart.setSizeName(productDetail.getSize().getName());
 
 				carts.add(cart);
 			}

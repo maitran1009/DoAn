@@ -28,12 +28,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (ObjectUtils.isEmpty(user)) {
 			throw new UsernameNotFoundException("User " + username + " was not found in the database");
 		}
-
-		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-		grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().getCode()));
+		/**
+		 * GrantedAuthority: chứa danh sách các role: 1 nhân viên có nhiều quyền.
+		 */
+		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();// khởi tạo mảng chứa các quyền của user
+		grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().getCode()));// thêm quyền vào mảng
 
 		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
-				grantedAuthorities);
+				grantedAuthorities);// chứa thông tin login
 	}
 
 }

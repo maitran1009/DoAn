@@ -1,6 +1,6 @@
 package com.pizza.model.output;
 
-public class ProductDetailOutput {
+public class ProductDetailOutput implements Comparable<ProductDetailOutput> {
 	private int id;
 	private int size;
 	private String sizeName;
@@ -45,5 +45,11 @@ public class ProductDetailOutput {
 
 	public void setStatusName(String statusName) {
 		this.statusName = statusName;
+	}
+
+	@Override
+	public int compareTo(ProductDetailOutput o) {
+		// TODO Auto-generated method stub
+		return this.getSize() - o.getSize();
 	}
 }

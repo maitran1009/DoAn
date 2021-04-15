@@ -1,28 +1,32 @@
 package com.pizza.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 
+import com.pizza.common.PageConstant;
 import com.pizza.model.entity.Product;
-import com.pizza.model.entity.Size;
+import com.pizza.model.output.ProductOutput;
 import com.pizza.repository.ProductRepository;
-import com.pizza.repository.SizeRepository;
 
 @Service
 public class HomeService {
 	@Autowired
 	private ProductRepository productRepository;
 
-	@Autowired
-	private SizeRepository sizeRepository;
-
-	public List<Product> getListProduct() {
-		return productRepository.findAll();
-	}
-
-	public List<Size> getListSize() {
-		return sizeRepository.findAll();
+	public String getPageHome(Model model) {
+		List<ProductOutput> response = new ArrayList<>();
+		List<Product> products = productRepository.findAll();
+		if (!ObjectUtils.isEmpty(products)) {
+			for (Product product : products) {
+				response.add(new ProductOutput().convertTo(product));
+			}
+		}
+		model.addAttribute("products", response);
+		return PageConstant.PAGE_INDEX;
 	}
 }

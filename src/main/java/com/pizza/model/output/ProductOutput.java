@@ -1,10 +1,12 @@
 package com.pizza.model.output;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.util.ObjectUtils;
 
+import com.pizza.common.Utils;
 import com.pizza.model.entity.Product;
 import com.pizza.model.entity.ProductDetail;
 
@@ -12,6 +14,7 @@ public class ProductOutput {
 	private int id;
 	private String name;
 	private String image;
+	private String urlImage;
 	private long price;
 	private String description;
 	private List<ProductDetailOutput> productDetail;
@@ -64,11 +67,20 @@ public class ProductOutput {
 		this.productDetail = productDetail;
 	}
 
+	public String getUrlImage() {
+		return urlImage;
+	}
+
+	public void setUrlImage(String urlImage) {
+		this.urlImage = urlImage;
+	}
+
 	public ProductOutput convertTo(Product product) {
 		if (!ObjectUtils.isEmpty(product)) {
 			List<ProductDetailOutput> detailOutputs = new ArrayList<>();
 			this.id = product.getId();
 			this.image = product.getImage().replace("/images/", "");
+			this.urlImage = product.getImage();
 			this.name = product.getName();
 			this.price = product.getPrice();
 			this.description = product.getDescription();
@@ -89,8 +101,13 @@ public class ProductOutput {
 					detailOutputs.add(output);
 				}
 			}
+			Collections.sort(detailOutputs);
 			this.productDetail = detailOutputs;
 		}
 		return this;
+	}
+
+	public String getPriceStr() {
+		return Utils.currencyMoney((int) this.price);
 	}
 }
