@@ -42,6 +42,7 @@ public class ProductService {
 		return PageConstant.PAGE_PRODUCT_LIST;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Transactional(rollbackOn = Exception.class)
 	public boolean create(ProductInput input) {
 		boolean result = false;

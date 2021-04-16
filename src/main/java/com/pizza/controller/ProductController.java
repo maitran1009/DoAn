@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +28,9 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	
 	@GetMapping("list")
-	public String productList(Model model) {
+	public String productList(Model model, Principal principal) {
+		System.out.println(principal);
 		return productService.productList(model);
 	}
 

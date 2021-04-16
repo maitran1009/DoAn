@@ -89,6 +89,7 @@
 								<div class="line-item clearfix row" th:each="cart : ${session.carts}">
 									<div class="cpro_item item-image text-center col-xs-12 col-sm-12 col-md-2">
 										<div class="img_item_cart">	
+<<<<<<< HEAD
 											<img th:src="@{${cart.productDetail.product.image}}" style="height: 110px;background-position: center 0px;width: 110px;background-size: 100%;margin: 0 auto;">
 										</div>
 									</div>
@@ -96,6 +97,15 @@
 										<a href="javascript:void(0)" th:text="${cart.productDetail.product.name}"></a>
 										<p class="variant_cart clearfix">
 											<span th:text=" 'Size: ' + ${cart.productDetail.size.name}"></span>
+=======
+											<img th:src="@{${cart.image}}" style="height: 110px;background-position: center 0px;width: 110px;background-size: 100%;margin: 0 auto;">
+										</div>
+									</div>
+									<div class="cpro_item item-title col-xs-12 col-sm-12 col-md-4">
+										<a href="javascript:void(0)" th:text="${cart.name}"></a>
+										<p class="variant_cart clearfix">
+											<span th:text=" 'Size: ' + ${cart.sizeName}"></span>
+>>>>>>> 0bedecabb78b8a7ed530b3d507dddf02807ca561
 										</p>
 										<a class="btn btn_delete" th:href="@{/gio-hang/delete(id=${cart.id})}" style="background-color: #fff;">
 											<i class="fa fa-times"></i> Xóa

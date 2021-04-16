@@ -1,14 +1,16 @@
 package com.pizza.model.output;
 
 import com.pizza.common.Utils;
-import com.pizza.model.entity.ProductDetail;
 
 public class Cart {
 	private int id;
 	private int count;
 	private int productId;
-	private int sizeId;
-	private ProductDetail productDetail;
+	private long price;
+	private int productDetailId;
+	private String image;
+	private String name;
+	private String sizeName;
 
 	public int getId() {
 		return id;
@@ -16,14 +18,6 @@ public class Cart {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public ProductDetail getProductDetail() {
-		return productDetail;
-	}
-
-	public void setProductDetail(ProductDetail productDetail) {
-		this.productDetail = productDetail;
 	}
 
 	public int getCount() {
@@ -42,16 +36,48 @@ public class Cart {
 		this.productId = productId;
 	}
 
-	public int getSizeId() {
-		return sizeId;
+	public long getPrice() {
+		return price;
 	}
 
-	public void setSizeId(int sizeId) {
-		this.sizeId = sizeId;
+	public void setPrice(long price) {
+		this.price = price;
+	}
+
+	public int getProductDetailId() {
+		return productDetailId;
+	}
+
+	public void setProductDetailId(int productDetailId) {
+		this.productDetailId = productDetailId;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSizeName() {
+		return sizeName;
+	}
+
+	public void setSizeName(String sizeName) {
+		this.sizeName = sizeName;
 	}
 
 	public String getAmount() {
-		int money = (int) (this.productDetail.getProduct().getPrice() * this.count);
+		int money = (int) (this.price * this.count);
 		return Utils.currencyMoney(money);
 	}
 }

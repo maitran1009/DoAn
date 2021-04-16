@@ -19,12 +19,16 @@ import com.pizza.model.input.RegisterInput;
 import com.pizza.model.output.Cart;
 import com.pizza.repository.OrderDetailRepository;
 import com.pizza.repository.OrderRepository;
+import com.pizza.repository.ProductDetailRepository;
 
 @Service
 public class PayService {
 	private static final String AMOUNT = "amount";
 	private static final String SESSION_CART = "carts";
 	private static final String REDIRECT_GIO_HANG = "redirect:/gio-hang";
+
+	@Autowired
+	private ProductDetailRepository productDetailRepository;
 
 	@Autowired
 	private OrderRepository orderRepository;
@@ -36,7 +40,7 @@ public class PayService {
 	public String pagePay(HttpSession session, Model model) {
 		String result = "pay";
 		List<Cart> carts = (List<Cart>) session.getAttribute(SESSION_CART);
-		if(ObjectUtils.isEmpty(carts)) {
+		if (ObjectUtils.isEmpty(carts)) {
 			result = REDIRECT_GIO_HANG;
 		}
 		model.addAttribute("totalMoney", Utils.currencyMoney((int) Utils.amount(carts)));
@@ -54,7 +58,7 @@ public class PayService {
 			int amount = 0;
 
 			for (Cart cart : carts) {
-				amount += cart.getCount() * cart.getProductDetail().getProduct().getPrice();
+				amount += cart.getCount() * cart.getPrice();
 			}
 
 			order.setAddress(input.getAddress());
@@ -72,7 +76,7 @@ public class PayService {
 
 				orderDetail.setOrder(order);
 				orderDetail.setQuantity(cart.getCount());
-				orderDetail.setProductDetail(cart.getProductDetail());
+				orderDetail.setProductDetail(productDetailRepository.findById(cart.getProductDetailId()).get());
 
 				orderDetails.add(orderDetail);
 			}

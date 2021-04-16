@@ -224,12 +224,20 @@
 			<div class="row no-gutters d-flex">
 				<div class="col-lg-4 d-flex ftco-animate col-4" th:each="product: ${products}">
 					<div class="services-wrap d-flex row">
+<<<<<<< HEAD
 						<img class="col-6" alt="" th:src="@{${product.image}}" style="width: 307px; height: 300px;">
+=======
+						<img class="col-6" alt="" th:src="@{${product.urlImage}}" style="width: 307px; height: 300px;">
+>>>>>>> 0bedecabb78b8a7ed530b3d507dddf02807ca561
 						<div class="text p-4 col-6 change-url" style="padding: 5px 10px !important;">
 							<h3 style="color: black;" th:text="${product.name}"></h3>
 							<p style="color: #394B55;height: 150px;" th:text="${product.description}"></p>
 							<p>
+<<<<<<< HEAD
 								<span th:each="size: ${sizes}" class="size-css" th:data="${size.id}" th:text="${size.name}"></span>
+=======
+								<span th:each="detail: ${product.productDetail}" class="size-css" th:data="${detail.id}" th:text="${detail.sizeName}"></span>
+>>>>>>> 0bedecabb78b8a7ed530b3d507dddf02807ca561
 							</p>
 							<p class="price" style="height: 42px;">
 								<span th:text="${product.priceStr}" style="line-height: 42px;"></span> 
