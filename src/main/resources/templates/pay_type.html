@@ -36,7 +36,7 @@
 <link rel="stylesheet" th:href="@{/css/icomoon.css}">
 <link rel="stylesheet" th:href="@{/css/style.css}">
 <link rel="stylesheet" th:href="@{/css/custom.css}">
-
+<link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -57,14 +57,14 @@
 					<div class="pbarcart">
 						<div class="text">Địa chỉ giao hàng</div>
 						<div class="bar"></div>
-						<div class="circle active">
+						<div class="circle">
 							<i class="fa fa-map-marker" aria-hidden="true"></i>
 						</div>
 					</div>
 					<div class="pbarcart">
 						<div class="text">Thanh toán</div>
 						<div class="bar"></div>
-						<div class="circle ">
+						<div class="circle active">
 							<i class="fa fa-credit-card" aria-hidden="true"></i>
 						</div>
 					</div>
@@ -152,93 +152,53 @@
 					<div class="step">
 						<div class="step-sections " step="1">
 							<div class="section">
-								<div class="section-header">
-									<h5 class="section-title">Vui lòng chọn địa chỉ giao hàng</h5>
+								<h5>Phương thức giao hàng</h5>
+								<ul class="list-unstyled" id="box_shipping_method">
+									<li><input id="shipping_method_1" type="radio" checked=""
+										name="shipping_method" value="1"> <label>Giao
+											hàng chuyển phát nhanh </label> <br> <small>Chuyển hàng
+											tới địa chỉ khách hàng.</small></li>
+								</ul>
+								<h5>Phương thức thanh toán</h5>
+								<p class="pay_text_ts">Mọi giao dịch đều được bảo mật và mã
+									hóa. Thông tin thẻ tín dụng sẽ không bao giờ được lưu lại.</p>
+								<ul class="list-unstyled" style="margin-bottom: 30px">
+									<li><input id="payment_method_1" type="radio"
+										name="payment_method" value="1"> <label>Thanh
+											toán VNPAY</label>
+										<div>
+											<img th:src="@{/images/logo_vnpay.png}"
+												style="width: 70px; height: 20px;">
+										</div></li>
+									<li><input id="payment_method_5" type="radio"
+										name="payment_method" value="2"> <label> Thanh
+											toán Momo</label>
+										<div>
+											<img th:src="@{/images/logo_momo.png}" class="">
+										</div></li>
+									<li><input id="payment_method_3" type="radio"
+										name="payment_method" value="3" checked="checked"> <label>
+											Thu tiền tận nơi</label></li>
+								</ul>
+								<div id="box_div_order"></div>
+								<div class="clearfix"></div>
+								<div class="row">
+									<div class="col-md-12 box-order-complete">
+										<a id="but-cancel-step1" th:href="@{/pay}" class="">&lt;&lt;
+											Quay lại</a>
+										<div class="pull-right">
+											<button type="button" class="pull-right but-complete"
+												id="but_step2">Hoàn thành</button>
+											<!--<input type="submit" name="but-tach-don" value="Xử lý" class="but-common-white but-tach-don" style="padding: 8px 20px; margin-top: 15px;"/>&nbsp;-->
+										</div>
+
+									</div>
 								</div>
 
-								<div class="pay_hidden_ts_main">
-									<div class="row">
-										<div class="col-md-6 col-sm-6">
-											<p>
-												Họ tên <span class="required">*</span>
-											</p>
-											<input type="text" class="required_form"
-												name="customer_display_name">
-										</div>
-										<div class="col-md-6 col-sm-6">
-											<p>
-												Điện thoại <span class="required">*</span>
-											</p>
-											<input type="text" class="required_form"
-												name="customer_phone">
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-6 col-sm-6">
-											<p>
-												Tỉnh/Tp <span class="required">*</span>
-											</p>
-											<select name="city" id="pay-city">
-												<option value="-1" class="required_form">Chọn
-													Tỉnh/Tp</option>
-												<option th:each="city : ${cities}"
-													th:text="${city.cityName}" th:value="${city.cityId}"></option>
-											</select>
-										</div>
-										<div class="col-md-6 col-sm-6">
-											<p>
-												Quận/Huyện <span class="required">*</span>
-											</p>
-											<select name="district" id="pay-district" data-city="0">
-												<option value="-1">Chọn Quận/Huyện</option>
-											</select>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-12 col-sm-12 col-xs-12">
-											<p>
-												Phường/Xã:<span class="required">*</span>
-											</p>
-											<select name="ward" id="pay-ward" data-district="0"
-												style="width: 100%; height: 30px;">
-												<option value="-1">Chọn Phường/Xã</option>
-											</select>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-12 col-sm-12">
-											<p>
-												Địa chỉ <span class="required">*</span>
-											</p>
-											<input type="text"
-												class="check_required required_form col-md-12 col-sm-12 col-xs-12"
-												style="width: 100%; height: 30px;" name="customer_address2">
-										</div>
-									</div>
-								</div>
 							</div>
-						</div>
-						<div class="step-footer">
-							<!-- <button type="submit" class="step-footer-continue-btn btn" id="pay-type">
-								<span class="btn-content">Thanh toán và giao hàng</span> <i
-									class="btn-spinner icon icon-button-spinner"></i>
-							</button> -->
-							<a th:href="@{/pay/type}">Thanh toán và giao hàng</a>
-							<a class="step-footer-previous-link" th:href="@{/gio-hang}"
-								style="margin-top: 20px;"> <svg
-									class="previous-link-icon icon-chevron icon"
-									xmlns="http://www.w3.org/2000/svg" width="6.7" height="11.3"
-									viewBox="0 0 6.7 11.3">
-									<path
-										d="M6.7 1.1l-1-1.1-4.6 4.6-1.1 1.1 1.1 1 4.6 4.6 1-1-4.6-4.6z"></path>
-								</svg> Giỏ hàng
-							</a>
-
-
 						</div>
 					</div>
 				</div>
-				<div class="main-footer"></div>
 			</div>
 		</div>
 
@@ -249,5 +209,6 @@
 	<div th:replace="fragments/footer :: footer"></div>
 
 	<div th:replace="fragments/script :: script"></div>
+	<script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
 </body>
 </html>

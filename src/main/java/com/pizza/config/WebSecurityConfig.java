@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/dang-nhap", "/403", "/trang-chu", "/").permitAll().antMatchers("/info")
+		http.authorizeRequests().antMatchers("/dang-nhap", "/403", "/trang-chu", "/", "/pay").permitAll().antMatchers("/info")
 				.hasRole("MEMBER").antMatchers("/admin/**").hasRole("ADMIN").and().formLogin().loginPage("/dang-nhap")
 				.usernameParameter("email").passwordParameter("password").successHandler(successHandler)
 				.failureUrl("/dang-nhap?error");

@@ -1,9 +1,17 @@
 package com.pizza.service;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
@@ -12,21 +20,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 
+import com.pizza.common.Constant;
+import com.pizza.common.PageConstant;
 import com.pizza.common.Utils;
+import com.pizza.config.VNPAYConfig;
 import com.pizza.model.entity.Order;
 import com.pizza.model.entity.OrderDetail;
-import com.pizza.model.input.RegisterInput;
+import com.pizza.model.input.PayInput;
 import com.pizza.model.output.Cart;
 import com.pizza.repository.OrderDetailRepository;
 import com.pizza.repository.OrderRepository;
 import com.pizza.repository.ProductDetailRepository;
+import com.pizza.repository.ProvinceRepository;
 
 @Service
 public class PayService {
-	private static final String AMOUNT = "amount";
-	private static final String SESSION_CART = "carts";
-	private static final String REDIRECT_GIO_HANG = "redirect:/gio-hang";
-
 	@Autowired
 	private ProductDetailRepository productDetailRepository;
 
@@ -36,23 +44,40 @@ public class PayService {
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
 
+	@Autowired
+	private ProvinceRepository provinceRepository;
+
 	@SuppressWarnings("unchecked")
 	public String pagePay(HttpSession session, Model model) {
-		String result = "pay";
-		List<Cart> carts = (List<Cart>) session.getAttribute(SESSION_CART);
+		String result = PageConstant.PAGE_PAY;
+		List<Cart> carts = (List<Cart>) session.getAttribute(Constant.SESSION_CART);
 		if (ObjectUtils.isEmpty(carts)) {
-			result = REDIRECT_GIO_HANG;
+			result = PageConstant.REDIRECT_GIO_HANG;
+		}
+		model.addAttribute("cities", provinceRepository.findDistinctCity());
+		model.addAttribute("totalMoney", Utils.currencyMoney((int) Utils.amount(carts)));
+		model.addAttribute(Constant.AMOUNT, Utils.currencyMoney((int) Utils.amount(carts) + 15000));
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public String pagePayType(HttpSession session, Model model) {
+		String result = PageConstant.PAGE_PAY_TYPE;
+		List<Cart> carts = (List<Cart>) session.getAttribute(Constant.SESSION_CART);
+		if (ObjectUtils.isEmpty(carts)) {
+			result = PageConstant.REDIRECT_GIO_HANG;
 		}
 		model.addAttribute("totalMoney", Utils.currencyMoney((int) Utils.amount(carts)));
-		model.addAttribute(AMOUNT, Utils.currencyMoney((int) Utils.amount(carts) + 15000));
+		model.addAttribute(Constant.AMOUNT, Utils.currencyMoney((int) Utils.amount(carts) + 15000));
 		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(rollbackOn = Exception.class)
-	public String pay(HttpSession session, RegisterInput input) {
+	public String pay(HttpServletRequest request, HttpSession session, PayInput input) {
+		String result = PageConstant.PAGE_PAY;
 		try {
-			List<Cart> carts = (List<Cart>) session.getAttribute(SESSION_CART);
+			List<Cart> carts = (List<Cart>) session.getAttribute(Constant.SESSION_CART);
 			List<OrderDetail> orderDetails = new ArrayList<>();
 			Order order = new Order();
 			int amount = 0;
@@ -85,6 +110,63 @@ public class PayService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/trang-chu";
+		return result;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public String payByVnPay(HttpServletRequest request, String bankCode, int amount) {
+		try {
+			Map<String, String> vnp_Params = new HashMap<>();
+			vnp_Params.put("vnp_Version", VNPAYConfig.vnp_Version);
+			vnp_Params.put("vnp_Command", VNPAYConfig.vnp_Command);
+			vnp_Params.put("vnp_TmnCode", VNPAYConfig.vnp_TmnCode);
+			vnp_Params.put("vnp_Amount", "10000");
+			vnp_Params.put("vnp_CurrCode", VNPAYConfig.vnp_CurrCode);
+			vnp_Params.put("vnp_BankCode", "NCB");
+			vnp_Params.put("vnp_TxnRef", VNPAYConfig.getRandomNumber(8));
+			vnp_Params.put("vnp_OrderInfo", VNPAYConfig.vnp_OrderInfo);
+			vnp_Params.put("vnp_OrderType", VNPAYConfig.order_type);
+			vnp_Params.put("vnp_Locale", "vn");
+			vnp_Params.put("vnp_ReturnUrl", VNPAYConfig.vnp_Returnurl);
+			vnp_Params.put("vnp_IpAddr", VNPAYConfig.vnp_IpAddr);
+			vnp_Params.put("vnp_Merchant", VNPAYConfig.vnp_Merchant);
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+			vnp_Params.put("vnp_CreateDate", formatter.format(new Date()));
+
+			// Build data to hash and querystring
+			List fieldNames = new ArrayList(vnp_Params.keySet());
+			Collections.sort(fieldNames);
+			StringBuilder hashData = new StringBuilder();
+			StringBuilder query = new StringBuilder();
+			Iterator itr = fieldNames.iterator();
+			while (itr.hasNext()) {
+				String fieldName = (String) itr.next();
+	            String fieldValue = (String) vnp_Params.get(fieldName);
+	            if ((fieldValue != null) && (fieldValue.length() > 0)) {
+	                //Build hash data
+	                hashData.append(fieldName);
+	                hashData.append('=');
+	                hashData.append(fieldValue);
+	                //Build query
+	                query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()));
+	                query.append('=');
+	                query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
+
+	                if (itr.hasNext()) {
+	                    query.append('&');
+	                    hashData.append('&');
+	                }
+	            }
+			}
+			String queryUrl = query.toString();
+			String vnp_SecureHash = VNPAYConfig.Sha256(VNPAYConfig.vnp_HashSecret + hashData.toString());
+			queryUrl += "&vnp_SecureHashType=SHA256&vnp_SecureHash=" + vnp_SecureHash;
+			System.out.println(VNPAYConfig.vnp_PayUrl + "?" + queryUrl);
+			return VNPAYConfig.vnp_PayUrl + "?" + queryUrl;
+		} catch (Exception e) {
+			return null;
+		}
+
 	}
 }
