@@ -24,10 +24,14 @@ import com.pizza.common.Constant;
 import com.pizza.common.PageConstant;
 import com.pizza.common.Utils;
 import com.pizza.config.VNPAYConfig;
+import com.pizza.model.base.Environment;
 import com.pizza.model.entity.Order;
 import com.pizza.model.entity.OrderDetail;
+import com.pizza.model.entity.Province;
 import com.pizza.model.input.PayInput;
 import com.pizza.model.output.Cart;
+import com.pizza.momo.model.CaptureMoMoResponse;
+import com.pizza.momo.service.CaptureMoMo;
 import com.pizza.repository.OrderDetailRepository;
 import com.pizza.repository.OrderRepository;
 import com.pizza.repository.ProductDetailRepository;
@@ -46,6 +50,9 @@ public class PayService {
 
 	@Autowired
 	private ProvinceRepository provinceRepository;
+
+	@Autowired
+	private SendMailService sendMailService;
 
 	@SuppressWarnings("unchecked")
 	public String pagePay(HttpSession session, Model model) {
@@ -74,8 +81,8 @@ public class PayService {
 
 	@SuppressWarnings("unchecked")
 	@Transactional(rollbackOn = Exception.class)
-	public String pay(HttpServletRequest request, HttpSession session, PayInput input) {
-		String result = PageConstant.PAGE_PAY;
+	public boolean createPay(HttpServletRequest request, HttpSession session, PayInput input) {
+		boolean result = false;
 		try {
 			List<Cart> carts = (List<Cart>) session.getAttribute(Constant.SESSION_CART);
 			List<OrderDetail> orderDetails = new ArrayList<>();
@@ -86,7 +93,10 @@ public class PayService {
 				amount += cart.getCount() * cart.getPrice();
 			}
 
-			order.setAddress(input.getAddress());
+			Province province = provinceRepository.findById(Integer.valueOf(input.getWard())).get();
+
+			order.setAddress(input.getAddress() + " " + province.getWardName() + " " + province.getDistrictName() + " "
+					+ province.getCityName());
 			order.setCreateDate(new Date());
 			order.setAmount(amount);
 			order.setEmail(input.getEmail());
@@ -106,7 +116,11 @@ public class PayService {
 				orderDetails.add(orderDetail);
 			}
 
-			orderDetailRepository.saveAll(orderDetails);
+			orderDetails = orderDetailRepository.saveAll(orderDetails);
+
+			if (sendMailService.sendMailPaySuccess(order, orderDetails)) {
+				result = true;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -130,7 +144,7 @@ public class PayService {
 			vnp_Params.put("vnp_ReturnUrl", VNPAYConfig.vnp_Returnurl);
 			vnp_Params.put("vnp_IpAddr", VNPAYConfig.vnp_IpAddr);
 			vnp_Params.put("vnp_Merchant", VNPAYConfig.vnp_Merchant);
-			
+
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 			vnp_Params.put("vnp_CreateDate", formatter.format(new Date()));
 
@@ -142,22 +156,22 @@ public class PayService {
 			Iterator itr = fieldNames.iterator();
 			while (itr.hasNext()) {
 				String fieldName = (String) itr.next();
-	            String fieldValue = (String) vnp_Params.get(fieldName);
-	            if ((fieldValue != null) && (fieldValue.length() > 0)) {
-	                //Build hash data
-	                hashData.append(fieldName);
-	                hashData.append('=');
-	                hashData.append(fieldValue);
-	                //Build query
-	                query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()));
-	                query.append('=');
-	                query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
+				String fieldValue = (String) vnp_Params.get(fieldName);
+				if ((fieldValue != null) && (fieldValue.length() > 0)) {
+					// Build hash data
+					hashData.append(fieldName);
+					hashData.append('=');
+					hashData.append(fieldValue);
+					// Build query
+					query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()));
+					query.append('=');
+					query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
 
-	                if (itr.hasNext()) {
-	                    query.append('&');
-	                    hashData.append('&');
-	                }
-	            }
+					if (itr.hasNext()) {
+						query.append('&');
+						hashData.append('&');
+					}
+				}
 			}
 			String queryUrl = query.toString();
 			String vnp_SecureHash = VNPAYConfig.Sha256(VNPAYConfig.vnp_HashSecret + hashData.toString());
@@ -167,6 +181,20 @@ public class PayService {
 		} catch (Exception e) {
 			return null;
 		}
+	}
 
+	public String getUrlPayMomo(String amount) {
+		// call api momo get pay url
+		Environment environment = Environment.selectEnv("dev", Environment.ProcessType.PAY_GATE);
+		String requestId = String.valueOf(System.currentTimeMillis());
+		String orderId = String.valueOf(System.currentTimeMillis());
+		CaptureMoMoResponse captureMoMoResponse = CaptureMoMo.process(environment, orderId, requestId, amount, orderId,
+				Constant.RETURN_URL, Constant.NOTIFY_URL, "merchantName=MySu Food");
+
+		// case captureMoMoResponse is null or empty
+		if (ObjectUtils.isEmpty(captureMoMoResponse)) {
+			System.out.println("CaptureMoMoResponse is null or empty");
+		}
+		return captureMoMoResponse.getPayUrl();
 	}
 }

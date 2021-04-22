@@ -27,19 +27,36 @@ public class PayController {
 		return payService.pagePay(session, model);
 	}
 
+	@GetMapping("pay-success")
+	public String pagePaySuccess(HttpSession session, Model model) {
+		return "pay_success";
+	}
+
 	@GetMapping("type")
 	public String pagePayType(HttpSession session, Model model) {
 		return payService.pagePayType(session, model);
 	}
 
-	@PostMapping
-	public String pay(HttpServletRequest request, HttpSession session, @RequestBody PayInput input) {
-		return payService.pay(request, session, input);
+//	@PostMapping
+//	public String pay(HttpServletRequest request, HttpSession session, @RequestBody PayInput input) {
+//		return payService.pay(request, session, input);
+//	}
+
+	@PostMapping(path = "success", produces = "application/json")
+	public @ResponseBody boolean createPay(HttpServletRequest request, HttpSession session,
+			@RequestBody PayInput pay) {
+		return payService.createPay(request, session, pay);
 	}
 
 	@GetMapping("vnpay")
 	@ResponseBody
 	public String payVnpay(HttpServletRequest request, @RequestParam String bankCode, @RequestParam Integer amount) {
 		return payService.payByVnPay(request, bankCode, amount);
+	}
+
+	@GetMapping("momo/get-url")
+	@ResponseBody
+	public String payMomo(@RequestParam String amount) {
+		return payService.getUrlPayMomo(amount);
 	}
 }

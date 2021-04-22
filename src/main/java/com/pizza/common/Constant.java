@@ -5,7 +5,8 @@ public class Constant {
 	public static final int STATUS_DISABLE = 0;
 	public static final String AMOUNT = "amount";
 	public static final String SESSION_CART = "carts";
-	
+	public static final String RETURN_URL = "http://localhost:9090/mySuFood/pay-success";
+	public static final String NOTIFY_URL = "http://localhost:9090/mySuFood/pay-success";
 
 	public enum PayEnum {
 		PAY_FAIL(0, "Đã hủy"), PAY_DEFAULT(1, "Đang giao hàng"), PAY_SUCCESS(2, "Đã nhận hàng");
@@ -36,7 +37,7 @@ public class Constant {
 	}
 
 	public enum PaymentEnum {
-		PAYMENT_IN_PLACE(1, "Thu tiền tận nơi"),
+		PAYMENT_IN_PLACE(1, "Thu tiền tận nơi"), 
 		PAYMENT_VNPAY(2, "Thanh toán VNPAY"),
 		PAYMENT_MOMO(3, "Thanh toán Momo");
 

@@ -158,19 +158,28 @@
 
 								<div class="pay_hidden_ts_main">
 									<div class="row">
-										<div class="col-md-6 col-sm-6">
+										<div class="col-md-12 col-sm-12">
 											<p>
 												Họ tên <span class="required">*</span>
 											</p>
 											<input type="text" class="required_form"
-												name="customer_display_name">
+												name="name">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6 col-sm-6">
+											<p>
+												Email <span class="required">*</span>
+											</p>
+											<input type="text" class="required_form"
+												name="email">
 										</div>
 										<div class="col-md-6 col-sm-6">
 											<p>
 												Điện thoại <span class="required">*</span>
 											</p>
 											<input type="text" class="required_form"
-												name="customer_phone">
+												name="phone">
 										</div>
 									</div>
 									<div class="row">
@@ -212,7 +221,7 @@
 											</p>
 											<input type="text"
 												class="check_required required_form col-md-12 col-sm-12 col-xs-12"
-												style="width: 100%; height: 30px;" name="customer_address2">
+												style="width: 100%; height: 30px;" name="address">
 										</div>
 									</div>
 								</div>
@@ -223,7 +232,7 @@
 								<span class="btn-content">Thanh toán và giao hàng</span> <i
 									class="btn-spinner icon icon-button-spinner"></i>
 							</button> -->
-							<a th:href="@{/pay/type}">Thanh toán và giao hàng</a>
+							<a href="javascript:void(0)" id="redirect-pay">Thanh toán và giao hàng</a>
 							<a class="step-footer-previous-link" th:href="@{/gio-hang}"
 								style="margin-top: 20px;"> <svg
 									class="previous-link-icon icon-chevron icon"
