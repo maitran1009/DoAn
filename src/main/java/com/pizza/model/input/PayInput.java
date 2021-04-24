@@ -2,11 +2,12 @@ package com.pizza.model.input;
 
 public class PayInput {
 	private String email;
-	private String fullname;
+	private String name;
 	private String phone;
 	private String address;
 	private String ward;
-	private String payType;
+	private String amount;
+	private int payType;
 
 	public String getEmail() {
 		return email;
@@ -16,12 +17,12 @@ public class PayInput {
 		this.email = email;
 	}
 
-	public String getFullname() {
-		return fullname;
+	public String getName() {
+		return name;
 	}
 
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPhone() {
@@ -40,11 +41,11 @@ public class PayInput {
 		this.address = address;
 	}
 
-	public String getPayType() {
+	public int getPayType() {
 		return payType;
 	}
 
-	public void setPayType(String payType) {
+	public void setPayType(int payType) {
 		this.payType = payType;
 	}
 
@@ -54,5 +55,13 @@ public class PayInput {
 
 	public void setWard(String ward) {
 		this.ward = ward;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}
 }

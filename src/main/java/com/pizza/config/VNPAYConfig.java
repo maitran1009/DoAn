@@ -18,7 +18,7 @@ public class VNPAYConfig {
 	public static String vnp_Version = "2.0.0";
 	public static String vnp_Command = "pay";
 	public static String vnp_PayUrl = "http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-	public static String vnp_Returnurl = "http://localhost:9090/mySuFood/";
+	public static String vnp_Returnurl = "http://localhost:9090/mySuFood/pay/pay-success";
 	public static String vnp_TmnCode = "C1CYOX5V";
 	public static String order_type = "180000";
 	public static String vnp_IpAddr = "127.0.0.1";

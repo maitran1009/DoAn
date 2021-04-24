@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import com.pizza.common.Utils;
 import com.pizza.model.entity.Order;
 import com.pizza.model.entity.OrderDetail;
 import com.pizza.model.entity.Product;
@@ -29,7 +30,7 @@ public class SendMailService {
 	@Autowired
 	private SpringTemplateEngine templateEngine;
 
-	private static final String PAY_SUCCESS_EMAIL_TEMPLATE = "/mail/mail-pay-success";
+	private static final String PAY_SUCCESS_EMAIL_TEMPLATE = "pay-success-email-template";
 	private static final String EMAIL_LOGO = "logo";
 
 	public Boolean sendMailPaySuccess(Order order, List<OrderDetail> orderDetails) {
@@ -39,7 +40,6 @@ public class SendMailService {
 			Product product;
 			ProductDetail productDetail;
 			int i = 0;
-			String path;
 
 			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
@@ -54,7 +54,8 @@ public class SendMailService {
 				templateVariables.put("productName" + i, productDetail.getProduct().getName());
 				templateVariables.put("sizeName" + i, productDetail.getSize().getName());
 				templateVariables.put("quantity" + i, orderDetail.getQuantity());
-				templateVariables.put("amount" + i, orderDetail.getQuantity() * productDetail.getProduct().getPrice());
+				templateVariables.put("amount" + i,
+						Utils.currencyMoney((int) (orderDetail.getQuantity() * productDetail.getProduct().getPrice())));
 			}
 
 			// Thymleaf context

@@ -10,5 +10,5 @@ public class PageConstant {
 	public static final String REDIRECT_GIO_HANG = "redirect:/gio-hang";
 	public static final String PAGE_PAY = "pay";
 	public static final String PAGE_PAY_TYPE = "pay_type";
-	
+	public static final String PAGE_PAY_SUCCESS = "pay_success";
 }

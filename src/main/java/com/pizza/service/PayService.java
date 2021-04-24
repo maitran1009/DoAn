@@ -81,7 +81,7 @@ public class PayService {
 
 	@SuppressWarnings("unchecked")
 	@Transactional(rollbackOn = Exception.class)
-	public boolean createPay(HttpServletRequest request, HttpSession session, PayInput input) {
+	public boolean createPay(HttpSession session, PayInput input) {
 		boolean result = false;
 		try {
 			List<Cart> carts = (List<Cart>) session.getAttribute(Constant.SESSION_CART);
@@ -100,7 +100,7 @@ public class PayService {
 			order.setCreateDate(new Date());
 			order.setAmount(amount);
 			order.setEmail(input.getEmail());
-			order.setFullname(input.getFullname());
+			order.setFullname(input.getName());
 			order.setPhone(input.getPhone());
 			order.setStatus(1);
 
@@ -121,6 +121,8 @@ public class PayService {
 			if (sendMailService.sendMailPaySuccess(order, orderDetails)) {
 				result = true;
 			}
+			
+			session.removeAttribute(Constant.SESSION_CART);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -183,18 +185,19 @@ public class PayService {
 		}
 	}
 
-	public String getUrlPayMomo(String amount) {
+	public String getUrlPayMomo(PayInput input, HttpSession session) {
 		// call api momo get pay url
 		Environment environment = Environment.selectEnv("dev", Environment.ProcessType.PAY_GATE);
 		String requestId = String.valueOf(System.currentTimeMillis());
 		String orderId = String.valueOf(System.currentTimeMillis());
-		CaptureMoMoResponse captureMoMoResponse = CaptureMoMo.process(environment, orderId, requestId, amount, orderId,
+		CaptureMoMoResponse captureMoMoResponse = CaptureMoMo.process(environment, orderId, requestId, input.getAmount(), orderId,
 				Constant.RETURN_URL, Constant.NOTIFY_URL, "merchantName=MySu Food");
 
 		// case captureMoMoResponse is null or empty
 		if (ObjectUtils.isEmpty(captureMoMoResponse)) {
 			System.out.println("CaptureMoMoResponse is null or empty");
 		}
+		session.setAttribute(Constant.SESSION_PAY_INPUT, input);
 		return captureMoMoResponse.getPayUrl();
 	}
 }

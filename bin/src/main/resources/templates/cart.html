@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Trang chu</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- css -->
+<link
+	href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
+	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do"
+	rel="stylesheet">
+
+<link rel="stylesheet" th:href="@{/css/open-iconic-bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/animate.css}">
+
+<link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+<link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}">
+<link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
+
+<link rel="stylesheet" th:href="@{/css/aos.css}">
+
+<link rel="stylesheet" th:href="@{/css/ionicons.min.css}">
+
+<link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}">
+<link rel="stylesheet" th:href="@{/css/jquery.timepicker.css}">
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<link rel="stylesheet" th:href="@{/css/flaticon.css}">
+<link rel="stylesheet" th:href="@{/css/icomoon.css}">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="stylesheet" th:href="@{/css/custom.css}">
+
+</head>
+
+<body>
+	<!-- header -->
+	<div th:replace="fragments/header :: header"></div>
+
+	<main class="main-content">
+		<section id="cart">
+			<!-- End Breadcrumb -->
+			<div class="container">
+				<div class="row" style="background: #ffffff; padding: 30px 0">
+					<div class="progress_new">
+						<div class="pbarcart">
+							<div class="text">Giỏ hàng</div>
+							<div class="bar"></div>
+							<div class="circle active">
+								<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div class="pbarcart">
+							<div class="text">Địa chỉ giao hàng</div>
+							<div class="bar"></div>
+							<div class="circle">
+								<i class="fa fa-map-marker" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div class="pbarcart">
+							<div class="text">Thanh toán</div>
+							<div class="bar"></div>
+							<div class="circle ">
+								<i class="fa fa-credit-card" aria-hidden="true"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row" style="background: #ffffff;" th:if="${total > 0}">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<form>
+							<div id="cart-table">
+								<div class="cart-table-header hidden-sm hidden-xs clearfix row">
+									<div class="text-center cart-table-title  col-xs-12 col-sm-2 col-md-2">Sản phẩm</div>
+									<div class="cart-table-title col-xs-12 col-sm-12 col-md-4">Tên
+										Sản Phẩm</div>
+									<div
+										class="text-center cart-table-title col-xs-12 col-sm-12 col-md-2">Số
+										lượng</div>
+									<div class="col-md-4 col-sm-4 col-xs-12">
+										<div class="row">
+											<div
+												class="text-center cart-table-title col-md-6 col-xs-12 col-sm-12">Giá
+											</div>
+											<div
+												class="text-center cart-table-title col-md-6 col-xs-12 col-sm-12">Thành
+												tiền</div>
+										</div>
+									</div>
+								</div>
+								<div class="line-item clearfix row"
+									th:each="cart : ${session.carts}">
+									<div
+										class="cpro_item item-image text-center col-xs-12 col-sm-12 col-md-2">
+										<div class="img_item_cart">
+											<img th:src="@{${cart.image}}"
+												style="height: 110px; background-position: center 0px; width: 110px; background-size: 100%; margin: 0 auto;">
+										</div>
+									</div>
+									<div class="cpro_item item-title col-xs-12 col-sm-12 col-md-4">
+										<a href="javascript:void(0)" th:text="${cart.name}"></a>
+										<p class="variant_cart clearfix">
+											<span th:text=" 'Size: ' + ${cart.sizeName}"></span>
+										</p>
+										<a class="btn btn_delete"
+											th:href="@{/gio-hang/delete(id=${cart.id})}"
+											style="background-color: #fff;"> <i class="fa fa-times"></i>
+											Xóa
+										</a>
+									</div>
+									<div
+										class="cpro_item item-quantity text-center col-xs-12 col-sm-12 col-md-2"
+										style="line-height: 110px;">
+										<div class="ajax_qty">
+											<span style="cursor: pointer;"> <a
+												th:href="@{/gio-hang/update?flag=0(id=${cart.id})}"
+												th:if="${cart.count > 1}"> <i class="fa fa-minus"
+													aria-hidden="true"></i>
+											</a> <i th:unless="${cart.count > 1}" class="fa fa-minus"
+												aria-hidden="true"></i>
+											</span> <span th:text="${cart.count}"
+												style="padding: 5px 10px; border: 1px solid #ccc; margin: 0 10px;"></span>
+											<span style="cursor: pointer;"> <a
+												th:href="@{/gio-hang/update?flag=1(id=${cart.id})}"
+												th:if="${cart.count < 5}"> <i class="fa fa-plus"
+													aria-hidden="true"></i>
+											</a> <i th:unless="${cart.count < 5}" class="fa fa-plus"
+												aria-hidden="true"></i>
+											</span>
+										</div>
+									</div>
+									<div class="cpro_item text-center col-md-4 col-sm-12 col-xs-12"
+										style="line-height: 110px;">
+										<div class="row">
+											<div
+												class="cpro_item item-one-price text-center col-xs-12 col-sm-12 col-md-6"
+												th:text="${cart.amount}"></div>
+											<div
+												class="cpro_item item-price text-center col-xs-12 col-sm-12 col-md-6"
+												th:text="${cart.amount}"></div>
+										</div>
+										<div class="row">
+											<div
+												class="text-right link_item_cart_wrap m-t-50 col-md-12 col-xs-12 col-sm-12">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<div class="row" style="width: 100%;">
+									<div class="col-sm-8 col-xs-12 pull-left note_ite m-b-xs-10">
+										<h3 class="continue_shopping m-t-0 m-b-15">
+											<a class="comeback" th:href="@{/trang-chu}"><i
+												class="fa fa-reply"></i> Tiếp tục mua hàng</a>
+										</h3>
+									</div>
+									<div class="col-sm-4 col-xs-12 pull-right" th:if="${total > 0}">
+										<div class="total-price-modal m-b-30 clearfix">
+											<span class="item-total" th:text="${amount}"></span><strong
+												class="item_total_title">Tạm Tính: </strong>
+										</div>
+										<div class="text-right" style="margin-top: 15px;">
+											<div class="dis_inline_block checkout_wrap">
+												<a th:href="@{/pay}" class="button-pay">THANH TOÁN NGAY
+													!</a>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="row" style="background: #ffffff;font-size: 14px" th:unless="${total > 0}">
+					<p>Sản phẩm bạn chọn vừa hết, hãy quay lại và chọn sản phẩm khác nhé.</p>
+					<a th:href="@{/trang-chu}">&lt;&lt; Quay lại mua sắm</a>
+				</div>
+			</div>
+		</section>
+	</main>
+
+
+	<!-- footer -->
+	<div th:replace="fragments/footer :: footer"></div>
+
+	<div th:replace="fragments/script :: script"></div>
+</body>
+</html>

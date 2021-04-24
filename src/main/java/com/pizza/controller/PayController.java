@@ -6,13 +6,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pizza.common.Constant;
+import com.pizza.common.PageConstant;
+import com.pizza.model.input.MomoInput;
 import com.pizza.model.input.PayInput;
 import com.pizza.service.PayService;
 
@@ -27,9 +29,14 @@ public class PayController {
 		return payService.pagePay(session, model);
 	}
 
+	@SuppressWarnings("deprecation")
 	@GetMapping("pay-success")
-	public String pagePaySuccess(HttpSession session, Model model) {
-		return "pay_success";
+	public String pagePaySuccess(MomoInput input, HttpSession session) {
+		if (!StringUtils.isEmpty(input.getPartnerCode())) {
+			PayInput payInput = (PayInput) session.getAttribute(Constant.SESSION_PAY_INPUT);
+			payService.createPay(session, payInput);
+		}
+		return PageConstant.PAGE_PAY_SUCCESS;
 	}
 
 	@GetMapping("type")
@@ -37,15 +44,10 @@ public class PayController {
 		return payService.pagePayType(session, model);
 	}
 
-//	@PostMapping
-//	public String pay(HttpServletRequest request, HttpSession session, @RequestBody PayInput input) {
-//		return payService.pay(request, session, input);
-//	}
-
-	@PostMapping(path = "success", produces = "application/json")
-	public @ResponseBody boolean createPay(HttpServletRequest request, HttpSession session,
-			@RequestBody PayInput pay) {
-		return payService.createPay(request, session, pay);
+	@GetMapping("success")
+	@ResponseBody
+	public boolean createPay(PayInput pay, HttpSession session) {
+		return payService.createPay(session, pay);
 	}
 
 	@GetMapping("vnpay")
@@ -56,7 +58,7 @@ public class PayController {
 
 	@GetMapping("momo/get-url")
 	@ResponseBody
-	public String payMomo(@RequestParam String amount) {
-		return payService.getUrlPayMomo(amount);
+	public String payMomo(PayInput input, HttpSession session) {
+		return payService.getUrlPayMomo(input, session);
 	}
 }
