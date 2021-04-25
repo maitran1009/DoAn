@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.pizza.common.Utils;
+
 @Entity
 @Table(name = "Product")
 public class Product implements Serializable {
@@ -82,5 +84,9 @@ public class Product implements Serializable {
 
 	public void setProductDetails(List<ProductDetail> productDetails) {
 		this.productDetails = productDetails;
+	}
+	
+	public String getPriceStr() {
+		return Utils.currencyMoney((int) this.price);
 	}
 }

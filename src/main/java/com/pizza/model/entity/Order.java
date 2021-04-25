@@ -2,12 +2,15 @@ package com.pizza.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -39,6 +42,9 @@ public class Order implements Serializable {
 
 	@Column(name = "create_date")
 	private Date createDate;
+	
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	public List<OrderDetail> orderDetails; 
 
 	public int getId() {
 		return id;
@@ -104,4 +110,11 @@ public class Order implements Serializable {
 		this.createDate = createDate;
 	}
 
+	public List<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(List<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
+	}
 }

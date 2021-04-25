@@ -6,6 +6,7 @@ public class PageConstant {
 	public static final String PAGE_REGISTER = "register";
 	public static final String PAGE_CART = "cart";
 	public static final String PAGE_PRODUCT_LIST = "admin/productlist";
+	public static final String PAGE_ORDER_LIST = "admin/orderlist";
 	public static final String PAGE_403 = "403";
 	public static final String REDIRECT_GIO_HANG = "redirect:/gio-hang";
 	public static final String PAGE_PAY = "pay";

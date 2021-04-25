@@ -71,18 +71,18 @@ $(document).ready(function() {
 			productDetail["id"] = $(this).attr('data-detail');
 			productDetail["size"] = $(this).find('select.size').val();
 			productDetail["status"] = $(this).find('select.status').val();
-			if(productDetails.length == 0){
+			if (productDetails.length == 0) {
 				productDetails.push(productDetail);
-			}else{
+			} else {
 				$.each(productDetails, function(key, value) {
-					if(productDetail.size == value.size){
+					if (productDetail.size == value.size) {
 						flag = false;
 					}
 				});
 
-				if(flag){
+				if (flag) {
 					productDetails.push(productDetail);
-				}	
+				}
 			}
 		});
 
@@ -98,7 +98,7 @@ $(document).ready(function() {
 		product["productDetail"] = productDetails;
 
 		var form = new FormData($('#fileUploadForm')[0]);
-		
+
 		$.ajax({
 			url: 'http://localhost:9090/mySuFood/admin/product/create',
 			type: 'POST',
@@ -125,6 +125,16 @@ $(document).ready(function() {
 
 	//Button delete
 	$('body').on('click', '.product-delete', function() {
+		var index = $(this).attr("data-index");
+		var idx;
+		$(".product-index").each(function(i) {
+			idx = i + 1;
+			if (i >= index) {
+				idx--;
+			}
+			$(this).text(idx);
+		});
+
 		var id = $(this).attr("data");
 		$.ajax({
 			url: 'http://localhost:9090/mySuFood/admin/product/delete',
@@ -136,7 +146,7 @@ $(document).ready(function() {
 		}).done(function() {
 		});
 	});
-	
+
 	//Button edit
 	$('body').on('click', '.product-edit', function() {
 		var id = $(this).attr("data");
@@ -183,5 +193,31 @@ $(document).ready(function() {
 			$("#table-detail").append(html);
 		});
 	});
+
+	//Button delete
+	$('body').on('click', '.order-delete', function() {
+		var index = $(this).attr("data-index");
+		var idx;
+		$(".order-index").each(function(i) {
+			idx = i + 1;
+			if (i >= index) {
+				idx--;
+			}
+			$(this).text(idx);
+		});
+
+
+		var id = $(this).attr("data");
+		$.ajax({
+			url: 'http://localhost:9090/mySuFood/admin/order/delete',
+			type: 'GET',
+			contentType: 'application/json',
+			data: {
+				id: id
+			}
+		}).done(function() {
+		});
+	});
+
 });
 

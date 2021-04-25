@@ -167,3 +167,7 @@ p.style-detail {
 .detail-delete:hover {
 	color: red;
 }
+
+.table td, .table th {
+    padding: .5rem;
+}

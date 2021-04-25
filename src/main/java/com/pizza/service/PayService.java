@@ -118,7 +118,7 @@ public class PayService {
 
 			orderDetails = orderDetailRepository.saveAll(orderDetails);
 
-			if (sendMailService.sendMailPaySuccess(order, orderDetails)) {
+			if (sendMailService.sendMailPaySuccess(order, orderDetails, true)) {
 				result = true;
 			}
 			
@@ -188,8 +188,10 @@ public class PayService {
 	public String getUrlPayMomo(PayInput input, HttpSession session) {
 		// call api momo get pay url
 		Environment environment = Environment.selectEnv("dev", Environment.ProcessType.PAY_GATE);
+		
 		String requestId = String.valueOf(System.currentTimeMillis());
 		String orderId = String.valueOf(System.currentTimeMillis());
+		
 		CaptureMoMoResponse captureMoMoResponse = CaptureMoMo.process(environment, orderId, requestId, input.getAmount(), orderId,
 				Constant.RETURN_URL, Constant.NOTIFY_URL, "merchantName=MySu Food");
 

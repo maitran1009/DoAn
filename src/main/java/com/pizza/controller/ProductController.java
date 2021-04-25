@@ -30,7 +30,6 @@ public class ProductController {
 
 	@GetMapping("list")
 	public String productList(Model model, Principal principal) {
-		System.out.println(principal);
 		return productService.productList(model);
 	}
 

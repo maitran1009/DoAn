@@ -33,13 +33,15 @@ public class SendMailService {
 	private static final String PAY_SUCCESS_EMAIL_TEMPLATE = "pay-success-email-template";
 	private static final String EMAIL_LOGO = "logo";
 
-	public Boolean sendMailPaySuccess(Order order, List<OrderDetail> orderDetails) {
+	public Boolean sendMailPaySuccess(Order order, List<OrderDetail> orderDetails, boolean flag) {
 		try {
 			Map<String, Object> templateVariables = new HashMap<>();
 			Context context = new Context();
 			Product product;
 			ProductDetail productDetail;
 			int i = 0;
+			String title = "Bạn đã đặt 1 đơn hàng của cửa hàng MySu Food";
+			String subject = "Thông báo đặt hàng thành công tại MySu Food";
 
 			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
@@ -47,6 +49,11 @@ public class SendMailService {
 			templateVariables.put("fullName", order.getFullname());
 			templateVariables.put("size", orderDetails.size());
 			templateVariables.put("orderId", order.getId());
+
+			if (!flag) {
+				title = "Đơn hàng đã bị huỷ";
+			}
+			templateVariables.put("title", title);
 
 			for (OrderDetail orderDetail : orderDetails) {
 				productDetail = orderDetail.getProductDetail();
@@ -74,7 +81,11 @@ public class SendMailService {
 				helper.addInline("image" + i, new ClassPathResource("static/" + product.getImage()), "image/jpg");
 			}
 
-			helper.setSubject("Thông báo đặt hàng thành công tại MySu Food");
+			if (!flag) {
+				subject = "Thông báo huỷ đơn hàng tại MySu Food";
+			}
+
+			helper.setSubject(subject);
 
 			javaMailSender.send(message);
 
