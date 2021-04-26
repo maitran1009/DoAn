@@ -35,7 +35,7 @@ public class Validate {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static boolean checkRegister(RegisterInput user) {
+	public static boolean checkRegister(RegisterInput user, boolean isAdmin) {
 		boolean flag = true;
 		String fullname = user.getFullname();
 		String email = user.getEmail();
@@ -70,7 +70,7 @@ public class Validate {
 			return false;
 		}
 		// Case check rePassword
-		if (!rePassword.equals(password)) {
+		if (!isAdmin && !rePassword.equals(password)) {
 			return false;
 		}
 		return flag;

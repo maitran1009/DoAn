@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	User findByUserNameAndPassword(String userName, String password);
 	
 	User findByUserName(String userName);//ktra tồn tại của email nhập vào có tồn tại trong db hay ko
+	
+	User findByUserNameAndIdNot(String userName, int id);
 }

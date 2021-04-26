@@ -16,9 +16,7 @@ public class ConvertEntity {
 		if (!ObjectUtils.isEmpty(input)) {
 			user = new User();
 			user.setFullname(input.getFullname());
-			user.setAddress(input.getAddress());
 			user.setPhone(input.getPhone());
-			user.setPassword(input.getPassword());
 			user.setUserName(input.getEmail());
 		}
 		return user;

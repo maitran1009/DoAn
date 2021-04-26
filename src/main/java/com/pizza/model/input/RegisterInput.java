@@ -1,12 +1,15 @@
 package com.pizza.model.input;
 
 public class RegisterInput {
+	private int id;
+	private String fullname;
 	private String email;
 	private String password;
-	private String fullname;
 	private String phone;
 	private String address;
 	private String rePassword;
+	private int ward;
+	private int role;
 
 	public String getEmail() {
 		return email;
@@ -54,5 +57,29 @@ public class RegisterInput {
 
 	public void setRePassword(String rePassword) {
 		this.rePassword = rePassword;
+	}
+
+	public int getWard() {
+		return ward;
+	}
+
+	public void setWard(int ward) {
+		this.ward = ward;
+	}
+
+	public int getRole() {
+		return role;
+	}
+
+	public void setRole(int role) {
+		this.role = role;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
