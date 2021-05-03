@@ -127,15 +127,9 @@ $(document).ready(function() {
 	$('body').on('click', '.product-delete', function() {
 		var index = $(this).attr("data-index");
 		var idx;
-		$(".product-index").each(function(i) {
-			idx = i + 1;
-			if (i >= index) {
-				idx--;
-			}
-			$(this).text(idx);
-		});
-
+		var page = $("li.page-item.active").find("a").text();
 		var id = $(this).attr("data");
+		var keyword = $(".navbar-search").find("input").val();
 		$.ajax({
 			url: 'http://localhost:9090/mySuFood/admin/product/delete',
 			type: 'GET',
@@ -144,6 +138,72 @@ $(document).ready(function() {
 				id: id
 			}
 		}).done(function() {
+			$.ajax({
+				url: 'http://localhost:9090/mySuFood/admin/product/list-ajax',
+				type: 'GET',
+				contentType: 'application/json',
+				data: {
+					keyword: keyword,
+					page: page
+				}
+			}).done(function(list) {
+				console.log(list);
+				
+				var html = "";
+				var index = 0;
+				$.each(list.products, function(key, value) {
+					var html1 = "";
+					var html2 = "";
+					index = index + 1;
+					html += "<tr>";
+					html += "<td class='text-center product-index'>"+index+"</td>";
+					html += "<td><img src='/mySuFood"+value.image+"' style='width: 100px; height: 100px;'></td>";
+					html += "<td>"+value.name+"</td>";
+					html += "<td>"+value.priceStr+"</td>";	
+					html += "<td>";	
+						$.each(value.productDetail, function(key, value1) {
+							html1 +=  "<p class='style-detail'>"+value1.sizeName+"</p>";
+						});
+					html += html1;	
+					html += "</td>";	
+					
+					html += "<td>";	
+						$.each(value.productDetail, function(key, value1) {
+							html2 +=  "<p class='style-detail'>"+value1.statusName+"</p>";
+						});
+					html += html2;	
+					html += "</td>";
+					html += "<td>"+value.description+"</td>";
+					html += "<td>";
+					html += "<a class='product-edit' data='"+value.id+"' title='Edit' style='color: orange;' data-toggle='modal' data-target='#exampleModal'><i class='fas fa-pen'></i></a>";
+					html += "<a class='delete product-delete' title='Delete' data='"+value.id+"' data-index='"+index+"'><i class='fas fa-trash'></i></a>";	 
+					html += "</td></tr>";
+				});
+				$(".product-list").empty();
+				$(".product-list").append(html);
+				
+				
+				html = "";
+				$.each(list.pagination.totalPage, function(key, value) {
+					html += "<li data='"+value+"' class='page-item";
+					if(value == list.pagination.page){
+						html += " active";
+					}
+					html += "'>";
+					html += "<a class='page-link' href='javascript:void(0)'>"+value+"</a>";
+					html += "</li>";
+				});
+				$("ul.pagination").empty();
+				$("ul.pagination").append(html);
+			});
+		});
+		
+		$(".product-index").each(function(i) {
+			idx = i + 1;
+			if (i >= index) {
+				idx--;
+			}
+			$(this).text(idx);
 		});
 	});
 
@@ -158,6 +218,7 @@ $(document).ready(function() {
 				id: id
 			}
 		}).done(function(product) {
+			console.log(product);
 			// css + html
 			$(".image-name").css("display", "block");
 			$("#table-detail").find(".item-detail").remove();
@@ -292,7 +353,6 @@ $(document).ready(function() {
 			$(this).text(idx);
 		});
 
-
 		var id = $(this).attr("data");
 		$.ajax({
 			url: 'http://localhost:9090/mySuFood/admin/user/delete',
@@ -302,6 +362,7 @@ $(document).ready(function() {
 				id: id
 			}
 		}).done(function() {
+			
 		});
 	});
 
@@ -311,28 +372,74 @@ $(document).ready(function() {
 		var keyword = $(this).parent().parent().find("input").val();
 		if (keyword != "") {
 			if (url.search("product") > 0){
-				page = 1;
+				$.ajax({
+					url: 'http://localhost:9090/mySuFood/admin/product/list-ajax',
+					type: 'GET',
+					contentType: 'application/json',
+					data: {
+						keyword: keyword,
+						page: 1
+					}
+				}).done(function(list) {
+					console.log(list);
+					
+					var html = "";
+					var index = 0;
+					$.each(list.products, function(key, value) {
+						var html1 = "";
+						var html2 = "";
+						index = index + 1;
+						html += "<tr>";
+						html += "<td class='text-center product-index'>"+index+"</td>";
+						html += "<td><img src='/mySuFood"+value.image+"' style='width: 100px; height: 100px;'></td>";
+						html += "<td>"+value.name+"</td>";
+						html += "<td>"+value.priceStr+"</td>";	
+						html += "<td>";	
+							$.each(value.productDetail, function(key, value1) {
+								html1 +=  "<p class='style-detail'>"+value1.sizeName+"</p>";
+							});
+						html += html1;	
+						html += "</td>";	
+						
+						html += "<td>";	
+							$.each(value.productDetail, function(key, value1) {
+								html2 +=  "<p class='style-detail'>"+value1.statusName+"</p>";
+							});
+						html += html2;	
+						html += "</td>";
+						html += "<td>"+value.description+"</td>";
+						html += "<td>";
+						html += "<a class='product-edit' data='"+value.id+"' title='Edit' style='color: orange;' data-toggle='modal' data-target='#exampleModal'><i class='fas fa-pen'></i></a>";
+						html += "<a class='delete product-delete' title='Delete' data='"+value.id+"' data-index='"+index+"'><i class='fas fa-trash'></i></a>";	 
+						html += "</td></tr>";
+					});
+					$(".product-list").empty();
+					$(".product-list").append(html);
+					
+					html = "";
+					$.each(list.pagination.totalPage, function(key, value) {
+						html += "<li data='"+value+"' class='page-item";
+						if(value == list.pagination.page){
+							html += " active";
+						}
+						html += "'>";
+						html += "<a class='page-link' href='javascript:void(0)'>"+value+"</a>";
+						html += "</li>";
+					});
+					$("ul.pagination").empty();
+					$("ul.pagination").append(html);
+				});
 			} else if (url.search("user") > 0) {
 				page = 2;
 			} else {
 				page = 3;
 			}
-
-			$.ajax({
-				url: 'http://localhost:9090/mySuFood/admin/search',
-				type: 'GET',
-				contentType: 'application/json',
-				data: {
-					keyword: keyword,
-					page: page
-				}
-			}).done(function(value) {
-
-			});
 		}
 	});
 
-	$(document).on("click", ".pagination-page", function() {
+	$(document).on("click", ".page-item", function() {
+		$(".page-item").removeClass("active");
+		$(this).addClass("active");
 		var page = $(this).attr("data");
 		var url = window.location.href;
 		var keyword = $(".navbar-search").find("input").val();
@@ -352,12 +459,13 @@ $(document).ready(function() {
 				var index = 0;
 				$.each(value.products, function(key, value) {
 					var html1 = "";
-					index++;
+					var html2 = "";
+					index = index + 1;
 					html += "<tr>";
-					html += "<td class='text-center product-index'>"+index"</td>";
-					html += "<td><img src='"+value.image+"' style='width: 100px; height: 100px;'></td>";
+					html += "<td class='text-center product-index'>"+index+"</td>";
+					html += "<td><img src='/mySuFood"+value.image+"' style='width: 100px; height: 100px;'></td>";
 					html += "<td>"+value.name+"</td>";
-					html += "<td>"+product.priceStr+"</td>";	
+					html += "<td>"+value.priceStr+"</td>";	
 					html += "<td>";	
 						$.each(value.productDetail, function(key, value1) {
 							html1 +=  "<p class='style-detail'>"+value1.sizeName+"</p>";
@@ -367,18 +475,17 @@ $(document).ready(function() {
 					
 					html += "<td>";	
 						$.each(value.productDetail, function(key, value1) {
-							html1 +=  "<p class='style-detail'>"+value1.statusName+"</p>";
+							html2 +=  "<p class='style-detail'>"+value1.statusName+"</p>";
 						});
-					html += html1;	
+					html += html2;	
 					html += "</td>";
 					html += "<td>"+value.description+"</td>";
 					html += "<td>";
-					html += "<a class='product-edit' title='Edit' style='color: orange;' data-toggle='modal' data-target='#exampleModal'><i class='fas fa-pen'></i></a>";
-					html += "<a class='delete product-delete' title='Delete' data-index='${index.count}'><i class='fas fa-trash'></i></a>";	 
-							
-						</td>
-					</tr>
+					html += "<a class='product-edit' data='"+value.id+"' title='Edit' style='color: orange;' data-toggle='modal' data-target='#exampleModal'><i class='fas fa-pen'></i></a>";
+					html += "<a class='delete product-delete' title='Delete' data='"+value.id+"' data-index='"+index+"'><i class='fas fa-trash'></i></a>";	 
+					html += "</td></tr>";
 				});
+				$(".product-list").empty();
 				$(".product-list").append(html);
 			});
 		} else if (url.search("user") > 0) {

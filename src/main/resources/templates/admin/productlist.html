@@ -58,7 +58,7 @@
 						<thead>
 							<tr id="list-header">
 								<th rowspan="2" style="width: 5%;">STT</th>
-								<th rowspan="2" style="width: 10%;">Ảnh</th>
+								<th rowspan="2" style="width: 12%;">Ảnh</th>
 								<th rowspan="2">Tên sản phẩm</th>
 								<th rowspan="2" style="width: 8%;">Đơn giá</th>
 								<th colspan="2" style="width: 20%;">Chi tiết sản phẩm</th>
@@ -78,16 +78,16 @@
 							<tr th:each="product, index: ${products.products}">
 								<td th:text="${index.count}" class="text-center product-index"></td>
 								<td><img th:src="@{${product.image}}"
-									style="width: 100px; height: 100px;"></td>
+									style="width: 100%; height: 100px;"></td>
 								<td th:text="${product.name}"></td>
 								<td th:text="${product.priceStr}"></td>
 								<td>
-									<p th:each="detail : ${product.productDetails}"
-										th:text="${detail.size.name}" class="style-detail"></p>
+									<p th:each="detail : ${product.productDetail}"
+										th:text="${detail.sizeName}" class="style-detail"></p>
 								</td>
 								<td>
-									<p th:each="detail : ${product.productDetails}"
-										th:text="${detail.status} == 1 ? 'Còn hàng' : 'Hết hàng'"
+									<p th:each="detail : ${product.productDetail}"
+										th:text="${detail.statusName}"
 										class="style-detail"></p>
 								</td>
 								<td th:text="${product.description}"></td>
@@ -102,10 +102,10 @@
 							</tr>
 						</tbody>
 					</table>
-
-					<ul class="pagination-list">
-						<li th:each="page: ${products.pagination.getTotalPage}" class="pagination-page" th:data="${page}">
-							<a href="javascript:void(0)" th:text="${page}"></a>
+					<ul class="pagination justify-content-end" style="margin:20px 0">
+						<li th:each="page: ${products.pagination.getTotalPage}" 
+						th:data="${page}" th:class="'page-item '+${page == products.pagination.page ? 'active' : ''}">
+							<a class="page-link" href="javascript:void(0)" th:text="${page}"></a>
 						</li>
 					</ul>
 				</div>

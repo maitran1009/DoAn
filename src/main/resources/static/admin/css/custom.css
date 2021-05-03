@@ -43,6 +43,9 @@ table.table {
 
 table.table tr th, table.table tr td {
 	border-color: #e9e9e9;
+	vertical-align: middle;
+	font-size: 12px;
+	padding: .4rem;
 }
 
 table.table th i {
@@ -154,10 +157,12 @@ p.style-detail {
 	border: 1px solid #d1d3e2;
 	border-left: none;
 	line-height: 38px;
-	left: 25%;
-	width: 73%;
+	left: 28%;
+	width: 69%;
 	border-radius: .35rem;
 	padding-left: 10px;
+	width: 69%;
+	overflow: hidden;
 }
 
 .detail-delete, .required {
@@ -172,15 +177,52 @@ p.style-detail {
 	padding: .5rem;
 }
 
-.pagination-list li {
-	list-style-type: none;
-    display: inline-block;
-    padding: 5px 15px;
-    border: 1px solid #ddd;
-    cursor: pointer;
+ul.pagination {
+	text-align: right;
 }
 
-ul.pagination-list {
-    text-align: right;
-    margin-right: 100px;
+.table-responsive {
+	width: 95% !important;
+	overflow-x: hidden !important;
 }
+
+.modal-dialog {
+	max-width: 620px !important;
+}
+
+.btn {
+	padding: .2rem 1rem !important;
+}
+
+
+element.style {
+}
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.page-item:first-child .page-link {
+    margin-left: 0;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
+.page-link:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #4e73df;
+    border-color: #4e73df;
+}
+.page-item:first-child .page-link {
+    margin-left: 0;
+    border-top-left-radius: .35rem;
+    border-bottom-left-radius: .35rem;
+}
+.page-link:focus {
+    box-shadow: 0 0 0 0 rgb(78 115 223 / 25%) !important;
+}
+

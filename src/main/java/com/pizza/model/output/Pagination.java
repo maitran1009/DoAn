@@ -35,6 +35,10 @@ public class Pagination {
 	public List<Integer> getTotalPage() {
 		List<Integer> integers = new ArrayList<Integer>();
 		int length = (int) (this.total / this.pageSize);
+		if (this.total % this.pageSize != 0) {
+			length++;
+		}
+
 		for (int i = 1; i <= length; i++) {
 			integers.add(i);
 		}
