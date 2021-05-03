@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pizza.model.input.ProductInput;
+import com.pizza.model.output.ProductListOutput;
 import com.pizza.model.output.ProductOutput;
 import com.pizza.service.ProductService;
 
@@ -29,8 +29,15 @@ public class ProductController {
 	private ProductService productService;
 
 	@GetMapping("list")
-	public String productList(Model model, Principal principal) {
+	public String productList(Model model) {
 		return productService.productList(model);
+	}
+
+	@GetMapping("list-ajax")
+	@ResponseBody
+	public ProductListOutput productListAjax(@RequestParam(required = false) Integer page,
+			@RequestParam(required = false) String keyword) {
+		return productService.productListAjax(page, keyword);
 	}
 
 	@GetMapping("info")

@@ -267,9 +267,9 @@ $(document).ready(function() {
 			$(".user-district").remove();
 			$("select[name=ward]").parent().remove();
 			$(".user-ward").remove();
-			
+
 			// chưa set quyen hien thi
-			
+
 			// write data
 			$("input[name=fullname]").val(user.fullname);
 			$("input[name=email]").val(user.userName);
@@ -278,8 +278,8 @@ $(document).ready(function() {
 			$("select[name=role]").val(user.role.id);
 		});
 	});
-	
-	
+
+
 	//Button delete
 	$('body').on('click', '.user-delete', function() {
 		var index = $(this).attr("data-index");
@@ -304,31 +304,87 @@ $(document).ready(function() {
 		}).done(function() {
 		});
 	});
-	
+
 	$(document).on("click", ".input-group-append button", function() {
 		var page;
 		var url = window.location.href;
 		var keyword = $(this).parent().parent().find("input").val();
-		if(keyword != ""){
-			if(url.search("product") > 0){
+		if (keyword != "") {
+			if (url.search("product") > 0){
 				page = 1;
-			}else if(url.search("user") > 0){
+			} else if (url.search("user") > 0) {
 				page = 2;
-			}else{
+			} else {
 				page = 3;
 			}
-			
+
 			$.ajax({
 				url: 'http://localhost:9090/mySuFood/admin/search',
 				type: 'GET',
 				contentType: 'application/json',
 				data: {
-					keyword: keyword, 
+					keyword: keyword,
 					page: page
 				}
 			}).done(function(value) {
-				
+
 			});
+		}
+	});
+
+	$(document).on("click", ".pagination-page", function() {
+		var page = $(this).attr("data");
+		var url = window.location.href;
+		var keyword = $(".navbar-search").find("input").val();
+		if (url.search("product") > 0) {
+			$.ajax({
+				url: 'http://localhost:9090/mySuFood/admin/product/list-ajax',
+				type: 'GET',
+				contentType: 'application/json',
+				data: {
+					keyword: keyword,
+					page: page
+				}
+			}).done(function(value) {
+				console.log(value);
+				
+				var html = "";
+				var index = 0;
+				$.each(value.products, function(key, value) {
+					var html1 = "";
+					index++;
+					html += "<tr>";
+					html += "<td class='text-center product-index'>"+index"</td>";
+					html += "<td><img src='"+value.image+"' style='width: 100px; height: 100px;'></td>";
+					html += "<td>"+value.name+"</td>";
+					html += "<td>"+product.priceStr+"</td>";	
+					html += "<td>";	
+						$.each(value.productDetail, function(key, value1) {
+							html1 +=  "<p class='style-detail'>"+value1.sizeName+"</p>";
+						});
+					html += html1;	
+					html += "</td>";	
+					
+					html += "<td>";	
+						$.each(value.productDetail, function(key, value1) {
+							html1 +=  "<p class='style-detail'>"+value1.statusName+"</p>";
+						});
+					html += html1;	
+					html += "</td>";
+					html += "<td>"+value.description+"</td>";
+					html += "<td>";
+					html += "<a class='product-edit' title='Edit' style='color: orange;' data-toggle='modal' data-target='#exampleModal'><i class='fas fa-pen'></i></a>";
+					html += "<a class='delete product-delete' title='Delete' data-index='${index.count}'><i class='fas fa-trash'></i></a>";	 
+							
+						</td>
+					</tr>
+				});
+				$(".product-list").append(html);
+			});
+		} else if (url.search("user") > 0) {
+			page = 2;
+		} else {
+			page = 3;
 		}
 	});
 });

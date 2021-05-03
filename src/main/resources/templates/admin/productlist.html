@@ -23,6 +23,8 @@
 
 <link th:href="@{/admin/css/custom.css}" rel="stylesheet">
 
+<link th:href="@{/admin/css/bootstrap.min.css}" rel="stylesheet">
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -46,7 +48,7 @@
 						<div class="row">
 							<div class="col-sm-8">
 								<h2>
-									Danh sách sản phẩm</b>
+									Danh sách sản phẩm
 								</h2>
 							</div>
 
@@ -62,48 +64,61 @@
 								<th colspan="2" style="width: 20%;">Chi tiết sản phẩm</th>
 								<th rowspan="2" style="width: 30%;">Mô tả</th>
 								<th rowspan="2" style="width: 9%;">
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Them</button>
+									<button type="button" class="btn btn-primary"
+										data-toggle="modal" data-target="#exampleModal">Them</button>
 								</th>
 							</tr>
 							<tr>
-					            <th>Kích thước</th>
-					            <th>Trạng thái</th>
-					        </tr>
+								<th>Kích thước</th>
+								<th>Trạng thái</th>
+							</tr>
 
 						</thead>
-						<tbody>
-							<tr th:each="product, index: ${products}">
+						<tbody class="product-list">
+							<tr th:each="product, index: ${products.products}">
 								<td th:text="${index.count}" class="text-center product-index"></td>
-								<td>
-									<img th:src="@{${product.image}}" style="width: 100px; height: 100px;">
-								</td>
+								<td><img th:src="@{${product.image}}"
+									style="width: 100px; height: 100px;"></td>
 								<td th:text="${product.name}"></td>
 								<td th:text="${product.priceStr}"></td>
 								<td>
-									<p th:each="detail : ${product.productDetails}" th:text="${detail.size.name}" class="style-detail"></p>
+									<p th:each="detail : ${product.productDetails}"
+										th:text="${detail.size.name}" class="style-detail"></p>
 								</td>
 								<td>
-									<p th:each="detail : ${product.productDetails}" th:text="${detail.status} == 1 ? 'Còn hàng' : 'Hết hàng'" class="style-detail"></p>
+									<p th:each="detail : ${product.productDetails}"
+										th:text="${detail.status} == 1 ? 'Còn hàng' : 'Hết hàng'"
+										class="style-detail"></p>
 								</td>
 								<td th:text="${product.description}"></td>
-								<td> <a class="product-edit" title="Edit" th:data="${product.id}" style="color: orange;" data-toggle="modal" data-target="#exampleModal">
-										<i class="fas fa-pen"></i>
-								</a> <a class="delete product-delete" title="Delete" th:data="${product.id}" th:data-index="${index.count}"> <i
+								<td><a class="product-edit" title="Edit"
+									th:data="${product.id}" style="color: orange;"
+									data-toggle="modal" data-target="#exampleModal"> <i
+										class="fas fa-pen"></i>
+								</a> <a class="delete product-delete" title="Delete"
+									th:data="${product.id}" th:data-index="${index.count}"> <i
 										class="fas fa-trash"></i>
 								</a></td>
 							</tr>
 						</tbody>
 					</table>
+
+					<ul class="pagination-list">
+						<li th:each="page: ${products.pagination.getTotalPage}" class="pagination-page" th:data="${page}">
+							<a href="javascript:void(0)" th:text="${page}"></a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title text-center" id="exampleModalLabel">Thêm mới sản
-						phẩm</h5>
+					<h5 class="modal-title text-center" id="exampleModalLabel">Thêm
+						mới sản phẩm</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -112,17 +127,15 @@
 				<div class="modal-body">
 					<form method="POST" class="row" id="fileUploadForm">
 						<div class="col-3">
-							<label class="style-label">Ảnh</label>
-							<label class="style-label">Tên sản phẩm:</label>
-							<label class="style-label">Đơn giá:</label>
-							<label class="style-label">Mô tả:</label>
+							<label class="style-label">Ảnh</label> <label class="style-label">Tên
+								sản phẩm:</label> <label class="style-label">Đơn giá:</label> <label
+								class="style-label">Mô tả:</label>
 						</div>
 						<div class="col-9">
 							<div class="form-group">
-								 <input type="file"
-									class="form-control" name="image" aria-describedby="helpId"
-									placeholder="Ảnh" />
-								<span class="image-name" style="display: none;"></span>
+								<input type="file" class="form-control" name="image"
+									aria-describedby="helpId" placeholder="Ảnh" /> <span
+									class="image-name" style="display: none;"></span>
 							</div>
 							<div class="form-group">
 								<input type="text" class="form-control" name="name"
@@ -148,24 +161,21 @@
 							<tr>
 								<th>Kích thước</th>
 								<th>Trạng thái</th>
-								<th><button type="button" class="btn btn-primary" id="add-detail">Thêm</button></th>
+								<th><button type="button" class="btn btn-primary"
+										id="add-detail">Thêm</button></th>
 							</tr>
 						</thead>
 						<tbody id="table-detail">
 							<tr class="item-detail" data-flag="0">
-								<td>
-									<select class="form-control size" name="size">
+								<td><select class="form-control size" name="size">
 										<option value="1">Nhỏ</option>
 										<option value="2">Vừa</option>
 										<option value="3">Lớn</option>
-									</select>
-								</td>
-								<td>
-									<select class="form-control status" name="status">
+								</select></td>
+								<td><select class="form-control status" name="status">
 										<option value="1">Còn hàng</option>
 										<option value="2">Hết hàng</option>
-									</select>
-								</td>
+								</select></td>
 								<td><a class="delete" title="Delete"> <i
 										class="fas fa-trash"></i>
 								</a></td>
@@ -176,7 +186,8 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="add-product" data-flag="0">Thêm mới</button>
+					<button type="button" class="btn btn-primary" id="add-product"
+						data-flag="0">Thêm mới</button>
 				</div>
 			</div>
 		</div>
@@ -227,6 +238,8 @@
 	<script th:src="@{/admin/js/demo/chart-pie-demo.js}"></script>
 
 	<script th:src="@{/admin/js/custom.js}"></script>
+
+	<script th:src="@{/admin/js/bootstrap.min.js}"></script>
 </body>
 
 </html>

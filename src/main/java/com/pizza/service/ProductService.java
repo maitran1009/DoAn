@@ -17,8 +17,10 @@ import com.pizza.model.entity.Product;
 import com.pizza.model.entity.ProductDetail;
 import com.pizza.model.input.ProductDetailInput;
 import com.pizza.model.input.ProductInput;
+import com.pizza.model.output.ProductListOutput;
 import com.pizza.model.output.ProductOutput;
 import com.pizza.repository.OrderDetailRepository;
+import com.pizza.repository.ProductDao;
 import com.pizza.repository.ProductDetailRepository;
 import com.pizza.repository.ProductRepository;
 import com.pizza.repository.SizeRepository;
@@ -37,9 +39,16 @@ public class ProductService {
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
 
+	@Autowired
+	private ProductDao productDao;
+
 	public String productList(Model model) {
-		model.addAttribute("products", productRepository.findAll());
+		model.addAttribute("products", productDao.getListProduct(1, ""));
 		return PageConstant.PAGE_PRODUCT_LIST;
+	}
+
+	public ProductListOutput productListAjax(Integer page, String keyword) {
+		return productDao.getListProduct(page, keyword);
 	}
 
 	@SuppressWarnings("deprecation")

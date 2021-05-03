@@ -18,6 +18,20 @@ public class ProductOutput {
 	private long price;
 	private String description;
 	private List<ProductDetailOutput> productDetail;
+	private List<ProductDetail> productDetails;
+
+	public ProductOutput() {
+		super();
+	}
+
+	public ProductOutput(int id, String name, String image, long price, String description) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.image = image;
+		this.price = price;
+		this.description = description;
+	}
 
 	public int getId() {
 		return id;
@@ -36,7 +50,7 @@ public class ProductOutput {
 	}
 
 	public String getImage() {
-		return image;
+		return image.replace("/images/", "");
 	}
 
 	public void setImage(String image) {
@@ -75,11 +89,18 @@ public class ProductOutput {
 		this.urlImage = urlImage;
 	}
 
+	public List<ProductDetail> getProductDetails() {
+		return productDetails;
+	}
+
+	public void setProductDetails(List<ProductDetail> productDetails) {
+		this.productDetails = productDetails;
+	}
+
 	public ProductOutput convertTo(Product product) {
 		if (!ObjectUtils.isEmpty(product)) {
 			List<ProductDetailOutput> detailOutputs = new ArrayList<>();
 			this.id = product.getId();
-			this.image = product.getImage().replace("/images/", "");
 			this.urlImage = product.getImage();
 			this.name = product.getName();
 			this.price = product.getPrice();
