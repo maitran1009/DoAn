@@ -71,18 +71,18 @@ $(document).ready(function() {
 			productDetail["id"] = $(this).attr('data-detail');
 			productDetail["size"] = $(this).find('select.size').val();
 			productDetail["status"] = $(this).find('select.status').val();
-			if(productDetails.length == 0){
+			if (productDetails.length == 0) {
 				productDetails.push(productDetail);
-			}else{
+			} else {
 				$.each(productDetails, function(key, value) {
-					if(productDetail.size == value.size){
+					if (productDetail.size == value.size) {
 						flag = false;
 					}
 				});
 
-				if(flag){
+				if (flag) {
 					productDetails.push(productDetail);
-				}	
+				}
 			}
 		});
 
@@ -98,7 +98,7 @@ $(document).ready(function() {
 		product["productDetail"] = productDetails;
 
 		var form = new FormData($('#fileUploadForm')[0]);
-		
+
 		$.ajax({
 			url: 'http://localhost:9090/mySuFood/admin/product/create',
 			type: 'POST',
@@ -125,6 +125,16 @@ $(document).ready(function() {
 
 	//Button delete
 	$('body').on('click', '.product-delete', function() {
+		var index = $(this).attr("data-index");
+		var idx;
+		$(".product-index").each(function(i) {
+			idx = i + 1;
+			if (i >= index) {
+				idx--;
+			}
+			$(this).text(idx);
+		});
+
 		var id = $(this).attr("data");
 		$.ajax({
 			url: 'http://localhost:9090/mySuFood/admin/product/delete',
@@ -136,7 +146,7 @@ $(document).ready(function() {
 		}).done(function() {
 		});
 	});
-	
+
 	//Button edit
 	$('body').on('click', '.product-edit', function() {
 		var id = $(this).attr("data");
@@ -181,6 +191,117 @@ $(document).ready(function() {
 				html += "</select></td><td><a class='delete' title='Delete'><i class='fas fa-trash'></i></a></td></tr>";
 			});
 			$("#table-detail").append(html);
+		});
+	});
+
+	//Button delete
+	$('body').on('click', '.order-delete', function() {
+		var index = $(this).attr("data-index");
+		var idx;
+		$(".order-index").each(function(i) {
+			idx = i + 1;
+			if (i >= index) {
+				idx--;
+			}
+			$(this).text(idx);
+		});
+
+
+		var id = $(this).attr("data");
+		$.ajax({
+			url: 'http://localhost:9090/mySuFood/admin/order/delete',
+			type: 'GET',
+			contentType: 'application/json',
+			data: {
+				id: id
+			}
+		}).done(function() {
+		});
+	});
+
+	$('body').on('click', '#add-user', function() {
+		$.ajax({
+			url: 'http://localhost:9090/mySuFood/admin/user/create',
+			type: 'GET',
+			contentType: 'application/json',
+			data: {
+				id: $(this).attr("data-flag"),
+				fullname: $("input[name=fullname]").val(),
+				email: $("input[name=email]").val(),
+				password: $("input[name=password]").val(),
+				phone: $("input[name=phone]").val(),
+				address: $("input[name=address]").val(),
+				ward: $("select[name=ward]").val(),
+				role: $("select[name=role]").val()
+			}
+		}).done(function(value) {
+			if (value != "ok") {
+				$(".user-error").text(value);
+			} else {
+				window.location = "http://localhost:9090/mySuFood/admin/user/list";
+			}
+		});
+	});
+
+	//Button edit
+	$('body').on('click', '.user-edit', function() {
+		var id = $(this).attr("data");
+		$.ajax({
+			url: 'http://localhost:9090/mySuFood/admin/user/info',
+			type: 'GET',
+			contentType: 'application/json',
+			data: {
+				id: id
+			}
+		}).done(function(user) {
+			// css + html
+			$("#table-detail").find(".item-detail").remove();
+			$("#exampleModalLabel").text("Cập nhật thông tin tài khoản");//Thay đổi text từ "Thêm sản phẩm"->"Cập nhật sản phẩm"
+			$("#add-user").text("Cập nhật");
+			$("#add-user").attr("data-flag", id);
+			$("input[name=password]").parent().remove();
+			$(".user-pass").remove();
+			$("select[name=city]").parent().remove();
+			$(".user-city").remove();
+			$("select[name=district]").parent().remove();
+			$(".user-district").remove();
+			$("select[name=ward]").parent().remove();
+			$(".user-ward").remove();
+			
+			// chưa set quyen hien thi
+			
+			// write data
+			$("input[name=fullname]").val(user.fullname);
+			$("input[name=email]").val(user.userName);
+			$("input[name=phone]").val(user.phone);
+			$("input[name=address]").val(user.address);
+			$("select[name=role]").val(user.role.id);
+		});
+	});
+	
+	
+	//Button delete
+	$('body').on('click', '.user-delete', function() {
+		var index = $(this).attr("data-index");
+		var idx;
+		$(".user-index").each(function(i) {
+			idx = i + 1;
+			if (i >= index) {
+				idx--;
+			}
+			$(this).text(idx);
+		});
+
+
+		var id = $(this).attr("data");
+		$.ajax({
+			url: 'http://localhost:9090/mySuFood/admin/user/delete',
+			type: 'GET',
+			contentType: 'application/json',
+			data: {
+				id: id
+			}
+		}).done(function() {
 		});
 	});
 });

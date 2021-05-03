@@ -969,6 +969,8 @@ select {
   font-weight: bold;
   color: black;
   text-align: left !important;
+  height: 40px;
+  line-height: 40px;
 }
 .login form input{
   color: black !important;
@@ -976,7 +978,7 @@ select {
   border-radius: 5px;
   padding: 0 2vh 0 2vh;
   margin: 2vh 0 2vh 0;
-  height: 4vh !important;
+  height: 40px !important;
 }
 .form-group{
   margin-bottom: 0 !important;
@@ -1002,14 +1004,14 @@ select {
   background-color: orangered;
   color: black;
   width: 15vh;
-  height: 5vh;
+  height: 30px;
   font-size: 2vh;
   border-radius: 5px;
 }
 .login-btn .btn-login{
   color: black;
   width: 15vh;
-  height: 5vh;
+  height: 30px;
   font-size: 2vh;
   border-radius: 5px;
   border: 1px solid black;
@@ -1017,3 +1019,4 @@ select {
 .login p{
   color: black;
 }
+

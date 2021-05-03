@@ -81,37 +81,44 @@ $(document).ready(function() {
 
 	$(document).on("click", "#but_step2", function() {
 		var type = $("input[name=payment_method]:checked").val();
-		console.log(type);
+		var user = JSON.parse(localStorage.getItem("user"));
+		var amount = $(".payment-due-price").text();
 		if (type == 2) {
 			$.ajax({
 				url: 'http://localhost:9090/mySuFood/pay/momo/get-url',
 				type: 'GET',
 				contentType: 'application/json',
 				data: {
-					amount: 100000
+//					amount: amount.replace(".","").replace(" ₫","")
+					amount: 10000,
+					email : user.email,
+					name : user.name,
+					phone : user.phone,
+					ward : user.ward,
+					address : user.address,
+					payType : type
 				}
 			}).done(function(value) {
 				window.location.href = value;
 			});
 		} else {
-			var pay = {};
-			var user = JSON.parse(localStorage.getItem("user"));
-
-			pay["email"] = user.email;
-			pay["name"] = user.name;
-			pay["phone"] = user.phone;
-			pay["ward"] = user.ward;
-			pay["address"] = user.address;
-			pay["payType"] = type;
-
-			console.log(pay);
 			$.ajax({
 				url: 'http://localhost:9090/mySuFood/pay/success',
-				type: 'POST',
+				type: 'GET',
 				contentType: 'application/json',
-				data: JSON.stringify(pay)
+				data: {
+					email : user.email,
+					name : user.name,
+					phone : user.phone,
+					ward : user.ward,
+					address : user.address,
+					payType : type
+				}
 			}).done(function(value) {
-				window.location.href = value;
+				if(value){
+					localStorage.removeItem("user");
+					window.location.href = "http://localhost:9090/mySuFood/pay/pay-success";
+				}
 			});
 		}
 	});

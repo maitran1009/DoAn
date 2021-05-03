@@ -304,5 +304,32 @@ $(document).ready(function() {
 		}).done(function() {
 		});
 	});
+	
+	$(document).on("click", ".input-group-append button", function() {
+		var page;
+		var url = window.location.href;
+		var keyword = $(this).parent().parent().find("input").val();
+		if(keyword != ""){
+			if(url.search("product") > 0){
+				page = 1;
+			}else if(url.search("user") > 0){
+				page = 2;
+			}else{
+				page = 3;
+			}
+			
+			$.ajax({
+				url: 'http://localhost:9090/mySuFood/admin/search',
+				type: 'GET',
+				contentType: 'application/json',
+				data: {
+					keyword: keyword, 
+					page: page
+				}
+			}).done(function(value) {
+				
+			});
+		}
+	});
 });
 

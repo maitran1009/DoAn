@@ -105,7 +105,7 @@ table.table td .add {
 	line-height: 38px;
 	height: 38px;
 	width: 100%;
-	text-align: center;
+ 	padding-left: 16%;
 }
 
 .modal-dialog {
@@ -160,10 +160,14 @@ p.style-detail {
 	padding-left: 10px;
 }
 
-.detail-delete {
+.detail-delete, .required {
 	color: red;
 }
 
 .detail-delete:hover {
 	color: red;
+}
+
+.table td, .table th {
+    padding: .5rem;
 }
