@@ -49,7 +49,6 @@ public class ProductDetailOutput implements Comparable<ProductDetailOutput> {
 
 	@Override
 	public int compareTo(ProductDetailOutput o) {
-		// TODO Auto-generated method stub
 		return this.getSize() - o.getSize();
 	}
 }

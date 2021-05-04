@@ -29,14 +29,12 @@
 
 <link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}">
 <link rel="stylesheet" th:href="@{/css/jquery.timepicker.css}">
-
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-
 <link rel="stylesheet" th:href="@{/css/flaticon.css}">
 <link rel="stylesheet" th:href="@{/css/icomoon.css}">
 <link rel="stylesheet" th:href="@{/css/style.css}">
 <link rel="stylesheet" th:href="@{/css/custom.css}">
-
+<link rel="stylesheet" th:href="@{/fonts/fontawesome/css/all.css}">
+<script th:src="@{/fonts/fontawesome/js/all.js}"></script>
 </head>
 
 <body>
@@ -77,7 +75,9 @@
 						<form>
 							<div id="cart-table">
 								<div class="cart-table-header hidden-sm hidden-xs clearfix row">
-									<div class="text-center cart-table-title  col-xs-12 col-sm-2 col-md-2">Sản phẩm</div>
+									<div
+										class="text-center cart-table-title  col-xs-12 col-sm-2 col-md-2">Sản
+										phẩm</div>
 									<div class="cart-table-title col-xs-12 col-sm-12 col-md-4">Tên
 										Sản Phẩm</div>
 									<div
@@ -179,8 +179,10 @@
 						</form>
 					</div>
 				</div>
-				<div class="row" style="background: #ffffff;font-size: 14px" th:unless="${total > 0}">
-					<p>Sản phẩm bạn chọn vừa hết, hãy quay lại và chọn sản phẩm khác nhé.</p>
+				<div class="row" style="background: #ffffff; font-size: 14px"
+					th:unless="${total > 0}">
+					<p>Sản phẩm bạn chọn vừa hết, hãy quay lại và chọn sản phẩm
+						khác nhé.</p>
 					<a th:href="@{/trang-chu}">&lt;&lt; Quay lại mua sắm</a>
 				</div>
 			</div>

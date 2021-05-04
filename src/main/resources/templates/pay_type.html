@@ -30,13 +30,12 @@
 <link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}">
 <link rel="stylesheet" th:href="@{/css/jquery.timepicker.css}">
 
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-
 <link rel="stylesheet" th:href="@{/css/flaticon.css}">
 <link rel="stylesheet" th:href="@{/css/icomoon.css}">
 <link rel="stylesheet" th:href="@{/css/style.css}">
 <link rel="stylesheet" th:href="@{/css/custom.css}">
-<link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
+<link rel="stylesheet" th:href="@{/fonts/fontawesome/css/all.css}">
+<script th:src="@{/fonts/fontawesome/js/all.js}"></script>
 </head>
 
 <body>
@@ -162,7 +161,7 @@
 								<h5>Phương thức thanh toán</h5>
 								<p class="pay_text_ts">Mọi giao dịch đều được bảo mật và mã
 									hóa. Thông tin thẻ tín dụng sẽ không bao giờ được lưu lại.</p>
-								<ul class="list-unstyled" style="margin-bottom: 30px">
+								<ul class="list-unstyled">
 									<li><input id="payment_method_1" type="radio"
 										name="payment_method" value="1"> <label>Thanh
 											toán VNPAY</label>
@@ -183,13 +182,14 @@
 								<div id="box_div_order"></div>
 								<div class="clearfix"></div>
 								<div class="row">
-									<div class="col-md-12 box-order-complete">
+									<div class="col-md-12 box-order-complete"
+										style="margin-bottom: 20px;">
 										<a id="but-cancel-step1" th:href="@{/pay}" class="">&lt;&lt;
 											Quay lại</a>
-										<div class="pull-right">
-											<button type="button" class="pull-right but-complete but_step2"
-												id="" data-toggle="modal" data-target="#exampleModal">Hoàn thành</button>
-										</div>
+										<button type="button"
+											class="pull-right but-complete but_step2"
+											id="but_step_confirm" data-toggle="modal"
+											data-target="#exampleModal">Hoàn thành</button>
 									</div>
 								</div>
 
@@ -207,7 +207,8 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title text-center" id="exampleModalLabel">Xác thực đặt hàng</h5>
+					<h5 class="modal-title text-center" id="exampleModalLabel">Xác
+						thực đặt hàng</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -220,16 +221,17 @@
 						</div>
 						<div class="col-9">
 							<div class="form-group">
-								<input type="file" class="form-control" name="image"
-									aria-describedby="helpId" placeholder="Ảnh" /> <span
-									class="image-name" style="display: none;"></span>
+								<input type="text" class="form-control confirm-code" name="code"
+									placeholder="Mã xác thực" />
 							</div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="pay-confirm">Xác thực</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-success" id="pay-confirm">Xác
+						thực</button>
 				</div>
 			</div>
 		</div>
@@ -239,6 +241,5 @@
 	<div th:replace="fragments/footer :: footer"></div>
 
 	<div th:replace="fragments/script :: script"></div>
-	<script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
 </body>
 </html>

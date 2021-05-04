@@ -88,6 +88,11 @@ public class PayService {
 			List<OrderDetail> orderDetails = new ArrayList<>();
 			Order order = new Order();
 			int amount = 0;
+			String code = (String) session.getAttribute(Constant.SESSION_CODE_CONFIRM);
+			if (!code.equals(input.getCode())) {
+				return false;
+			}
+			session.removeAttribute(Constant.SESSION_CODE_CONFIRM);
 
 			for (Cart cart : carts) {
 				amount += cart.getCount() * cart.getPrice();
@@ -121,7 +126,7 @@ public class PayService {
 			if (sendMailService.sendMailPaySuccess(order, orderDetails, true)) {
 				result = true;
 			}
-			
+
 			session.removeAttribute(Constant.SESSION_CART);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -188,12 +193,12 @@ public class PayService {
 	public String getUrlPayMomo(PayInput input, HttpSession session) {
 		// call api momo get pay url
 		Environment environment = Environment.selectEnv("dev", Environment.ProcessType.PAY_GATE);
-		
+
 		String requestId = String.valueOf(System.currentTimeMillis());
 		String orderId = String.valueOf(System.currentTimeMillis());
-		
-		CaptureMoMoResponse captureMoMoResponse = CaptureMoMo.process(environment, orderId, requestId, input.getAmount(), orderId,
-				Constant.RETURN_URL, Constant.NOTIFY_URL, "merchantName=MySu Food");
+
+		CaptureMoMoResponse captureMoMoResponse = CaptureMoMo.process(environment, orderId, requestId,
+				input.getAmount(), orderId, Constant.RETURN_URL, Constant.NOTIFY_URL, "merchantName=MySu Food");
 
 		// case captureMoMoResponse is null or empty
 		if (ObjectUtils.isEmpty(captureMoMoResponse)) {
@@ -202,5 +207,11 @@ public class PayService {
 		session.setAttribute(Constant.SESSION_PAY_INPUT, input);
 		return captureMoMoResponse.getPayUrl();
 	}
-	
+
+	public void payConfirm(HttpSession session, String email, String fullName) {
+		session.removeAttribute(Constant.SESSION_CODE_CONFIRM);
+		String code = Utils.randomStringNumber(6);
+		session.setAttribute(Constant.SESSION_CODE_CONFIRM, code);
+		sendMailService.sendMailPayConfirm(email, fullName, code);
+	}
 }

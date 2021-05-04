@@ -6,6 +6,7 @@ public class Constant {
 	public static final String AMOUNT = "amount";
 	public static final String SESSION_CART = "carts";
 	public static final String SESSION_PAY_INPUT = "payInput";
+	public static final String SESSION_CODE_CONFIRM = "codeConfirm";
 	public static final String RETURN_URL = "http://localhost:9090/mySuFood/pay/pay-success";
 	public static final String NOTIFY_URL = "http://localhost:9090/mySuFood/pay/pay-success";
 

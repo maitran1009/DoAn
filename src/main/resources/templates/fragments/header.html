@@ -24,10 +24,10 @@
 					<li class="nav-item"><a href="contact.html" class="nav-link">Liên hệ</a></li>
 				</ul>
 				<ul class="menu-icon">
-					<li><a th:href="@{/gio-hang}"><i class="fas fa-shopping-cart"></i></a></li>
-					<li sec:authorize="!isAuthenticated()"><a th:href="@{/dang-nhap}"><i class="fa fa-user"></i></a></li>
+					<li><a th:href="@{/gio-hang}"><i class="fas fa-cart-plus" style="color: #fff;"></i></a></li>
+					<li sec:authorize="!isAuthenticated()"><a th:href="@{/dang-nhap}"><i class="fa fa-user" style="color: #fff;"></i></a></li>
 					<li sec:authorize="isAuthenticated()">
-						<a th:href="@{/logout}" th:title="${#request.userPrincipal.name}"><i class="fa fa-sign-out-alt"></i></a>
+						<a th:href="@{/logout}" th:title="${#request.userPrincipal.name}"><i class="fa fa-sign-out-alt" style="color: #fff;"></i></a>
 					</li>
 				</ul>
 			</div>

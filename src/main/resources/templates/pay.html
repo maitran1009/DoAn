@@ -30,13 +30,12 @@
 <link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}">
 <link rel="stylesheet" th:href="@{/css/jquery.timepicker.css}">
 
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-
 <link rel="stylesheet" th:href="@{/css/flaticon.css}">
 <link rel="stylesheet" th:href="@{/css/icomoon.css}">
 <link rel="stylesheet" th:href="@{/css/style.css}">
 <link rel="stylesheet" th:href="@{/css/custom.css}">
-
+<link rel="stylesheet" th:href="@{/fonts/fontawesome/css/all.css}">
+<script th:src="@{/fonts/fontawesome/js/all.js}"></script>
 </head>
 
 <body>
@@ -162,8 +161,7 @@
 											<p>
 												Họ tên <span class="required">*</span>
 											</p>
-											<input type="text" class="required_form"
-												name="name">
+											<input type="text" class="required_form" name="name">
 										</div>
 									</div>
 									<div class="row">
@@ -171,15 +169,13 @@
 											<p>
 												Email <span class="required">*</span>
 											</p>
-											<input type="text" class="required_form"
-												name="email">
+											<input type="text" class="required_form" name="email">
 										</div>
 										<div class="col-md-6 col-sm-6">
 											<p>
 												Điện thoại <span class="required">*</span>
 											</p>
-											<input type="text" class="required_form"
-												name="phone">
+											<input type="text" class="required_form" name="phone">
 										</div>
 									</div>
 									<div class="row">
@@ -228,29 +224,22 @@
 							</div>
 						</div>
 						<div class="step-footer">
-							<!-- <button type="submit" class="step-footer-continue-btn btn" id="pay-type">
-								<span class="btn-content">Thanh toán và giao hàng</span> <i
-									class="btn-spinner icon icon-button-spinner"></i>
-							</button> -->
-							<a href="javascript:void(0)" id="redirect-pay">Thanh toán và giao hàng</a>
-							<a class="step-footer-previous-link" th:href="@{/gio-hang}"
-								style="margin-top: 20px;"> <svg
-									class="previous-link-icon icon-chevron icon"
+							<a class="step-footer-previous-link" th:href="@{/gio-hang}">
+								<svg class="previous-link-icon icon-chevron icon"
 									xmlns="http://www.w3.org/2000/svg" width="6.7" height="11.3"
 									viewBox="0 0 6.7 11.3">
 									<path
 										d="M6.7 1.1l-1-1.1-4.6 4.6-1.1 1.1 1.1 1 4.6 4.6 1-1-4.6-4.6z"></path>
 								</svg> Giỏ hàng
 							</a>
-
-
+							<button id="redirect-pay" type="submit" class="pull-right"
+								name="btn_continue_step2" value="Thanh toán và giao hàng">Thanh
+								toán và giao hàng</button>
 						</div>
 					</div>
 				</div>
-				<div class="main-footer"></div>
 			</div>
 		</div>
-
 	</div>
 
 

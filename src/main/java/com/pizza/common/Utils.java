@@ -3,6 +3,7 @@ package com.pizza.common;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import org.springframework.util.ObjectUtils;
 
@@ -32,5 +33,15 @@ public class Utils {
 			}
 		}
 		return result;
+	}
+
+	public static String randomStringNumber(int length) {
+		String strNumber = "0123456789";
+		StringBuilder salt = new StringBuilder();
+		Random rnd = new Random();
+		while (salt.length() < length) { // length of the random string.
+			salt.append(strNumber.charAt(rnd.nextInt(10)));
+		}
+		return salt.toString();
 	}
 }

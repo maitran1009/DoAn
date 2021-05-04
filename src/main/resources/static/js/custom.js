@@ -81,10 +81,11 @@ $(document).ready(function() {
 
 	$(document).on("change", "input[name=payment_method]", function() {
 		var key = $(this).val();
+		console.log(key);
 		if (key != 2) {
 			$("button.but_step2").attr("data-toggle", "modal");
 			$("button.but_step2").attr("data-target", "#exampleModal");
-			$("button.but_step2").attr("id", "");
+			$("button.but_step2").attr("id", "but_step_confirm");
 		} else {
 			$("button.but_step2").removeAttr("data-toggle");
 			$("button.but_step2").removeAttr("data-target");
@@ -114,37 +115,47 @@ $(document).ready(function() {
 			}).done(function(value) {
 				window.location.href = value;
 			});
-		} else {
-			/*$.ajax({
-				url: 'http://localhost:9090/mySuFood/pay/success',
-				type: 'GET',
-				contentType: 'application/json',
-				data: {
-					email : user.email,
-					name : user.name,
-					phone : user.phone,
-					ward : user.ward,
-					address : user.address,
-					payType : type
-				}
-			}).done(function(value) {
-				if(value){
-					localStorage.removeItem("user");
-					window.location.href = "http://localhost:9090/mySuFood/pay/pay-success";
-				}
-			});*/
 		}
 	});
 
 
-	$(document).on("click", ".but_step2", function() {
+	$(document).on("click", "#but_step_confirm", function() {
 		var user = JSON.parse(localStorage.getItem("user"));
 		$.ajax({
 			url: 'http://localhost:9090/mySuFood/pay/confirm',
 			type: 'GET',
 			contentType: 'application/json',
 			data: {
-				email: user.email
+				email: user.email,
+				fullName: user.name
+			}
+		});
+	});
+
+	$(document).on("click", "#pay-confirm", function() {
+		var user = JSON.parse(localStorage.getItem("user"));
+		var type = $("input[name=payment_method]:checked").val();
+		var code = $("input[name=code]").val();
+		
+		$.ajax({
+			url: 'http://localhost:9090/mySuFood/pay/success',
+			type: 'GET',
+			contentType: 'application/json',
+			data: {
+				email: user.email,
+				name: user.name,
+				phone: user.phone,
+				ward: user.ward,
+				address: user.address,
+				payType: type,
+				code: code
+			}
+		}).done(function(value) {
+			if (value) {
+				localStorage.removeItem("user");
+				window.location.href = "http://localhost:9090/mySuFood/pay/pay-success";
+			} else {
+				alert("Mã xác thực không chính xác");
 			}
 		});
 	});

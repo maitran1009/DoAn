@@ -31,6 +31,7 @@ public class SendMailService {
 	private SpringTemplateEngine templateEngine;
 
 	private static final String PAY_SUCCESS_EMAIL_TEMPLATE = "pay-success-email-template";
+	private static final String PAY_CONFIRM_EMAIL_TEMPLATE = "pay-confirm-email-template";
 	private static final String EMAIL_LOGO = "logo";
 
 	public Boolean sendMailPaySuccess(Order order, List<OrderDetail> orderDetails, boolean flag) {
@@ -89,6 +90,37 @@ public class SendMailService {
 
 			javaMailSender.send(message);
 
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	public Boolean sendMailPayConfirm(String email, String fullName, String code) {
+		try {
+			Map<String, Object> templateVariables = new HashMap<>();
+			Context context = new Context();
+			String title = "Bạn đã đặt 1 đơn hàng của cửa hàng MySu Food";
+			String subject = "Thông báo xác thực đặt hàng tại MySu Food";
+
+			MimeMessage message = javaMailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
+
+			templateVariables.put("fullName", fullName);
+			templateVariables.put("code", code);
+			templateVariables.put("title", title);
+
+			// Thymleaf context
+			context.setVariables(templateVariables);
+			String html = templateEngine.process(PAY_CONFIRM_EMAIL_TEMPLATE, context);
+
+			helper.setTo(email);
+			helper.setText(html, true);
+			helper.addInline(EMAIL_LOGO, new ClassPathResource("static/images/logo1.gif"), "image/gif");
+
+			helper.setSubject(subject);
+
+			javaMailSender.send(message);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}

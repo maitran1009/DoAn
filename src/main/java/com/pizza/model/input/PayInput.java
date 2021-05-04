@@ -7,6 +7,7 @@ public class PayInput {
 	private String address;
 	private String ward;
 	private String amount;
+	private String code;
 	private int payType;
 
 	public String getEmail() {
@@ -63,5 +64,13 @@ public class PayInput {
 
 	public void setAmount(String amount) {
 		this.amount = amount;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }

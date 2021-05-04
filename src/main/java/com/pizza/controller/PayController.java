@@ -49,11 +49,11 @@ public class PayController {
 	public boolean createPay(PayInput pay, HttpSession session) {
 		return payService.createPay(session, pay);
 	}
-	
+
 	@GetMapping("confirm")
 	@ResponseBody
-	public boolean payConfirm(String email, HttpSession session) {
-		return payService.payConfirm(session, email);
+	public void payConfirm(@RequestParam String email, @RequestParam String fullName, HttpSession session) {
+		payService.payConfirm(session, email, fullName);
 	}
 
 	@GetMapping("vnpay")

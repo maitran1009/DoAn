@@ -194,9 +194,6 @@ ul.pagination {
 	padding: .2rem 1rem !important;
 }
 
-
-element.style {
-}
 .page-item.active .page-link {
     z-index: 1;
     color: #fff;
