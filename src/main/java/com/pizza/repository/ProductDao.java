@@ -43,8 +43,8 @@ public class ProductDao {
 
 		// set parameter
 		if (!StringUtils.isEmpty(keyword)) {
-			query.setParameter("search", "%" + keyword + "%");
-			queryTotal.setParameter("search", "%" + keyword + "%");
+			query.setParameter("keyword", "%" + keyword + "%");
+			queryTotal.setParameter("keyword", "%" + keyword + "%");
 		}
 
 		pagination.setTotal((long) queryTotal.getSingleResult());
@@ -56,7 +56,7 @@ public class ProductDao {
 			outputs.add(productOutput);
 		}
 
-		products.setProducts(productOutputs);
+		products.setProducts(outputs);
 		products.setPagination(pagination);
 
 		return products;
@@ -65,7 +65,6 @@ public class ProductDao {
 	@SuppressWarnings("deprecation")
 	private String createSqlQuery(String keyword, boolean flag) {
 		StringBuilder sql = new StringBuilder();
-		String search = keyword;
 
 		if (flag) {
 			sql.append("Select new ");
@@ -79,9 +78,9 @@ public class ProductDao {
 		sql.append(Product.class.getName());// get tên class
 		sql.append(" p ");
 
-		if (!StringUtils.isEmpty(search)) {
+		if (!StringUtils.isEmpty(keyword)) {
 			sql.append(" Where ");
-			sql.append(" p.name like :search ");
+			sql.append(" p.name like :keyword ");
 		}
 
 		if (flag) {

@@ -187,11 +187,9 @@
 										<a id="but-cancel-step1" th:href="@{/pay}" class="">&lt;&lt;
 											Quay lại</a>
 										<div class="pull-right">
-											<button type="button" class="pull-right but-complete"
-												id="but_step2">Hoàn thành</button>
-											<!--<input type="submit" name="but-tach-don" value="Xử lý" class="but-common-white but-tach-don" style="padding: 8px 20px; margin-top: 15px;"/>&nbsp;-->
+											<button type="button" class="pull-right but-complete but_step2"
+												id="" data-toggle="modal" data-target="#exampleModal">Hoàn thành</button>
 										</div>
-
 									</div>
 								</div>
 
@@ -204,6 +202,38 @@
 
 	</div>
 
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-center" id="exampleModalLabel">Xác thực đặt hàng</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form method="POST" class="row" id="fileUploadForm">
+						<div class="col-3">
+							<label class="style-label">Ảnh</label>
+						</div>
+						<div class="col-9">
+							<div class="form-group">
+								<input type="file" class="form-control" name="image"
+									aria-describedby="helpId" placeholder="Ảnh" /> <span
+									class="image-name" style="display: none;"></span>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="pay-confirm">Xác thực</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- footer -->
 	<div th:replace="fragments/footer :: footer"></div>

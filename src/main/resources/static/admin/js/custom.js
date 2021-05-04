@@ -157,7 +157,7 @@ $(document).ready(function() {
 					index = index + 1;
 					html += "<tr>";
 					html += "<td class='text-center product-index'>"+index+"</td>";
-					html += "<td><img src='/mySuFood"+value.image+"' style='width: 100px; height: 100px;'></td>";
+					html += "<td><img src='/mySuFood"+value.image+"' style='width: 100%; height: 100px;'></td>";
 					html += "<td>"+value.name+"</td>";
 					html += "<td>"+value.priceStr+"</td>";	
 					html += "<td>";	
@@ -367,7 +367,6 @@ $(document).ready(function() {
 	});
 
 	$(document).on("click", ".input-group-append button", function() {
-		var page;
 		var url = window.location.href;
 		var keyword = $(this).parent().parent().find("input").val();
 		if (keyword != "") {
@@ -391,7 +390,7 @@ $(document).ready(function() {
 						index = index + 1;
 						html += "<tr>";
 						html += "<td class='text-center product-index'>"+index+"</td>";
-						html += "<td><img src='/mySuFood"+value.image+"' style='width: 100px; height: 100px;'></td>";
+						html += "<td><img src='/mySuFood"+value.image+"' style='width: 100%; height: 100px;'></td>";
 						html += "<td>"+value.name+"</td>";
 						html += "<td>"+value.priceStr+"</td>";	
 						html += "<td>";	
@@ -430,9 +429,7 @@ $(document).ready(function() {
 					$("ul.pagination").append(html);
 				});
 			} else if (url.search("user") > 0) {
-				page = 2;
 			} else {
-				page = 3;
 			}
 		}
 	});
@@ -443,6 +440,7 @@ $(document).ready(function() {
 		var page = $(this).attr("data");
 		var url = window.location.href;
 		var keyword = $(".navbar-search").find("input").val();
+		
 		if (url.search("product") > 0) {
 			$.ajax({
 				url: 'http://localhost:9090/mySuFood/admin/product/list-ajax',
@@ -463,7 +461,7 @@ $(document).ready(function() {
 					index = index + 1;
 					html += "<tr>";
 					html += "<td class='text-center product-index'>"+index+"</td>";
-					html += "<td><img src='/mySuFood"+value.image+"' style='width: 100px; height: 100px;'></td>";
+					html += "<td><img src='/mySuFood"+value.image+"' style='width: 100%; height: 100px;'></td>";
 					html += "<td>"+value.name+"</td>";
 					html += "<td>"+value.priceStr+"</td>";	
 					html += "<td>";	
@@ -489,9 +487,9 @@ $(document).ready(function() {
 				$(".product-list").append(html);
 			});
 		} else if (url.search("user") > 0) {
-			page = 2;
+		
 		} else {
-			page = 3;
+		
 		}
 	});
 });

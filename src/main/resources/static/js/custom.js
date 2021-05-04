@@ -79,6 +79,20 @@ $(document).ready(function() {
 		window.location.href = "http://localhost:9090/mySuFood/pay/type";
 	});
 
+	$(document).on("change", "input[name=payment_method]", function() {
+		var key = $(this).val();
+		if (key != 2) {
+			$("button.but_step2").attr("data-toggle", "modal");
+			$("button.but_step2").attr("data-target", "#exampleModal");
+			$("button.but_step2").attr("id", "");
+		} else {
+			$("button.but_step2").removeAttr("data-toggle");
+			$("button.but_step2").removeAttr("data-target");
+			$("button.but_step2").attr("id", "but_step2");
+		}
+	});
+
+
 	$(document).on("click", "#but_step2", function() {
 		var type = $("input[name=payment_method]:checked").val();
 		var user = JSON.parse(localStorage.getItem("user"));
@@ -89,20 +103,19 @@ $(document).ready(function() {
 				type: 'GET',
 				contentType: 'application/json',
 				data: {
-//					amount: amount.replace(".","").replace(" ₫","")
-					amount: 10000,
-					email : user.email,
-					name : user.name,
-					phone : user.phone,
-					ward : user.ward,
-					address : user.address,
-					payType : type
+					amount: amount.replace(".", "").replace(" ₫", ""),
+					email: user.email,
+					name: user.name,
+					phone: user.phone,
+					ward: user.ward,
+					address: user.address,
+					payType: type
 				}
 			}).done(function(value) {
 				window.location.href = value;
 			});
 		} else {
-			$.ajax({
+			/*$.ajax({
 				url: 'http://localhost:9090/mySuFood/pay/success',
 				type: 'GET',
 				contentType: 'application/json',
@@ -119,7 +132,20 @@ $(document).ready(function() {
 					localStorage.removeItem("user");
 					window.location.href = "http://localhost:9090/mySuFood/pay/pay-success";
 				}
-			});
+			});*/
 		}
+	});
+
+
+	$(document).on("click", ".but_step2", function() {
+		var user = JSON.parse(localStorage.getItem("user"));
+		$.ajax({
+			url: 'http://localhost:9090/mySuFood/pay/confirm',
+			type: 'GET',
+			contentType: 'application/json',
+			data: {
+				email: user.email
+			}
+		});
 	});
 });
