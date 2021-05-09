@@ -70,8 +70,8 @@
 					        </tr>
 
 						</thead>
-						<tbody>
-							<tr th:each="order, index: ${orders}">
+						<tbody class="order-list">
+							<tr th:each="order, index: ${orders.orders}">
 								<td th:text="${index.count}" class="text-center order-index"></td>
 								<td th:text="${order.fullname}"></td>
 								<td th:text="${order.email}"></td>
@@ -94,6 +94,12 @@
 							</tr>
 						</tbody>
 					</table>
+					<ul class="pagination justify-content-end" style="margin:20px 0">
+						<li th:each="page: ${orders.pagination.getTotalPage}" 
+						th:data="${page}" th:class="'page-item '+${page == orders.pagination.page ? 'active' : ''}">
+							<a class="page-link" href="javascript:void(0)" th:text="${page}"></a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>

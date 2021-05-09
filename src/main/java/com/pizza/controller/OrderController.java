@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pizza.model.output.OrderListOutput;
 import com.pizza.service.OrderService;
 
 @Controller
@@ -20,6 +21,13 @@ public class OrderController {
 	@GetMapping("list")
 	public String getListOrder(Model model) {
 		return orderService.getListOrder(model);
+	}
+
+	@GetMapping("list-ajax")
+	@ResponseBody
+	public OrderListOutput orderListAjax(@RequestParam(required = false) Integer page,
+			@RequestParam(required = false) String keyword) {
+		return orderService.orderListAjax(page, keyword);
 	}
 
 	@GetMapping("delete")

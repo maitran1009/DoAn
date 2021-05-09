@@ -12,6 +12,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import com.pizza.common.PageConstant;
+import com.pizza.dao.ProductDao;
 import com.pizza.model.entity.OrderDetail;
 import com.pizza.model.entity.Product;
 import com.pizza.model.entity.ProductDetail;
@@ -20,7 +21,6 @@ import com.pizza.model.input.ProductInput;
 import com.pizza.model.output.ProductListOutput;
 import com.pizza.model.output.ProductOutput;
 import com.pizza.repository.OrderDetailRepository;
-import com.pizza.repository.ProductDao;
 import com.pizza.repository.ProductDetailRepository;
 import com.pizza.repository.ProductRepository;
 import com.pizza.repository.SizeRepository;

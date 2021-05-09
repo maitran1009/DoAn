@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.pizza.common.PageConstant;
+import com.pizza.dao.OrderDao;
 import com.pizza.model.entity.Order;
+import com.pizza.model.output.OrderListOutput;
 import com.pizza.repository.OrderDetailRepository;
 import com.pizza.repository.OrderRepository;
 
@@ -19,10 +21,17 @@ public class OrderService {
 
 	@Autowired
 	private SendMailService sendMailService;
+	
+	@Autowired
+	private OrderDao orderDao;
 
 	public String getListOrder(Model model) {
-		model.addAttribute("orders", orderRepository.findAll());
+		model.addAttribute("orders", orderDao.getListOrder(1, ""));
 		return PageConstant.PAGE_ORDER_LIST;
+	}
+	
+	public OrderListOutput orderListAjax(int page, String keyword) {
+		return orderDao.getListOrder(page, keyword);
 	}
 
 	public void deleteOrder(int id) {

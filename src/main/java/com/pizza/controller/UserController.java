@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pizza.model.entity.User;
 import com.pizza.model.input.RegisterInput;
+import com.pizza.model.output.UserListOutput;
 import com.pizza.service.UserService;
 
 @Controller
@@ -23,6 +24,13 @@ public class UserController {
 	@GetMapping("list")
 	public String getUserList(Model model) {
 		return userService.getUserList(model);
+	}
+	
+	@GetMapping("list-ajax")
+	@ResponseBody
+	public UserListOutput userListAjax(@RequestParam(required = false) Integer page,
+			@RequestParam(required = false) String keyword) {
+		return userService.userListAjax(page, keyword);
 	}
 
 	@GetMapping(path = "create")

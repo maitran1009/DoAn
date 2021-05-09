@@ -1,6 +1,8 @@
 package com.pizza.common;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -43,5 +45,10 @@ public class Utils {
 			salt.append(strNumber.charAt(rnd.nextInt(10)));
 		}
 		return salt.toString();
+	}
+	
+	public static String convertDateToString(String format, Date date) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+		return dateFormat.format(date);
 	}
 }

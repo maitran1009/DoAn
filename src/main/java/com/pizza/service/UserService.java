@@ -18,9 +18,11 @@ import com.pizza.common.ConvertEntity;
 import com.pizza.common.MessageConstant;
 import com.pizza.common.PageConstant;
 import com.pizza.common.Validate;
+import com.pizza.dao.UserDao;
 import com.pizza.model.entity.Province;
 import com.pizza.model.entity.User;
 import com.pizza.model.input.RegisterInput;
+import com.pizza.model.output.UserListOutput;
 import com.pizza.repository.ProvinceRepository;
 import com.pizza.repository.RoleRepository;
 import com.pizza.repository.UserRepository;
@@ -36,6 +38,9 @@ public class UserService {
 
 	@Autowired
 	private RoleRepository roleRepository;
+
+	@Autowired
+	private UserDao userDao;
 
 	public String pageLogin(Model model, HttpSession session, HttpServletRequest request) {
 		session.removeAttribute("user");
@@ -113,7 +118,7 @@ public class UserService {
 	}
 
 	public String getUserList(Model model) {
-		model.addAttribute("users", userRepository.findAll());
+		model.addAttribute("users", userDao.getListUser(1, ""));
 		model.addAttribute("cities", provinceRepository.findDistinctCity());
 		return PageConstant.PAGE_USER_LIST;
 	}
@@ -170,9 +175,13 @@ public class UserService {
 	public User getUserInfo(int id) {
 		return userRepository.findById(id).get();
 	}
-	
+
 	public void deleteUser(int id) {
 		User user = userRepository.findById(id).get();
 		userRepository.delete(user);
+	}
+
+	public UserListOutput userListAjax(int page, String keyword) {
+		return userDao.getListUser(page, keyword);
 	}
 }

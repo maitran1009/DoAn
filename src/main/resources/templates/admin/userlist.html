@@ -68,8 +68,8 @@
 								</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr th:each="user, index: ${users}">
+						<tbody class="user-list">
+							<tr th:each="user, index: ${users.users}">
 								<td th:text="${index.count}" class="text-center user-index"></td>
 								<td th:text="${user.fullname}"></td>
 								<td th:text="${user.userName}"></td>
@@ -87,6 +87,12 @@
 							</tr>
 						</tbody>
 					</table>
+					<ul class="pagination justify-content-end" style="margin:20px 0">
+						<li th:each="page: ${users.pagination.getTotalPage}" 
+						th:data="${page}" th:class="'page-item '+${page == users.pagination.page ? 'active' : ''}">
+							<a class="page-link" href="javascript:void(0)" th:text="${page}"></a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>

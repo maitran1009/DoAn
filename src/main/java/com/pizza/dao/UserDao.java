@@ -1,7 +1,4 @@
-package com.pizza.repository;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.pizza.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -10,27 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.pizza.common.ConvertEntity;
-import com.pizza.model.entity.Product;
+import com.pizza.model.entity.User;
 import com.pizza.model.output.Pagination;
-import com.pizza.model.output.ProductListOutput;
-import com.pizza.model.output.ProductOutput;
+import com.pizza.model.output.UserListOutput;
 
 @Repository
-public class ProductDao {
+public class UserDao {
 	@Autowired
 	private EntityManager entityManager;
 
-	@Autowired
-	private ProductDetailRepository productDetailRepository;
-
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	public ProductListOutput getListProduct(int page, String keyword) {
-		ProductListOutput products = new ProductListOutput();
-		List<ProductOutput> productOutputs = new ArrayList<>();
-		List<ProductOutput> outputs = new ArrayList<>();
+	public UserListOutput getListUser(int page, String keyword) {
+		UserListOutput response = new UserListOutput();
 		Pagination pagination = new Pagination();
-
 		pagination.setPage(page);
 
 		// get string sql
@@ -49,17 +38,10 @@ public class ProductDao {
 
 		pagination.setTotal((long) queryTotal.getSingleResult());
 
-		productOutputs = query.getResultList();
-		for (ProductOutput productOutput : productOutputs) {
-			productOutput.setProductDetail(ConvertEntity
-					.convertToProductDetailList(productDetailRepository.findByProduct(productOutput.getId())));
-			outputs.add(productOutput);
-		}
+		response.setPagination(pagination);
+		response.setUsers(query.getResultList());
 
-		products.setProducts(outputs);
-		products.setPagination(pagination);
-
-		return products;
+		return response;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -67,24 +49,23 @@ public class ProductDao {
 		StringBuilder sql = new StringBuilder();
 
 		if (flag) {
-			sql.append("Select new ");
-			sql.append(ProductOutput.class.getName());
-			sql.append(" (p.id, p.name, p.image, p.price, p.description) ");
+			sql.append("Select u ");
 		} else {
 			sql.append("Select count(*) ");
 		}
 
 		sql.append(" From ");
-		sql.append(Product.class.getName());// get tên class
-		sql.append(" p ");
+		sql.append(User.class.getName());// get tên class
+		sql.append(" u ");
 
 		if (!StringUtils.isEmpty(keyword)) {
 			sql.append(" Where ");
-			sql.append(" p.name like :keyword ");
+			sql.append(" u.fullname like :keyword ");
+			sql.append(" OR u.userName like :keyword ");
 		}
 
 		if (flag) {
-			sql.append(" Order by p.id Desc ");
+			sql.append(" Order by u.id Desc ");
 		}
 
 		return sql.toString();

@@ -343,16 +343,10 @@ $(document).ready(function() {
 
 	//Button delete
 	$('body').on('click', '.user-delete', function() {
-		var index = $(this).attr("data-index");
 		var idx;
-		$(".user-index").each(function(i) {
-			idx = i + 1;
-			if (i >= index) {
-				idx--;
-			}
-			$(this).text(idx);
-		});
-
+		var index = $(this).attr("data-index");
+		var page = $("li.page-item.active").find("a").text();
+		var keyword = $(".navbar-search").find("input").val();
 		var id = $(this).attr("data");
 		$.ajax({
 			url: 'http://localhost:9090/mySuFood/admin/user/delete',
@@ -362,7 +356,56 @@ $(document).ready(function() {
 				id: id
 			}
 		}).done(function() {
-			
+			$.ajax({
+				url: 'http://localhost:9090/mySuFood/admin/user/list-ajax',
+				type: 'GET',
+				contentType: 'application/json',
+				data: {
+					keyword: keyword,
+					page: page
+				}
+			}).done(function(list) {
+				var html = "";
+				var index = 0;
+				$.each(list.users, function(key, value) {
+					index = index + 1;
+					html += "<tr>";
+					html += "<td class='text-center user-index'>"+index+"</td>";
+					html += "<td>"+value.fullname+"</td>";
+					html += "<td>"+value.userName+"</td>";
+					html += "<td>"+value.phone+"</td>";	
+					html += "<td>"+value.createDate+"</td>";
+					html += "<td>"+value.role.name+"</td>";
+					html += "<td>"+value.address+"</td>";
+					html += "<td>";
+					html += "<a class='user-edit' data='"+value.id+"' title='Edit' style='color: orange;' data-toggle='modal' data-target='#exampleModal'><i class='fas fa-pen'></i></a>";
+					html += "<a class='delete user-delete' title='Delete' data='"+value.id+"' data-index='"+index+"'><i class='fas fa-trash'></i></a>";	 
+					html += "</td></tr>";
+				});
+				$(".user-list").empty();
+				$(".user-list").append(html);
+				
+				html = "";
+				$.each(list.pagination.totalPage, function(key, value) {
+					html += "<li data='"+value+"' class='page-item";
+					if(value == list.pagination.page){
+						html += " active";
+					}
+					html += "'>";
+					html += "<a class='page-link' href='javascript:void(0)'>"+value+"</a>";
+					html += "</li>";
+				});
+				$("ul.pagination").empty();
+				$("ul.pagination").append(html);
+			});
+		});
+		
+		$(".user-index").each(function(i) {
+			idx = i + 1;
+			if (i >= index) {
+				idx--;
+			}
+			$(this).text(idx);
 		});
 	});
 
@@ -429,6 +472,48 @@ $(document).ready(function() {
 					$("ul.pagination").append(html);
 				});
 			} else if (url.search("user") > 0) {
+				$.ajax({
+					url: 'http://localhost:9090/mySuFood/admin/user/list-ajax',
+					type: 'GET',
+					contentType: 'application/json',
+					data: {
+						keyword: keyword,
+						page: 1
+					}
+				}).done(function(list) {
+					var html = "";
+					var index = 0;
+					$.each(list.users, function(key, value) {
+						index = index + 1;
+						html += "<tr>";
+						html += "<td class='text-center user-index'>"+index+"</td>";
+						html += "<td>"+value.fullname+"</td>";
+						html += "<td>"+value.userName+"</td>";
+						html += "<td>"+value.phone+"</td>";	
+						html += "<td>"+value.createDate+"</td>";
+						html += "<td>"+value.role.name+"</td>";
+						html += "<td>"+value.address+"</td>";
+						html += "<td>";
+						html += "<a class='user-edit' data='"+value.id+"' title='Edit' style='color: orange;' data-toggle='modal' data-target='#exampleModal'><i class='fas fa-pen'></i></a>";
+						html += "<a class='delete user-delete' title='Delete' data='"+value.id+"' data-index='"+index+"'><i class='fas fa-trash'></i></a>";	 
+						html += "</td></tr>";
+					});
+					$(".user-list").empty();
+					$(".user-list").append(html);
+					
+					html = "";
+					$.each(list.pagination.totalPage, function(key, value) {
+						html += "<li data='"+value+"' class='page-item";
+						if(value == list.pagination.page){
+							html += " active";
+						}
+						html += "'>";
+						html += "<a class='page-link' href='javascript:void(0)'>"+value+"</a>";
+						html += "</li>";
+					});
+					$("ul.pagination").empty();
+					$("ul.pagination").append(html);
+				});
 			} else {
 			}
 		}
@@ -487,9 +572,71 @@ $(document).ready(function() {
 				$(".product-list").append(html);
 			});
 		} else if (url.search("user") > 0) {
-		
+			$.ajax({
+				url: 'http://localhost:9090/mySuFood/admin/user/list-ajax',
+				type: 'GET',
+				contentType: 'application/json',
+				data: {
+					keyword: keyword,
+					page: page
+				}
+			}).done(function(value) {
+				console.log(value);
+				
+				var html = "";
+				var index = 0;
+				$.each(value.users, function(key, value) {
+					index = index + 1;
+					html += "<tr>";
+					html += "<td class='text-center user-index'>"+index+"</td>";
+					html += "<td>"+value.fullname+"</td>";
+					html += "<td>"+value.userName+"</td>";
+					html += "<td>"+value.phone+"</td>";	
+					html += "<td>"+value.createDate+"</td>";
+					html += "<td>"+value.role.name+"</td>";
+					html += "<td>"+value.address+"</td>";
+					html += "<td>";
+					html += "<a class='user-edit' data='"+value.id+"' title='Edit' style='color: orange;' data-toggle='modal' data-target='#exampleModal'><i class='fas fa-pen'></i></a>";
+					html += "<a class='delete user-delete' title='Delete' data='"+value.id+"' data-index='"+index+"'><i class='fas fa-trash'></i></a>";	 
+					html += "</td></tr>";
+				});
+				$(".user-list").empty();
+				$(".user-list").append(html);
+			});
 		} else {
-		
+			$.ajax({
+				url: 'http://localhost:9090/mySuFood/admin/order/list-ajax',
+				type: 'GET',
+				contentType: 'application/json',
+				data: {
+					keyword: keyword,
+					page: page
+				}
+			}).done(function(value) {
+				console.log(value);
+				
+				var html = "";
+				var index = 0;
+				$.each(value.orders, function(key, value) {
+					console.log(value);
+					var html1 ="";
+					var html2 ="";
+					var html3 ="";
+					index = index + 1;
+					html += "<tr>";
+					html += "<td class='text-center order-index'>"+index+"</td>";
+					html += "<td>"+value.fullname+"</td>";
+					html += "<td>"+value.email+"</td>";
+					html += "<td>"+value.phone+"</td>";	
+					html += "<td>"+value.address+"</td>";
+					
+					html += "<td>";
+					html += "<a class='delete order-delete' title='Delete' data='"+value.id+"' data-index='"+index+"'><i class='fas fa-trash'></i></a>";	 
+					html += "</td></tr>";
+				});
+				$(".order-list").empty();
+				$(".order-list").append(html);
+			});
 		}
 	});
 });
