@@ -98,6 +98,8 @@ public class UserService {
 					user.setStatus(Constant.STATUS_ENABLE);
 					user.setCreateDate(new Date());
 					user.setPassword(BCrypt.hashpw(userInput.getPassword(), BCrypt.gensalt(12)));
+					user.setAddress(userInput.getAddress());
+					user.setRole(roleRepository.findById(2).get());
 
 					// step 3: save
 					userRepository.save(user);

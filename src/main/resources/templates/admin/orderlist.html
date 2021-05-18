@@ -78,10 +78,10 @@
 								<td th:text="${order.phone}"></td>
 								<td th:text="${order.address}"></td>
 								<td>
-									<p th:each="detail : ${order.orderDetails}" th:text="${detail.productDetail.product.name}" class="style-detail text-left"></p>
+									<p th:each="detail : ${order.orderDetails}" th:text="${detail.productName}" class="style-detail text-left"></p>
 								</td>
 								<td>
-									<p th:each="detail : ${order.orderDetails}" th:text="${detail.productDetail.size.name}" class="style-detail"></p>
+									<p th:each="detail : ${order.orderDetails}" th:text="${detail.sizeName}" class="style-detail"></p>
 								</td>
 								<td>
 									<p th:each="detail : ${order.orderDetails}" th:text="${detail.quantity}" class="style-detail"></p>

@@ -515,6 +515,70 @@ $(document).ready(function() {
 					$("ul.pagination").append(html);
 				});
 			} else {
+				$.ajax({
+					url: 'http://localhost:9090/mySuFood/admin/order/list-ajax',
+					type: 'GET',
+					contentType: 'application/json',
+					data: {
+						keyword: keyword,
+						page: 1
+					}
+				}).done(function(list) {
+					var html = "";
+					var index = 0;
+					$.each(list.orders, function(key, value) {
+						var html1 ="";
+						var html2 ="";
+						var html3 ="";
+						index = index + 1;
+						html += "<tr>";
+						html += "<td class='text-center order-index'>"+index+"</td>";
+						html += "<td>"+value.fullname+"</td>";
+						html += "<td>"+value.email+"</td>";
+						html += "<td>"+value.phone+"</td>";	
+						html += "<td>"+value.address+"</td>";
+						
+						html += "<td>";	
+						$.each(value.orderDetails, function(key, value1) {
+							html1 +=  "<p class='style-detail'>"+value1.productName+"</p>";
+						});
+						html += html1;	
+						html += "</td>";
+						
+						html += "<td>";	
+						$.each(value.orderDetails, function(key, value1) {
+							html2 +=  "<p class='style-detail'>"+value1.sizeName+"</p>";
+						});
+						html += html2;	
+						html += "</td>";
+						
+						html += "<td>";	
+						$.each(value.orderDetails, function(key, value1) {
+							html3 +=  "<p class='style-detail'>"+value1.quantity+"</p>";
+						});
+						html += html3;	
+						html += "</td>";
+						
+						html += "<td>";
+						html += "<a class='delete order-delete' title='Delete' data='"+value.id+"' data-index='"+index+"'><i class='fas fa-trash'></i></a>";	 
+						html += "</td></tr>";
+					});
+					$(".order-list").empty();
+					$(".order-list").append(html);
+					
+					html = "";
+					$.each(list.pagination.totalPage, function(key, value) {
+						html += "<li data='"+value+"' class='page-item";
+						if(value == list.pagination.page){
+							html += " active";
+						}
+						html += "'>";
+						html += "<a class='page-link' href='javascript:void(0)'>"+value+"</a>";
+						html += "</li>";
+					});
+					$("ul.pagination").empty();
+					$("ul.pagination").append(html);
+				});
 			}
 		}
 	});
@@ -613,8 +677,6 @@ $(document).ready(function() {
 					page: page
 				}
 			}).done(function(value) {
-				console.log(value);
-				
 				var html = "";
 				var index = 0;
 				$.each(value.orders, function(key, value) {
@@ -629,6 +691,27 @@ $(document).ready(function() {
 					html += "<td>"+value.email+"</td>";
 					html += "<td>"+value.phone+"</td>";	
 					html += "<td>"+value.address+"</td>";
+					
+					html += "<td>";	
+					$.each(value.orderDetails, function(key, value1) {
+						html1 +=  "<p class='style-detail'>"+value1.productName+"</p>";
+					});
+					html += html1;	
+					html += "</td>";
+					
+					html += "<td>";	
+					$.each(value.orderDetails, function(key, value1) {
+						html2 +=  "<p class='style-detail'>"+value1.sizeName+"</p>";
+					});
+					html += html2;	
+					html += "</td>";
+					
+					html += "<td>";	
+					$.each(value.orderDetails, function(key, value1) {
+						html3 +=  "<p class='style-detail'>"+value1.quantity+"</p>";
+					});
+					html += html3;	
+					html += "</td>";
 					
 					html += "<td>";
 					html += "<a class='delete order-delete' title='Delete' data='"+value.id+"' data-index='"+index+"'><i class='fas fa-trash'></i></a>";	 

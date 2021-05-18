@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.pizza.common.Utils;
-import com.pizza.model.entity.OrderDetail;
 
 public class OrderOutput {
 	private Integer id;
@@ -15,7 +14,7 @@ public class OrderOutput {
 	private Integer status;
 	private Integer amount;
 	private String createDate;
-	private List<OrderDetail> orderDetails;
+	private List<OrderDetailOutput> orderDetails;
 
 	public OrderOutput() {
 		super();
@@ -97,11 +96,11 @@ public class OrderOutput {
 		this.createDate = createDate;
 	}
 
-	public List<OrderDetail> getOrderDetails() {
+	public List<OrderDetailOutput> getOrderDetails() {
 		return orderDetails;
 	}
 
-	public void setOrderDetails(List<OrderDetail> orderDetails) {
+	public void setOrderDetails(List<OrderDetailOutput> orderDetails) {
 		this.orderDetails = orderDetails;
 	}
 }

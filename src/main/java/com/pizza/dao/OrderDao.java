@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.pizza.common.ConvertEntity;
 import com.pizza.model.entity.Order;
+import com.pizza.model.entity.OrderDetail;
 import com.pizza.model.output.OrderListOutput;
 import com.pizza.model.output.OrderOutput;
 import com.pizza.model.output.Pagination;
@@ -29,6 +31,7 @@ public class OrderDao {
 		OrderListOutput response = new OrderListOutput();
 		List<OrderOutput> orderOutputs = new ArrayList<>();
 		List<OrderOutput> outputs = new ArrayList<>();
+		List<OrderDetail> orderDetails;
 		Pagination pagination = new Pagination();
 		pagination.setPage(page);
 
@@ -49,7 +52,9 @@ public class OrderDao {
 
 		orderOutputs = query.getResultList();
 		for (OrderOutput orderOutput : orderOutputs) {
-			orderOutput.setOrderDetails(orderDetailRepository.findByOrder(orderOutput.getId()));
+			orderDetails = new ArrayList<>();
+			orderDetails = orderDetailRepository.findByOrder(orderOutput.getId());
+			orderOutput.setOrderDetails(ConvertEntity.convertToOrderDetailOutputList(orderDetails));
 			outputs.add(orderOutput);
 		}
 

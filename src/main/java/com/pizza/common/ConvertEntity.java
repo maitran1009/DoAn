@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.springframework.util.ObjectUtils;
 
+import com.pizza.model.entity.OrderDetail;
 import com.pizza.model.entity.ProductDetail;
 import com.pizza.model.entity.User;
 import com.pizza.model.input.RegisterInput;
+import com.pizza.model.output.OrderDetailOutput;
 import com.pizza.model.output.ProductDetailOutput;
 
 public class ConvertEntity {
@@ -34,9 +36,9 @@ public class ConvertEntity {
 		output.setSize(detail.getSize().getId());
 		output.setSizeName(detail.getSize().getName());
 		output.setStatus(detail.getStatus());
-		if(detail.getStatus() == 1) {
+		if (detail.getStatus() == 1) {
 			output.setStatusName("Còn hàng");
-		}else {
+		} else {
 			output.setStatusName("Hết hàng");
 		}
 		return output;
@@ -48,5 +50,23 @@ public class ConvertEntity {
 			detailOutputs.add(convertToProductDetail(detail));
 		}
 		return detailOutputs;
+	}
+
+	public static OrderDetailOutput convertToOrderDetailOutput(OrderDetail orderDetail) {
+		OrderDetailOutput output = new OrderDetailOutput();
+		if (!ObjectUtils.isEmpty(orderDetail)) {
+			output.setProductName(orderDetail.getProductDetail().getProduct().getName());
+			output.setSizeName(orderDetail.getProductDetail().getSize().getName());
+			output.setQuantity(orderDetail.getQuantity());
+		}
+		return output;
+	}
+
+	public static List<OrderDetailOutput> convertToOrderDetailOutputList(List<OrderDetail> orderDetails) {
+		List<OrderDetailOutput> outputs = new ArrayList<>();
+		for (OrderDetail detail : orderDetails) {
+			outputs.add(convertToOrderDetailOutput(detail));
+		}
+		return outputs;
 	}
 }
