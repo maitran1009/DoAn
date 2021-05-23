@@ -10,6 +10,7 @@ public class RegisterInput {
 	private String rePassword;
 	private int ward;
 	private int role;
+	private boolean userRegist;
 
 	public String getEmail() {
 		return email;
@@ -81,5 +82,13 @@ public class RegisterInput {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public boolean isUserRegist() {
+		return userRegist;
+	}
+
+	public void setUserRegist(boolean userRegist) {
+		this.userRegist = userRegist;
 	}
 }

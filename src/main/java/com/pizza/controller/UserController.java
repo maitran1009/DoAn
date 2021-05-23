@@ -3,11 +3,7 @@ package com.pizza.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.pizza.model.entity.User;
 import com.pizza.model.input.RegisterInput;
@@ -33,9 +29,9 @@ public class UserController {
 		return userService.userListAjax(page, keyword);
 	}
 
-	@GetMapping(path = "create")
+	@PostMapping(path = "create")
 	@ResponseBody
-	public String createUser(RegisterInput user) {
+	public String createUser(@RequestBody RegisterInput user) {
 		return userService.register(user);
 	}
 

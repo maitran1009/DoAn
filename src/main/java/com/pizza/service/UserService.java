@@ -1,23 +1,6 @@
 package com.pizza.service;
 
-import java.util.Date;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
-
-import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.util.ObjectUtils;
-
-import com.pizza.common.Constant;
-import com.pizza.common.ConvertEntity;
-import com.pizza.common.MessageConstant;
-import com.pizza.common.PageConstant;
-import com.pizza.common.Validate;
+import com.pizza.common.*;
 import com.pizza.dao.UserDao;
 import com.pizza.model.entity.Province;
 import com.pizza.model.entity.User;
@@ -26,164 +9,111 @@ import com.pizza.model.output.UserListOutput;
 import com.pizza.repository.ProvinceRepository;
 import com.pizza.repository.RoleRepository;
 import com.pizza.repository.UserRepository;
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
+
+import javax.transaction.Transactional;
+import java.util.Date;
 
 @Service
 public class UserService {
-	private static final String REDIRECT_DANG_NHAP = "redirect:/dang-nhap";
-	@Autowired
-	private UserRepository userRepository;
+    public static final String ERROR = "error";
+    public static final String ATTRIBUTE_CITIES = "cities";
 
-	@Autowired
-	private ProvinceRepository provinceRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Autowired
-	private RoleRepository roleRepository;
+    @Autowired
+    private ProvinceRepository provinceRepository;
 
-	@Autowired
-	private UserDao userDao;
+    @Autowired
+    private RoleRepository roleRepository;
 
-	public String pageLogin(Model model, HttpSession session, HttpServletRequest request) {
-		session.removeAttribute("user");
-		model.addAttribute("error", null);
-		// Sử dụng cookie để lưu thông tin đăng nhập
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("email")) {
-					model.addAttribute("email", cookie.getValue());
-				}
-				if (cookie.getName().equals("password")) {
-					model.addAttribute("password", cookie.getValue());
-				}
-				if (cookie.getName().equals("remember")) {
-					model.addAttribute("remember", cookie.getValue());
-				}
-			}
-		}
-		return PageConstant.PAGE_LOGIN;
-	}
+    @Autowired
+    private SendMailService sendMailService;
 
-	public String pageRegister(Model model, HttpSession session, HttpServletRequest request) {
-		session.removeAttribute("user");
-		model.addAttribute("error", null);
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("email")) {
-					model.addAttribute("email", cookie.getValue());
-				}
-				if (cookie.getName().equals("password")) {
-					model.addAttribute("password", cookie.getValue());
-				}
-				if (cookie.getName().equals("remember")) {
-					model.addAttribute("remember", cookie.getValue());
-				}
-			}
-		}
-		return PageConstant.PAGE_REGISTER;
-	}
+    @Autowired
+    private UserDao userDao;
 
-	@Transactional(rollbackOn = Exception.class)
-	public String register(Model model, RegisterInput userInput) {
-		String result = PageConstant.PAGE_REGISTER;
-		String error = null;
-		User user = null;
-		try {
-			// step 1: validate
-			if (Validate.checkRegister(userInput, false)) {
-				// step 2: check email exists
-				if (ObjectUtils.isEmpty(userRepository.findByUserName(userInput.getEmail()))) {
-					// convert from register input to user entity
-					user = ConvertEntity.convertToUser(userInput);
-					user.setStatus(Constant.STATUS_ENABLE);
-					user.setCreateDate(new Date());
-					user.setPassword(BCrypt.hashpw(userInput.getPassword(), BCrypt.gensalt(12)));
-					user.setAddress(userInput.getAddress());
-					user.setRole(roleRepository.findById(2).get());
+    public String pageLogin(Model model) {
+        model.addAttribute(ERROR, null);
+        return PageConstant.PAGE_LOGIN;
+    }
 
-					// step 3: save
-					userRepository.save(user);
+    public String pageRegister(Model model) {
+        model.addAttribute(ERROR, null);
+        model.addAttribute(ATTRIBUTE_CITIES, provinceRepository.findDistinctCity());
+        return PageConstant.PAGE_REGISTER;
+    }
 
-					// step 4: redirect page login
-					result = REDIRECT_DANG_NHAP;
-				} else {
-					error = MessageConstant.RIGISTER_ERROR;
-				}
-			} else {
-				error = MessageConstant.RIGISTER_ERROR;
-			}
-		} catch (Exception e) {
-			error = MessageConstant.RIGISTER_ERROR;
-		}
-		model.addAttribute("error", error);
-		return result;
-	}
+    public String getUserList(Model model) {
+        model.addAttribute("users", userDao.getListUser(1, ""));
+        model.addAttribute(ATTRIBUTE_CITIES, provinceRepository.findDistinctCity());
+        return PageConstant.PAGE_USER_LIST;
+    }
 
-	public String getUserList(Model model) {
-		model.addAttribute("users", userDao.getListUser(1, ""));
-		model.addAttribute("cities", provinceRepository.findDistinctCity());
-		return PageConstant.PAGE_USER_LIST;
-	}
+    @Transactional(rollbackOn = Exception.class)
+    public String register(RegisterInput userInput) {
+        String result = "";
+        User user;
+        try {
+            if (userInput.getId() > 0) {
+                // step 2: check email exists
+                if (!ObjectUtils
+                        .isEmpty(userRepository.findByUserNameAndIdNot(userInput.getEmail(), userInput.getId()))) {
+                    return MessageConstant.EMAIL_EXIST;
+                }
 
-	@Transactional(rollbackOn = Exception.class)
-	public String register(RegisterInput userInput) {
-		String result = "ok";
-		User user = null;
-		try {
-			// step 1: validate
-//			if (Validate.checkRegister(userInput, true)) {
+                user = userRepository.findById(userInput.getId()).orElse(new User());
 
-			if (userInput.getId() > 0) {
-				// step 2: check email exists
-				if (!ObjectUtils
-						.isEmpty(userRepository.findByUserNameAndIdNot(userInput.getEmail(), userInput.getId()))) {
-					return "Email đã tồn tại";
-				}
+                // convert from register input to user entity
+                user.setFullname(userInput.getFullname());
+                user.setPhone(userInput.getPhone());
+                user.setUserName(userInput.getEmail());
+                user.setRole(roleRepository.findById(userInput.getRole()).orElse(null));
+                user.setAddress(userInput.getAddress());
+            } else {
+                // step 2: check email exists
+                if (!ObjectUtils.isEmpty(userRepository.findByUserName(userInput.getEmail()))) {
+                    return MessageConstant.EMAIL_EXIST;
+                }
+                // convert from register input to user entity
+                user = ConvertEntity.convertToUser(userInput);
+                user.setRole(roleRepository.findById(userInput.getRole()).orElse(null));
+                user.setPassword(BCrypt.hashpw(userInput.getPassword(), BCrypt.gensalt(12)));
+                user.setCreateDate(new Date());
+                user.setStatus(Constant.STATUS_ENABLE);
+                Province province = provinceRepository.findById(userInput.getWard()).orElse(new Province());
+                user.setAddress(userInput.getAddress() + " " + province.getWardName() + " " + province.getDistrictName()
+                        + " " + province.getCityName());
+            }
 
-				user = userRepository.findById(userInput.getId()).get();
+            // step 3: save
+            userRepository.save(user);
 
-				// convert from register input to user entity
-				user.setFullname(userInput.getFullname());
-				user.setPhone(userInput.getPhone());
-				user.setUserName(userInput.getEmail());
-				user.setRole(roleRepository.findById(userInput.getRole()).get());
-				user.setAddress(userInput.getAddress());
+            // gui mail
+            if (userInput.isUserRegist()) {
+                sendMailService.sendMailRigistSuccess(user.getUserName(), user.getFullname());
+            }
+        } catch (Exception e) {
+            result = MessageConstant.RIGISTER_ERROR;
+        }
+        return result;
+    }
 
-			} else {
-				// step 2: check email exists
-				if (!ObjectUtils.isEmpty(userRepository.findByUserName(userInput.getEmail()))) {
-					return "Email đã tồn tại";
-				}
-				// convert from register input to user entity
-				user = ConvertEntity.convertToUser(userInput);
-				user.setRole(roleRepository.findById(userInput.getRole()).get());
-				user.setPassword(userInput.getPassword());
-				user.setPassword(BCrypt.hashpw(userInput.getPassword(), BCrypt.gensalt(12)));
-				user.setCreateDate(new Date());
-				user.setStatus(Constant.STATUS_ENABLE);
-				Province province = provinceRepository.findById(userInput.getWard()).get();
-				user.setAddress(userInput.getAddress() + " " + province.getWardName() + " " + province.getDistrictName()
-						+ " " + province.getCityName());
-			}
+    public User getUserInfo(int id) {
+        return userRepository.findById(id).orElse(null);
+    }
 
-			// step 3: save
-			userRepository.save(user);
-		} catch (Exception e) {
-			result = MessageConstant.RIGISTER_ERROR;
-		}
-		return result;
-	}
+    public void deleteUser(int id) {
+        User user = userRepository.findById(id).orElse(new User());
+        userRepository.delete(user);
+    }
 
-	public User getUserInfo(int id) {
-		return userRepository.findById(id).get();
-	}
-
-	public void deleteUser(int id) {
-		User user = userRepository.findById(id).get();
-		userRepository.delete(user);
-	}
-
-	public UserListOutput userListAjax(int page, String keyword) {
-		return userDao.getListUser(page, keyword);
-	}
+    public UserListOutput userListAjax(int page, String keyword) {
+        return userDao.getListUser(page, keyword);
+    }
 }
