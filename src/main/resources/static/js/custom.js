@@ -16,7 +16,7 @@ $(document).ready(function () {
         alert("Vui lòng chọn kích thước sản phẩm");
     });
 
-    $('#pay-city').on('change', function () {
+    $('body').on('change', '#pay-city', function () {
         if (this.value > 0) {
             $('#pay-district').attr("data-city", this.value);
             $.ajax({
@@ -36,13 +36,11 @@ $(document).ready(function () {
                 }
             });
         } else {
-            $('#pay-district').attr("data-city", 0);
-            $('#pay-district').html("<option value='-1'>Chọn Quận/Huyện</option>");
+            $('#pay-district').attr("data-city", 0).html("<option value='-1'>Chọn Quận/Huyện</option>");
             $('#pay-ward').html("<option value='-1'>Chọn Phường/Xã</option>");
         }
     });
-
-    $('#pay-district').on('change', function () {
+    $('body').on('change', '#pay-district', function () {
         if (this.value > 0) {
             $.ajax({
                 url: 'http://localhost:9090/mySuFood/province/ward',
