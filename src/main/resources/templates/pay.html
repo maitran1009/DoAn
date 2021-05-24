@@ -1,251 +1,254 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
-<title>Trang chu</title>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Trang chu</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- css -->
-<link
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
-	rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Josefin+Sans"
-	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do"
-	rel="stylesheet">
+    <!-- css -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
+            rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans"
+          rel="stylesheet">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do"
+            rel="stylesheet">
 
-<link rel="stylesheet" th:href="@{/css/open-iconic-bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/css/open-iconic-bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
 
-<link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
-<link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}">
-<link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
 
-<link rel="stylesheet" th:href="@{/css/aos.css}">
+    <link rel="stylesheet" th:href="@{/css/aos.css}">
 
-<link rel="stylesheet" th:href="@{/css/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/ionicons.min.css}">
 
-<link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}">
-<link rel="stylesheet" th:href="@{/css/jquery.timepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/jquery.timepicker.css}">
 
-<link rel="stylesheet" th:href="@{/css/flaticon.css}">
-<link rel="stylesheet" th:href="@{/css/icomoon.css}">
-<link rel="stylesheet" th:href="@{/css/style.css}">
-<link rel="stylesheet" th:href="@{/css/custom.css}">
-<link rel="stylesheet" th:href="@{/fonts/fontawesome/css/all.css}">
-<script th:src="@{/fonts/fontawesome/js/all.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/css/icomoon.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <link rel="stylesheet" th:href="@{/fonts/fontawesome/css/all.css}">
+    <script th:src="@{/fonts/fontawesome/js/all.js}"></script>
 </head>
 
 <body>
-	<!-- header -->
-	<div th:replace="fragments/header :: header"></div>
+<!-- header -->
+<div th:replace="fragments/header :: header"></div>
 
-	<div class="content">
-		<div class="row" style="padding: 30px 0">
-			<div class="container">
-				<div class="progress_new">
-					<div class="pbarcart">
-						<div class="text">Giỏ hàng</div>
-						<div class="bar"></div>
-						<div class="circle ">
-							<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div class="pbarcart">
-						<div class="text">Địa chỉ giao hàng</div>
-						<div class="bar"></div>
-						<div class="circle active">
-							<i class="fa fa-map-marker" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div class="pbarcart">
-						<div class="text">Thanh toán</div>
-						<div class="bar"></div>
-						<div class="circle ">
-							<i class="fa fa-credit-card" aria-hidden="true"></i>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="wrap container">
-			<div class="sidebar">
-				<div class="sidebar-content">
-					<div class="order-summary order-summary-is-collapsed">
-						<div class="order-summary-sections">
-							<div class="order-summary-section">
-								<table class="product-table">
-									<thead>
-										<tr>
-											<th class="text-center" style="width: 1%;">Sản phẩm</th>
-											<th style="width: 30%; padding-left: 15px;">Tên sản phẩm</th>
-											<th class="text-center" style="width: 12%">Số lượng</th>
-											<th class="text-right" style="width: 15%">Thành tiền</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr class="product" th:each="cart : ${session.carts}">
-											<td class="product-image text-center">
-												<div class="product-thumbnail">
-													<div class="product-thumbnail-wrapper">
-														<img class="product-thumbnail-image"
-															th:src="@{${cart.image}}">
-													</div>
-													<span class="product-thumbnail-quantity" aria-hidden="true"
-														th:text="${cart.count}"></span>
-												</div>
-											</td>
-											<td class="product-description"><span
-												class="product-description-name order-summary-emphasis"
-												th:text="${cart.name}"></span><br /> <span
-												class="product-description-variant order-summary-small-text"
-												th:text="${cart.sizeName}"></span></td>
-											<td class="product-quantity text-center">1</td>
-											<td class="product-price text-right"><span
-												class="order-summary-emphasis" th:text="${cart.amount}"></span>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
+<div class="content">
+    <div class="row" style="padding: 30px 0">
+        <div class="container">
+            <div class="progress_new">
+                <div class="pbarcart">
+                    <div class="text">Giỏ hàng</div>
+                    <div class="bar"></div>
+                    <div class="circle ">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="pbarcart">
+                    <div class="text">Địa chỉ giao hàng</div>
+                    <div class="bar"></div>
+                    <div class="circle active">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="pbarcart">
+                    <div class="text">Thanh toán</div>
+                    <div class="bar"></div>
+                    <div class="circle ">
+                        <i class="fa fa-credit-card" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrap container">
+        <div class="sidebar">
+            <div class="sidebar-content">
+                <div class="order-summary order-summary-is-collapsed">
+                    <div class="order-summary-sections">
+                        <div class="order-summary-section">
+                            <table class="product-table">
+                                <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 1%;">Sản phẩm</th>
+                                    <th style="width: 30%; padding-left: 15px;">Tên sản phẩm</th>
+                                    <th class="text-center" style="width: 12%">Số lượng</th>
+                                    <th class="text-right" style="width: 15%">Thành tiền</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="product" th:each="cart : ${session.carts}">
+                                    <td class="product-image text-center">
+                                        <div class="product-thumbnail">
+                                            <div class="product-thumbnail-wrapper">
+                                                <img class="product-thumbnail-image"
+                                                     th:src="@{${cart.image}}">
+                                            </div>
+                                            <span class="product-thumbnail-quantity" aria-hidden="true"
+                                                  th:text="${cart.count}"></span>
+                                        </div>
+                                    </td>
+                                    <td class="product-description"><span
+                                            class="product-description-name order-summary-emphasis"
+                                            th:text="${cart.name}"></span><br/> <span
+                                            class="product-description-variant order-summary-small-text"
+                                            th:text="${cart.sizeName}"></span></td>
+                                    <td class="product-quantity text-center">1</td>
+                                    <td class="product-price text-right"><span
+                                            class="order-summary-emphasis" th:text="${cart.amount}"></span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-							<div
-								class="order-summary-section order-summary-section-total-lines payment-lines"
-								data-order-summary-section="payment-lines">
-								<table class="total-line-table">
-									<tbody>
-										<tr class="total-line total-line-subtotal">
-											<td class="total-line-name">Tạm tính</td>
-											<td class="total-line-price"><span
-												class="order-summary-emphasis" th:text="${totalMoney}"></span>
-											</td>
-										</tr>
+                        <div
+                                class="order-summary-section order-summary-section-total-lines payment-lines"
+                                data-order-summary-section="payment-lines">
+                            <table class="total-line-table">
+                                <tbody>
+                                <tr class="total-line total-line-subtotal">
+                                    <td class="total-line-name">Tạm tính</td>
+                                    <td class="total-line-price"><span
+                                            class="order-summary-emphasis" th:text="${totalMoney}"></span>
+                                    </td>
+                                </tr>
 
-										<tr class="total-line total-line-shipping">
-											<td class="total-line-name">Phí vận chuyển</td>
-											<td class="total-line-price"><span
-												class="order-summary-emphasis"> 15.000 ₫ </span></td>
-										</tr>
+                                <tr class="total-line total-line-shipping">
+                                    <td class="total-line-name">Phí vận chuyển</td>
+                                    <td class="total-line-price"><span
+                                            class="order-summary-emphasis"> 15.000 ₫ </span></td>
+                                </tr>
 
-									</tbody>
-									<tfoot class="total-line-table-footer">
-										<tr class="total-line">
-											<td class="total-line-name payment-due-label"><span
-												class="payment-due-label-total">Tổng cộng</span></td>
-											<td class="total-line-name payment-due" style="float: right;">
-												<span class="payment-due-currency">VND</span> <span
-												class="payment-due-price" th:text="${amount}"></span>
-											</td>
-										</tr>
-									</tfoot>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="main">
-				<div class="main-content">
-					<div class="step">
-						<div class="step-sections " step="1">
-							<div class="section">
-								<div class="section-header">
-									<h5 class="section-title">Vui lòng chọn địa chỉ giao hàng</h5>
-								</div>
+                                </tbody>
+                                <tfoot class="total-line-table-footer">
+                                <tr class="total-line">
+                                    <td class="total-line-name payment-due-label"><span
+                                            class="payment-due-label-total">Tổng cộng</span></td>
+                                    <td class="total-line-name payment-due" style="float: right;">
+                                        <span class="payment-due-currency">VND</span> <span
+                                            class="payment-due-price" th:text="${amount}"></span>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="main-content">
+                <div class="step">
+                    <div class="step-sections " step="1">
+                        <div class="section">
+                            <div class="section-header">
+                                <h5 class="section-title">Vui lòng chọn địa chỉ giao hàng</h5>
+                            </div>
 
-								<div class="pay_hidden_ts_main">
-									<div class="row">
-										<div class="col-md-12 col-sm-12">
-											<p>
-												Họ tên <span class="required">*</span>
-											</p>
-											<input type="text" class="required_form" name="name">
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-6 col-sm-6">
-											<p>
-												Email <span class="required">*</span>
-											</p>
-											<input type="text" class="required_form" name="email">
-										</div>
-										<div class="col-md-6 col-sm-6">
-											<p>
-												Điện thoại <span class="required">*</span>
-											</p>
-											<input type="text" class="required_form" name="phone">
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-6 col-sm-6">
-											<p>
-												Tỉnh/Tp <span class="required">*</span>
-											</p>
-											<select name="city" id="pay-city">
-												<option value="-1" class="required_form">Chọn
-													Tỉnh/Tp</option>
-												<option th:each="city : ${cities}"
-													th:text="${city.cityName}" th:value="${city.cityId}"></option>
-											</select>
-										</div>
-										<div class="col-md-6 col-sm-6">
-											<p>
-												Quận/Huyện <span class="required">*</span>
-											</p>
-											<select name="district" id="pay-district" data-city="0">
-												<option value="-1">Chọn Quận/Huyện</option>
-											</select>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-12 col-sm-12 col-xs-12">
-											<p>
-												Phường/Xã:<span class="required">*</span>
-											</p>
-											<select name="ward" id="pay-ward" data-district="0"
-												style="width: 100%; height: 30px;">
-												<option value="-1">Chọn Phường/Xã</option>
-											</select>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-12 col-sm-12">
-											<p>
-												Địa chỉ <span class="required">*</span>
-											</p>
-											<input type="text"
-												class="check_required required_form col-md-12 col-sm-12 col-xs-12"
-												style="width: 100%; height: 30px;" name="address">
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="step-footer">
-							<a class="step-footer-previous-link" th:href="@{/gio-hang}">
-								<svg class="previous-link-icon icon-chevron icon"
-									xmlns="http://www.w3.org/2000/svg" width="6.7" height="11.3"
-									viewBox="0 0 6.7 11.3">
-									<path
-										d="M6.7 1.1l-1-1.1-4.6 4.6-1.1 1.1 1.1 1 4.6 4.6 1-1-4.6-4.6z"></path>
-								</svg> Giỏ hàng
-							</a>
-							<button id="redirect-pay" type="submit" class="pull-right"
-								name="btn_continue_step2" value="Thanh toán và giao hàng">Thanh
-								toán và giao hàng</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                            <div class="pay_hidden_ts_main">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <p>
+                                            Họ tên <span class="required">*</span>
+                                        </p>
+                                        <input type="text" class="required_form" name="name">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <p>
+                                            Email <span class="required">*</span>
+                                        </p>
+                                        <input type="text" class="required_form" name="email">
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <p>
+                                            Điện thoại <span class="required">*</span>
+                                        </p>
+                                        <input type="text" class="required_form" name="phone">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <p>
+                                            Tỉnh/Tp <span class="required">*</span>
+                                        </p>
+                                        <select name="city" id="pay-city">
+                                            <option value="-1" class="required_form">Chọn
+                                                Tỉnh/Tp
+                                            </option>
+                                            <option th:each="city : ${cities}"
+                                                    th:text="${city.cityName}" th:value="${city.cityId}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <p>
+                                            Quận/Huyện <span class="required">*</span>
+                                        </p>
+                                        <select name="district" id="pay-district" data-city="0">
+                                            <option value="-1">Chọn Quận/Huyện</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <p>
+                                            Phường/Xã:<span class="required">*</span>
+                                        </p>
+                                        <select name="ward" id="pay-ward" data-district="0"
+                                                style="width: 100%; height: 30px;">
+                                            <option value="-1">Chọn Phường/Xã</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <p>
+                                            Địa chỉ <span class="required">*</span>
+                                        </p>
+                                        <input type="text"
+                                               class="check_required required_form col-md-12 col-sm-12 col-xs-12"
+                                               style="width: 100%; height: 30px;" name="address">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-footer">
+                        <a class="step-footer-previous-link" th:href="@{/gio-hang}">
+                            <svg class="previous-link-icon icon-chevron icon"
+                                 xmlns="http://www.w3.org/2000/svg" width="6.7" height="11.3"
+                                 viewBox="0 0 6.7 11.3">
+                                <path
+                                        d="M6.7 1.1l-1-1.1-4.6 4.6-1.1 1.1 1.1 1 4.6 4.6 1-1-4.6-4.6z"></path>
+                            </svg>
+                            Giỏ hàng
+                        </a>
+                        <button id="redirect-pay" type="submit" class="pull-right"
+                                name="btn_continue_step2" value="Thanh toán và giao hàng">Thanh
+                            toán và giao hàng
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-	<!-- footer -->
-	<div th:replace="fragments/footer :: footer"></div>
+<!-- footer -->
+<div th:replace="fragments/footer :: footer"></div>
 
-	<div th:replace="fragments/script :: script"></div>
+<div th:replace="fragments/script :: script"></div>
 </body>
 </html>

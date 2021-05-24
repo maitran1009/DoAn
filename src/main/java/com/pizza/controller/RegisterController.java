@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/dang-ky")
 public class RegisterController {
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@GetMapping
-	public String pageRegister(Model model) {
-		return userService.pageRegister(model);
-	}
+    @GetMapping
+    public String pageRegister(Model model) {
+        return userService.pageRegister(model);
+    }
 
-	@PostMapping
-	@ResponseBody
-	public String register(@RequestBody RegisterInput user) {
-		return userService.register(user);
-	}
+    @PostMapping
+    @ResponseBody
+    public String register(@RequestBody RegisterInput user) {
+        return userService.register(user);
+    }
 }

@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/dang-nhap")
 public class LoginController {
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@GetMapping
-	public String pageLogin(Model model) {
-		return userService.pageLogin(model);
-	}
+    @GetMapping
+    public String pageLogin(Model model) {
+        return userService.pageLogin(model);
+    }
 }

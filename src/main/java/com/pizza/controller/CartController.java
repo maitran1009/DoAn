@@ -15,28 +15,28 @@ import com.pizza.service.CartService;
 @RequestMapping("gio-hang")
 public class CartController {
 
-	@Autowired
-	private CartService cartService;
+    @Autowired
+    private CartService cartService;
 
-	@GetMapping
-	public String pageCart(Model model, HttpSession session) {
-		return cartService.pageCart(model, session);
-	}
+    @GetMapping
+    public String pageCart(Model model, HttpSession session) {
+        return cartService.pageCart(model, session);
+    }
 
-	@GetMapping("add")
-	public String addToCart(Model model, HttpSession session, @RequestParam("id") int id,
-			@RequestParam("detail") int detail) {
-		return cartService.addToCart(model, session, id, detail);
-	}
+    @GetMapping("add")
+    public String addToCart(Model model, HttpSession session, @RequestParam("id") int id,
+                            @RequestParam("detail") int detail) {
+        return cartService.addToCart(model, session, id, detail);
+    }
 
-	@GetMapping("update")
-	public String updateToCart(Model model, HttpSession session, @RequestParam("id") int id,
-			@RequestParam("flag") int flag) {
-		return cartService.updateToCart(model, session, id, flag);
-	}
+    @GetMapping("update")
+    public String updateToCart(Model model, HttpSession session, @RequestParam("id") int id,
+                               @RequestParam("flag") int flag) {
+        return cartService.updateToCart(model, session, id, flag);
+    }
 
-	@GetMapping("delete")
-	public String deleteToCart(Model model, HttpSession session, @RequestParam("id") int id) {
-		return cartService.deleteToCart(model, session, id);
-	}
+    @GetMapping("delete")
+    public String deleteToCart(Model model, HttpSession session, @RequestParam("id") int id) {
+        return cartService.deleteToCart(model, session, id);
+    }
 }

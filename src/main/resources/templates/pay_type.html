@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
 <title>Trang chu</title>
 <meta charset="utf-8">
@@ -91,7 +91,7 @@
 												<div class="product-thumbnail">
 													<div class="product-thumbnail-wrapper">
 														<img class="product-thumbnail-image"
-															th:src="@{${cart.image}}">
+															th:src="@{${cart.image}}" alt="">
 													</div>
 													<span class="product-thumbnail-quantity" aria-hidden="true"
 														th:text="${cart.count}"></span>

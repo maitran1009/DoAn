@@ -2,154 +2,201 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-<title>MySu Food</title>
+    <title>MySu Food</title>
 
-<!-- Custom fonts for this template-->
-<link th:href="@{/admin/vendor/fontawesome-free/css/all.min.css}"
-	rel="stylesheet" type="text/css">
-<link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/admin/vendor/fontawesome-free/css/all.min.css}"
+          rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
 
-<!-- Custom styles for this template-->
-<link th:href="@{/admin/css/sb-admin-2.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link th:href="@{/admin/css/sb-admin-2.min.css}" rel="stylesheet">
 
-<link th:href="@{/admin/css/custom.css}" rel="stylesheet">
-
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link th:href="@{/admin/css/custom.css}" rel="stylesheet">
 </head>
 
 <body id="page-top">
-	<!-- Page Wrapper -->
-	<div id="wrapper">
-		<!-- Sidebar -->
-		<div th:replace="admin/menu :: menu"></div>
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div th:replace="admin/menu :: menu"></div>
 
-		<!-- Content Wrapper -->
-		<div id="content-wrapper" class="d-flex flex-column">
-			<!-- Main Content -->
-			<div id="content">
-				<!-- Topbar -->
-				<div th:replace="admin/search :: search"></div>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Topbar -->
+            <div th:replace="admin/search :: search"></div>
 
-				<div class="table-responsive">
-					<div class="table-title">
-						<div class="row">
-							<div class="col-sm-8">
-								<h2>
-									Danh sách đơn hàng</b>
-								</h2>
-							</div>
+            <div class="table-responsive">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h2>
+                                Danh sách đơn hàng
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered" style="font-size: 12px;">
+                    <thead>
+                    <tr id="list-header">
+                        <th rowspan="2" style="width: 5%;">STT</th>
+                        <th rowspan="2" style="width: 12%;">Tên khách hàng</th>
+                        <th rowspan="2" style="width: 12%;">Email</th>
+                        <th rowspan="2" style="width: 8%;">Số điện thoại</th>
+                        <th rowspan="2" style="width: 20%;">Địa chỉ</th>
+                        <th colspan="3">Chi tiết đơn hàng</th>
+                        <th rowspan="2" style="width: 8%;">Trạng thái</th>
+                        <th rowspan="2" style="width: 6%;"></th>
+                    </tr>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Kích cỡ</th>
+                        <th>Số lượng</th>
+                    </tr>
+                    </thead>
+                    <tbody class="order-list">
+                    <tr th:each="order, index: ${orders.orders}">
+                        <td th:text="${index.count}" class="text-center order-index"></td>
+                        <td th:text="${order.fullname}"></td>
+                        <td th:text="${order.email}"></td>
+                        <td th:text="${order.phone}"></td>
+                        <td th:text="${order.address}"></td>
+                        <td>
+                            <p th:each="detail : ${order.orderDetails}" th:text="${detail.productName}"
+                               class="style-detail text-left"></p>
+                        </td>
+                        <td>
+                            <p th:each="detail : ${order.orderDetails}" th:text="${detail.sizeName}"
+                               class="style-detail"></p>
+                        </td>
+                        <td>
+                            <p th:each="detail : ${order.orderDetails}" th:text="${detail.quantity}"
+                               class="style-detail"></p>
+                        </td>
+                        <td th:text="${order.statusName}"></td>
+                        <td class="text-center">
+                            <a class="dialog-order-edit" title="Edit" th:data="${order.id}" th:data-status="${order.status}"
+                               style="color: orange;" data-toggle="modal" data-target="#exampleModal">
+                                <i class="fas fa-pen" style="font-size: 14px;"></i>
+                            </a>
+                            <a class="dialog-delete" title="Delete" data-toggle="modal" data-target="#myModal"
+                               style="color: red;" th:data="${order.id}" th:data-index="${index.count}">
+                                <i class="fas fa-trash" style="font-size: 14px;"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <ul class="pagination justify-content-end" style="margin:20px 0">
+                    <li th:each="page: ${orders.pagination.getTotalPage}"
+                        th:data="${page}" th:class="'page-item '+${page == orders.pagination.page ? 'active' : ''}">
+                        <a class="page-link" href="javascript:void(0)" th:text="${page}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
-						</div>
-					</div>
-					<table class="table table-bordered" style="font-size: 12px;">
-						<thead>
-							<tr id="list-header">
-								<th rowspan="2" style="width: 5%;">STT</th>
-								<th rowspan="2" style="width: 11%;">Tên khách hàng</th>
-								<th rowspan="2" style="width: 16%;">Email</th>
-								<th rowspan="2" style="width: 8%;">Số điện thoại</th>
-								<th rowspan="2" style="width: 18%;">Địa chỉ</th>
-								<th colspan="3">Chi tiết đơn hàng</th>
-								<th rowspan="2" style="width: 6%;"></th>
-							</tr>
-							<tr>
-					            <th>Sản phẩm</th>
-					            <th>Kích cỡ</th>
-					            <th>Số lượng</th>
-					        </tr>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="exampleModalLabel">MySu Food</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                Cập nhật trạng thái đơn hàng
+            </div>
+            <div class="modal-footer">
+                <div class="box-button">
+                    <button type="button" class="btn btn-success order-edit" data-status="2">Đã nhận hàng</button>
+                    <button type="button" class="btn btn-primary order-edit" data-status="1">Đang giao hàng</button>
+                    <button type="button" class="btn btn-danger order-edit" data-status="0">Đã hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-						</thead>
-						<tbody class="order-list">
-							<tr th:each="order, index: ${orders.orders}">
-								<td th:text="${index.count}" class="text-center order-index"></td>
-								<td th:text="${order.fullname}"></td>
-								<td th:text="${order.email}"></td>
-								<td th:text="${order.phone}"></td>
-								<td th:text="${order.address}"></td>
-								<td>
-									<p th:each="detail : ${order.orderDetails}" th:text="${detail.productName}" class="style-detail text-left"></p>
-								</td>
-								<td>
-									<p th:each="detail : ${order.orderDetails}" th:text="${detail.sizeName}" class="style-detail"></p>
-								</td>
-								<td>
-									<p th:each="detail : ${order.orderDetails}" th:text="${detail.quantity}" class="style-detail"></p>
-								</td>
-								<td class="text-center"> 
-									<a class="delete order-delete" title="Delete" th:data="${order.id}" th:data-index="${index.count}"> 
-										<i class="fas fa-trash" style="font-size: 14px;"></i>
-									</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<ul class="pagination justify-content-end" style="margin:20px 0">
-						<li th:each="page: ${orders.pagination.getTotalPage}" 
-						th:data="${page}" th:class="'page-item '+${page == orders.pagination.page ? 'active' : ''}">
-							<a class="page-link" href="javascript:void(0)" th:text="${page}"></a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Scroll to Top Button-->
-	<a class="scroll-to-top rounded" href="#page-top"> <i
-		class="fas fa-angle-up"></i>
-	</a>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">MySu Food</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                Bạn chắc chắn muốn xoá đơn hàng này?
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary order-delete">Đồng ý</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+            </div>
 
-	<!-- Logout Modal-->
-	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-					<button class="close" type="button" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-body">Select "Logout" below if you are ready
-					to end your current session.</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" type="button"
-						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="login.html">Logout</a>
-				</div>
-			</div>
-		</div>
-	</div>
+        </div>
+    </div>
+</div>
 
-	<!-- Bootstrap core JavaScript-->
-	<script th:src="@{/admin/vendor/jquery/jquery.min.js}"></script>
-	<script th:src="@{/admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<div class="modal fade" id="myModalConfirm">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-header-success">
+                <h4 class="modal-title">MySu Food</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body text-center content-dialog">Xoá thành công đơn hàng</div>
+            <!-- Modal footer -->
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-	<!-- Core plugin JavaScript-->
-	<script th:src="@{/admin/vendor/jquery-easing/jquery.easing.min.js}"></script>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top"> <i
+        class="fas fa-angle-up"></i>
+</a>
 
-	<!-- Custom scripts for all pages-->
-	<script th:src="@{/admin/js/sb-admin-2.min.js}"></script>
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/admin/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
-	<!-- Page level plugins -->
-	<script th:src="@{/admin/vendor/chart.js/Chart.min.js}"></script>
+<!-- Core plugin JavaScript-->
+<script th:src="@{/admin/vendor/jquery-easing/jquery.easing.min.js}"></script>
 
-	<!-- Page level custom scripts -->
-	<script th:src="@{/admin/js/demo/chart-area-demo.js}"></script>
-	<script th:src="@{/admin/js/demo/chart-pie-demo.js}"></script>
+<!-- Custom scripts for all pages-->
+<script th:src="@{/admin/js/sb-admin-2.min.js}"></script>
 
-	<script th:src="@{/admin/js/custom.js}"></script>
+<!-- Page level plugins -->
+<script th:src="@{/admin/vendor/chart.js/Chart.min.js}"></script>
+
+<!-- Page level custom scripts -->
+<script th:src="@{/admin/js/demo/chart-area-demo.js}"></script>
+<script th:src="@{/admin/js/demo/chart-pie-demo.js}"></script>
+
+<script th:src="@{/admin/js/custom.js}"></script>
 </body>
 
 </html>

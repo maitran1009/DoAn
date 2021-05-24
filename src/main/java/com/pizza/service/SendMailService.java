@@ -1,13 +1,10 @@
 package com.pizza.service;
 
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
+import com.pizza.common.Utils;
+import com.pizza.model.entity.Order;
+import com.pizza.model.entity.OrderDetail;
+import com.pizza.model.entity.Product;
+import com.pizza.model.entity.ProductDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
@@ -17,11 +14,12 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
-import com.pizza.common.Utils;
-import com.pizza.model.entity.Order;
-import com.pizza.model.entity.OrderDetail;
-import com.pizza.model.entity.Product;
-import com.pizza.model.entity.ProductDetail;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class SendMailService {
@@ -39,7 +37,7 @@ public class SendMailService {
     private static final String EMAIL_LOGO = "logo";
     public static final String TITLE = "title";
 
-    public Boolean sendMailPaySuccess(Order order, List<OrderDetail> orderDetails, boolean flag) {
+    public boolean sendMailPaySuccess(Order order, List<OrderDetail> orderDetails, boolean flag) {
         try {
             Map<String, Object> templateVariables = new HashMap<>();
             Context context = new Context();

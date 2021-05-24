@@ -1,7 +1,7 @@
 package com.pizza.config;
 
-import javax.sql.DataSource;
-
+import com.pizza.common.Constant;
+import com.pizza.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,60 +15,63 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.pizza.service.UserDetailsServiceImpl;
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
-	@Autowired
-	private DataSource dataSource;
+    @Autowired
+    private DataSource dataSource;
 
-	@Autowired
-	private MySimpleUrlAuthenticationSuccessHandler successHandler;
+    @Autowired
+    private MySimpleUrlAuthenticationSuccessHandler successHandler;
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		// Sét đặt dịch vụ để tìm kiếm User trong Database.
-		// Và sét đặt PasswordEncoder.
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        // Sét đặt dịch vụ để tìm kiếm User trong Database.
+        // Và sét đặt PasswordEncoder.
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable();
 
-		http.authorizeRequests().antMatchers("/dang-nhap", "/403", "/trang-chu", "/", "/pay/**").permitAll().antMatchers("/info")
-				.hasRole("MEMBER").antMatchers("/admin/**").hasRole("ADMIN").and().formLogin().loginPage("/dang-nhap")
-				.usernameParameter("email").passwordParameter("password").successHandler(successHandler)
-				.failureUrl("/dang-nhap?error");
+        http.authorizeRequests()
+                .antMatchers(Constant.LOGIN_URL, "/403", "/trang-chu", "/", "/pay/**").permitAll()
+                .antMatchers("/info").hasRole("MEMBER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .and().formLogin().loginPage(Constant.LOGIN_URL)
+                .usernameParameter("email").passwordParameter("password").successHandler(successHandler)
+                .failureUrl("/dang-nhap?error");
 
-		http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
+        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 
-		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/dang-nhap")
-				.invalidateHttpSession(true);
+        http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl(Constant.LOGIN_URL).invalidateHttpSession(true);
 
-		// Cấu hình Remember Me.
-		http.authorizeRequests().and() //
-				.rememberMe().tokenRepository(this.persistentTokenRepository()) //
-				.tokenValiditySeconds(2 * 24 * 60 * 60); // 24h
+        // Cấu hình Remember Me.
+        http.authorizeRequests().and() //
+                .rememberMe().tokenRepository(this.persistentTokenRepository()) //
+                .tokenValiditySeconds(2 * 24 * 60 * 60); // 24h
 
-	}
+    }
 
-	// lưu database
-	@Bean
-	public PersistentTokenRepository persistentTokenRepository() {
-		JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
-		db.setDataSource(dataSource);
-		return db;
-	}
+    // lưu database
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
+        db.setDataSource(dataSource);
+        return db;
+    }
 
 }

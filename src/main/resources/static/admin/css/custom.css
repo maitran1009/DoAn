@@ -130,6 +130,7 @@ table.table td .add {
 
 p.style-detail {
     text-align: center;
+    margin: 0;
 }
 
 .table-responsive {
@@ -161,7 +162,6 @@ p.style-detail {
     width: 69%;
     border-radius: .35rem;
     padding-left: 10px;
-    width: 69%;
     overflow: hidden;
 }
 
@@ -249,4 +249,11 @@ span.error-message {
     border-top-right-radius: 5px;
 }
 
+.box-button{
+    margin: 0 auto;
+}
+
+.box-button button {
+    width: 150px;
+}
 

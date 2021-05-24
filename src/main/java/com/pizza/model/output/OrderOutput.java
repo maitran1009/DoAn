@@ -3,16 +3,18 @@ package com.pizza.model.output;
 import java.util.Date;
 import java.util.List;
 
+import com.pizza.common.Constant;
 import com.pizza.common.Utils;
 
 public class OrderOutput {
-	private Integer id;
+	private int id;
 	private String email;
 	private String fullname;
 	private String phone;
 	private String address;
-	private Integer status;
-	private Integer amount;
+	private int status;
+	private String statusName;
+	private int amount;
 	private String createDate;
 	private List<OrderDetailOutput> orderDetails;
 
@@ -94,6 +96,10 @@ public class OrderOutput {
 
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
+	}
+
+	public String getStatusName() {
+		return Constant.PayEnum.getValueByCode(this.status);
 	}
 
 	public List<OrderDetailOutput> getOrderDetails() {

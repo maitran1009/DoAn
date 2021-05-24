@@ -146,7 +146,6 @@ $(document).ready(function () {
     //Button delete
     $('body').on('click', '.product-delete', function () {
         let idx;
-        const index = $(this).attr("data-index");
         const id = $(this).attr("data");
         const keyword = $(".navbar-search").find("input").val();
         let page = $("li.page-item.active").find("a").text();
@@ -184,6 +183,11 @@ $(document).ready(function () {
     });
 
     //Button edit
+    $('body').on('change', 'input[name=image]', function () {
+        $(".image-name").css("display", "none").text("");
+    });
+
+    //Button edit
     $('body').on('click', '#button-add-product', function () {
         changeFormProduct(null);
     });
@@ -202,20 +206,56 @@ $(document).ready(function () {
         });
     });
 
+
+    $('body').on('click', '.dialog-order-edit', function () {
+        const id = $(this).attr("data");
+        const status = $(this).attr("data-status");
+        const boxButton = $(".box-button");
+        boxButton.find("button").attr("data", id).attr("style","display:inline-block;");
+        boxButton.find("[data-status='" + status + "']").attr("style","display:none;");
+    });
+
+    // button edit
+    $('body').on('click', '.order-edit', function () {
+        const id = $(this).attr("data");
+        const status = $(this).attr("data-status");
+        const keyword = $(".navbar-search").find("input").val();
+        let page = $("li.page-item.active").find("a").text();
+        $.ajax({
+            url: 'http://localhost:9090/mySuFood/admin/order/update',
+            type: 'GET',
+            contentType: 'application/json',
+            data: {
+                id: id,
+                status: status
+            }
+        }).done(function () {
+            closeDialog();
+            modalConfirm("Cập nhật thành công trạng thái đơn hàng");
+            $.ajax({
+                url: 'http://localhost:9090/mySuFood/admin/order/list-ajax',
+                type: 'GET',
+                contentType: 'application/json',
+                data: {
+                    keyword: keyword,
+                    page: page
+                }
+            }).done(function (list) {
+                loadListOrder(list);
+                pagination(list.pagination);
+            });
+            removeElement(id);
+        });
+    });
+
     //Button delete
     $('body').on('click', '.order-delete', function () {
-        var index = $(this).attr("data-index");
-        var idx;
-        $(".order-index").each(function (i) {
-            idx = i + 1;
-            if (i >= index) {
-                idx--;
-            }
-            $(this).text(idx);
-        });
-
-
-        var id = $(this).attr("data");
+        const id = $(this).attr("data");
+        const keyword = $(".navbar-search").find("input").val();
+        let page = $("li.page-item.active").find("a").text();
+        if ($("td.user-index").length === 1) {
+            page = page - 1;
+        }
         $.ajax({
             url: 'http://localhost:9090/mySuFood/admin/order/delete',
             type: 'GET',
@@ -224,6 +264,21 @@ $(document).ready(function () {
                 id: id
             }
         }).done(function () {
+            closeDialog();
+            modalConfirm("Xoá thành công đơn hàng");
+            $.ajax({
+                url: 'http://localhost:9090/mySuFood/admin/order/list-ajax',
+                type: 'GET',
+                contentType: 'application/json',
+                data: {
+                    keyword: keyword,
+                    page: page
+                }
+            }).done(function (list) {
+                loadListOrder(list);
+                pagination(list.pagination);
+            });
+            removeElement(id);
         });
     });
 
@@ -347,8 +402,8 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".input-group-append button", function () {
-        var url = window.location.href;
-        var keyword = $(this).parent().parent().find("input").val();
+        const url = window.location.href;
+        const keyword = $(this).parent().parent().find("input").val();
         if (keyword !== "") {
             if (url.search("product") > 0) {
                 $.ajax({
@@ -360,53 +415,8 @@ $(document).ready(function () {
                         page: 1
                     }
                 }).done(function (list) {
-                    console.log(list);
-
-                    var html = "";
-                    var index = 0;
-                    $.each(list.products, function (key, value) {
-                        var html1 = "";
-                        var html2 = "";
-                        index = index + 1;
-                        html += "<tr>";
-                        html += "<td class='text-center product-index'>" + index + "</td>";
-                        html += "<td><img src='/mySuFood" + value.image + "' style='width: 100%; height: 100px;'></td>";
-                        html += "<td>" + value.name + "</td>";
-                        html += "<td>" + value.priceStr + "</td>";
-                        html += "<td>";
-                        $.each(value.productDetail, function (key, value1) {
-                            html1 += "<p class='style-detail'>" + value1.sizeName + "</p>";
-                        });
-                        html += html1;
-                        html += "</td>";
-
-                        html += "<td>";
-                        $.each(value.productDetail, function (key, value1) {
-                            html2 += "<p class='style-detail'>" + value1.statusName + "</p>";
-                        });
-                        html += html2;
-                        html += "</td>";
-                        html += "<td>" + value.description + "</td>";
-                        html += "<td>";
-                        html += "<a class='product-edit' data='" + value.id + "' title='Edit' style='color: orange;' data-toggle='modal' data-target='#exampleModal'><i class='fas fa-pen'></i></a>";
-                        html += "<a class='delete product-delete' title='Delete' data='" + value.id + "' data-index='" + index + "'><i class='fas fa-trash'></i></a>";
-                        html += "</td></tr>";
-                    });
-                    $(".product-list").empty();
-                    $(".product-list").append(html);
-
-                    html = "";
-                    $.each(list.pagination.totalPage, function (key, value) {
-                        html += "<li data='" + value + "' class='page-item";
-                        if (value === list.pagination.page) {
-                            html += " active";
-                        }
-                        html += "'>";
-                        html += "<a class='page-link' href='javascript:void(0)'>" + value + "</a>";
-                        html += "</li>";
-                    });
-                    $("ul.pagination").empty();
-                    $("ul.pagination").append(html);
+                    loadListProduct(list);
+                    pagination(list.pagination);
                 });
             } else if (url.search("user") > 0) {
                 $.ajax({
@@ -431,60 +441,8 @@ $(document).ready(function () {
                         page: 1
                     }
                 }).done(function (list) {
-                    var html = "";
-                    var index = 0;
-                    $.each(list.orders, function (key, value) {
-                        var html1 = "";
-                        var html2 = "";
-                        var html3 = "";
-                        index = index + 1;
-                        html += "<tr>";
-                        html += "<td class='text-center order-index'>" + index + "</td>";
-                        html += "<td>" + value.fullname + "</td>";
-                        html += "<td>" + value.email + "</td>";
-                        html += "<td>" + value.phone + "</td>";
-                        html += "<td>" + value.address + "</td>";
-
-                        html += "<td>";
-                        $.each(value.orderDetails, function (key, value1) {
-                            html1 += "<p class='style-detail'>" + value1.productName + "</p>";
-                        });
-                        html += html1;
-                        html += "</td>";
-
-                        html += "<td>";
-                        $.each(value.orderDetails, function (key, value1) {
-                            html2 += "<p class='style-detail'>" + value1.sizeName + "</p>";
-                        });
-                        html += html2;
-                        html += "</td>";
-
-                        html += "<td>";
-                        $.each(value.orderDetails, function (key, value1) {
-                            html3 += "<p class='style-detail'>" + value1.quantity + "</p>";
-                        });
-                        html += html3;
-                        html += "</td>";
-
-                        html += "<td>";
-                        html += "<a class='delete order-delete' title='Delete' data='" + value.id + "' data-index='" + index + "'><i class='fas fa-trash'></i></a>";
-                        html += "</td></tr>";
-                    });
-                    $(".order-list").empty();
-                    $(".order-list").append(html);
-
-                    html = "";
-                    $.each(list.pagination.totalPage, function (key, value) {
-                        html += "<li data='" + value + "' class='page-item";
-                        if (value == list.pagination.page) {
-                            html += " active";
-                        }
-                        html += "'>";
-                        html += "<a class='page-link' href='javascript:void(0)'>" + value + "</a>";
-                        html += "</li>";
-                    });
-                    $("ul.pagination").empty();
-                    $("ul.pagination").append(html);
+                    loadListOrder(list);
+                    pagination(list.pagination);
                 });
             }
         }
@@ -531,48 +489,7 @@ $(document).ready(function () {
                     page: page
                 }
             }).done(function (value) {
-                var html = "";
-                var index = 0;
-                $.each(value.orders, function (key, value) {
-                    console.log(value);
-                    var html1 = "";
-                    var html2 = "";
-                    var html3 = "";
-                    index = index + 1;
-                    html += "<tr>";
-                    html += "<td class='text-center order-index'>" + index + "</td>";
-                    html += "<td>" + value.fullname + "</td>";
-                    html += "<td>" + value.email + "</td>";
-                    html += "<td>" + value.phone + "</td>";
-                    html += "<td>" + value.address + "</td>";
-
-                    html += "<td>";
-                    $.each(value.orderDetails, function (key, value1) {
-                        html1 += "<p class='style-detail'>" + value1.productName + "</p>";
-                    });
-                    html += html1;
-                    html += "</td>";
-
-                    html += "<td>";
-                    $.each(value.orderDetails, function (key, value1) {
-                        html2 += "<p class='style-detail'>" + value1.sizeName + "</p>";
-                    });
-                    html += html2;
-                    html += "</td>";
-
-                    html += "<td>";
-                    $.each(value.orderDetails, function (key, value1) {
-                        html3 += "<p class='style-detail'>" + value1.quantity + "</p>";
-                    });
-                    html += html3;
-                    html += "</td>";
-
-                    html += "<td>";
-                    html += "<a class='delete order-delete' title='Delete' data='" + value.id + "' data-index='" + index + "'><i class='fas fa-trash'></i></a>";
-                    html += "</td></tr>";
-                });
-                $(".order-list").empty();
-                $(".order-list").append(html);
+                loadListOrder(value);
             });
         }
     });
@@ -602,13 +519,13 @@ $(document).ready(function () {
     }
 
     function loadListProduct(value) {
-        var html = "";
-        var index = 0;
+        let html = "";
+        let index = 0;
+        let i = 0;
         const pageSize = value.pagination.page === 1 ? 0 : (value.pagination.page - 1) * value.pagination.pageSize;
         $.each(value.products, function (key, value) {
-            var html1 = "";
-            var html2 = "";
-            index = index + 1 + pageSize;
+            i++;
+            index = i + pageSize;
             html += "<tr>";
             html += "<td class='text-center product-index'>" + index + "</td>";
             html += "<td><img src='/mySuFood" + value.image + "' style='width: 100%; height: 100px;'></td>";
@@ -616,23 +533,59 @@ $(document).ready(function () {
             html += "<td>" + value.priceStr + "</td>";
             html += "<td>";
             $.each(value.productDetail, function (key, value1) {
-                html1 += "<p class='style-detail'>" + value1.sizeName + "</p>";
+                html += "<p class='style-detail'>" + value1.sizeName + "</p>";
             });
-            html += html1;
             html += "</td>";
             html += "<td>";
             $.each(value.productDetail, function (key, value1) {
-                html2 += "<p class='style-detail'>" + value1.statusName + "</p>";
+                html += "<p class='style-detail'>" + value1.statusName + "</p>";
             });
-            html += html2;
             html += "</td>";
             html += "<td>" + value.description + "</td>";
             html += "<td>";
             html += "<a class='product-edit' data='" + value.id + "' title='Edit' style='color: orange;' data-toggle='modal' data-target='#exampleModal'><i class='fas fa-pen'></i></a>";
-            html += "<a class='delete product-delete' title='Delete' data='" + value.id + "' data-index='" + index + "'><i class='fas fa-trash'></i></a>";
+            html += "<a class='dialog-delete' title='Delete' data-toggle='modal' data-target='#myModal' style='color: red;' data='" + value.id + "' data-index='" + index + "'><i class='fas fa-trash'></i></a>";
             html += "</td></tr>";
         });
         $(".product-list").empty().append(html);
+    }
+
+    function loadListOrder(value) {
+        let html = "";
+        let index = 0;
+        let i = 0;
+        const pageSize = value.pagination.page === 1 ? 0 : (value.pagination.page - 1) * value.pagination.pageSize;
+        $.each(value.orders, function (key, value) {
+            i++;
+            index = i + pageSize;
+            html += "<tr>";
+            html += "<td class='text-center order-index'>" + index + "</td>";
+            html += "<td>" + value.fullname + "</td>";
+            html += "<td>" + value.email + "</td>";
+            html += "<td>" + value.phone + "</td>";
+            html += "<td>" + value.address + "</td>";
+            html += "<td>";
+            $.each(value.orderDetails, function (key, value1) {
+                html += "<p class='style-detail'>" + value1.productName + "</p>";
+            });
+            html += "</td>";
+            html += "<td>";
+            $.each(value.orderDetails, function (key, value1) {
+                html += "<p class='style-detail'>" + value1.sizeName + "</p>";
+            });
+            html += "</td>";
+            html += "<td>";
+            $.each(value.orderDetails, function (key, value1) {
+                html += "<p class='style-detail'>" + value1.quantity + "</p>";
+            });
+            html += "</td>";
+            html += "<td>" + value.statusName + "</td>";
+            html += "<td>";
+            html += "<a class='dialog-order-edit' title='Edit' data='" + value.id + "' data-status='" + value.status + "' style='color: orange;' data-toggle='modal' data-target='#exampleModal'> <i class='fas fa-pen' style='font-size: 14px;'></i> </a>";
+            html += "<a class='dialog-delete' title='Delete' data-toggle='modal' data-target='#myModal' style='color: red;' data='" + value.id + "' data-index='" + index + "'><i class='fas fa-trash' style='font-size: 14px;'></i></a>";
+            html += "</td></tr>";
+        });
+        $(".order-list").empty().append(html);
     }
 
     function pagination(pagination) {
@@ -982,7 +935,7 @@ $(document).ready(function () {
         setTimeout(
             function () {
                 window.location = url;
-            }, 3000);
+            }, 1500);
     }
 });
 
