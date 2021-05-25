@@ -1,131 +1,145 @@
 package com.pizza.model.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	@Column(name = "user_name")
-	private String userName;
+    @Column(name = "user_name")
+    private String userName;
 
-	@Column(name = "user_pass")
-	private String password;
+    @Column(name = "user_pass")
+    private String password;
 
-	@Column
-	private String fullname;
+    @Column
+    private String fullname;
 
-	@Column
-	private String phone;
+    @Column
+    private String phone;
 
-	@Column
-	private String address;
+    @Column
+    private String address;
 
-	@Column(name = "forget_code")
-	private String forgetCode;
+    @Column
+    private int ward;
 
-	@Column(name = "create_date")
-	private Date createDate;
+    @Transient
+    private Province province;
 
-	@Column
-	private Integer status;
+    @Column(name = "forget_code")
+    private String forgetCode;
 
-	@ManyToOne
-	@JoinColumn(name = "role_id")
-	private Role role;
+    @Column(name = "create_date")
+    private Date createDate;
 
-	public int getId() {
-		return id;
-	}
+    @Column
+    private Integer status;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
-	public String getUserName() {
-		return userName;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getUserName() {
+        return userName;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public String getFullname() {
-		return fullname;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public String getFullname() {
+        return fullname;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public String getForgetCode() {
-		return forgetCode;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setForgetCode(String forgetCode) {
-		this.forgetCode = forgetCode;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public Date getCreateDate() {
-		return createDate;
-	}
+    public String getForgetCode() {
+        return forgetCode;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public void setForgetCode(String forgetCode) {
+        this.forgetCode = forgetCode;
+    }
 
-	public Integer getStatus() {
-		return status;
-	}
+    public Date getCreateDate() {
+        return createDate;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
-	public Role getRole() {
-		return role;
-	}
+    public Integer getStatus() {
+        return status;
+    }
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Province getProvince() {
+        return province;
+    }
+
+    public void setProvince(Province province) {
+        this.province = province;
+    }
+
+    public int getWard() {
+        return ward;
+    }
+
+    public void setWard(int ward) {
+        this.ward = ward;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

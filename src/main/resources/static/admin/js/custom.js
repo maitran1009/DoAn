@@ -51,11 +51,11 @@ $(document).ready(function () {
         $(".add-new").removeAttr("disabled");
     });
 
-    $('body').on('click', '#add-detail', function () {
+    $(document).on('click', '#add-detail', function () {
         $("#table-detail").append("<tr class='item-detail' data-detail='0'><td><select class='form-control size' name='size'><option value='1'>Nhỏ</option><option value='2'>Vừa</option><option value='3'>Lớn</option></select></td><td><select class='form-control status' name='status'><option value='1'>Còn hàng</option><option value='2'>Hết hàng</option></select></td><td><a class='delete' title='Delete'><i class='fas fa-trash'></i></a></td></tr>");
     });
 
-    $('body').on('click', '#add-product', function () {
+    $(document).on('click', '#add-product', function () {
         const id = $(this).attr("data-flag");
         const name = $("input[name=name]").val();
         const price = $("input[name=price]").val();
@@ -106,7 +106,6 @@ $(document).ready(function () {
                 enctype: 'multipart/form-data',
                 data: JSON.stringify(product)
             }).done(function (value) {
-                console.log(value);
                 if (value) {
                     if (image !== "") {
                         // lưu file vào folder
@@ -122,7 +121,7 @@ $(document).ready(function () {
                     closeDialog();
                     if (id === "0") {
                         modalConfirm("Thêm mới thành công sản phẩm");
-                        delay("http://localhost:9090/mySuFood/admin/product/list");
+                        delay();
                     } else {
                         modalConfirm("Cập nhật thành công sản phẩm");
                         $.ajax({
@@ -144,7 +143,7 @@ $(document).ready(function () {
     });
 
     //Button delete
-    $('body').on('click', '.product-delete', function () {
+    $(document).on('click', '.product-delete', function () {
         let idx;
         const id = $(this).attr("data");
         const keyword = $(".navbar-search").find("input").val();
@@ -183,17 +182,17 @@ $(document).ready(function () {
     });
 
     //Button edit
-    $('body').on('change', 'input[name=image]', function () {
+    $(document).on('change', 'input[name=image]', function () {
         $(".image-name").css("display", "none").text("");
     });
 
     //Button edit
-    $('body').on('click', '#button-add-product', function () {
+    $(document).on('click', '#button-add-product', function () {
         changeFormProduct(null);
     });
 
     //Button edit
-    $('body').on('click', '.product-edit', function () {
+    $(document).on('click', '.product-edit', function () {
         $.ajax({
             url: 'http://localhost:9090/mySuFood/admin/product/info',
             type: 'GET',
@@ -207,16 +206,16 @@ $(document).ready(function () {
     });
 
 
-    $('body').on('click', '.dialog-order-edit', function () {
+    $(document).on('click', '.dialog-order-edit', function () {
         const id = $(this).attr("data");
         const status = $(this).attr("data-status");
         const boxButton = $(".box-button");
-        boxButton.find("button").attr("data", id).attr("style","display:inline-block;");
-        boxButton.find("[data-status='" + status + "']").attr("style","display:none;");
+        boxButton.find("button").attr("data", id).attr("style", "display:inline-block;");
+        boxButton.find("[data-status='" + status + "']").attr("style", "display:none;");
     });
 
     // button edit
-    $('body').on('click', '.order-edit', function () {
+    $(document).on('click', '.order-edit', function () {
         const id = $(this).attr("data");
         const status = $(this).attr("data-status");
         const keyword = $(".navbar-search").find("input").val();
@@ -249,7 +248,7 @@ $(document).ready(function () {
     });
 
     //Button delete
-    $('body').on('click', '.order-delete', function () {
+    $(document).on('click', '.order-delete', function () {
         const id = $(this).attr("data");
         const keyword = $(".navbar-search").find("input").val();
         let page = $("li.page-item.active").find("a").text();
@@ -282,7 +281,7 @@ $(document).ready(function () {
         });
     });
 
-    $('body').on('click', '#add-user', function () {
+    $(document).on('click', '#add-user', function () {
         const user = {};
         const id = $(this).attr("data-flag");
         const fullname = $("input[name=fullname]").val();
@@ -315,7 +314,6 @@ $(document).ready(function () {
                     closeDialog();
                     if (id === "0") {
                         modalConfirm("Đăng ký thành công tài khoản");
-                        delay("http://localhost:9090/mySuFood/admin/user/list");
                     } else {
                         modalConfirm("Cập nhật thành công tài khoản");
                         $.ajax({
@@ -332,19 +330,20 @@ $(document).ready(function () {
                         });
                     }
                 } else {
-                    $(".user-error").text(value);
+                    $("span.email").text(value);
+                    $("span.label-email").labelEmail.text("1");
                 }
             });
         }
     });
 
     //Button add
-    $('body').on('click', '#button-add-user', function () {
+    $(document).on('click', '#button-add-user', function () {
         changeFormUser(null);
     });
 
     //Button edit
-    $('body').on('click', '.user-edit', function () {
+    $(document).on('click', '.user-edit', function () {
         removeMessageForm();
         $.ajax({
             url: 'http://localhost:9090/mySuFood/admin/user/info',
@@ -358,7 +357,7 @@ $(document).ready(function () {
         });
     });
 
-    $('body').on('click', '.dialog-delete', function () {
+    $(document).on('click', '.dialog-delete', function () {
         const id = $(this).attr("data");
         const index = $(this).attr("data-index");
         $(".user-delete").attr("data", id).attr("data-index", index);
@@ -366,7 +365,7 @@ $(document).ready(function () {
     });
 
     //Button delete
-    $('body').on('click', '.user-delete', function () {
+    $(document).on('click', '.user-delete', function () {
         const id = $(this).attr("data");
         const keyword = $(".navbar-search").find("input").val();
         let page = $("li.page-item.active").find("a").text();
@@ -494,6 +493,21 @@ $(document).ready(function () {
         }
     });
 
+    $('#myModalConfirmAdmin').on('hidden.bs.modal', function () {
+        const url = window.location.href;
+        if (url.search("product") > 0) {
+            const id = $("#add-product").attr("data-flag");
+            if (id === "0") {
+                window.location.href = "http://localhost:9090/mySuFood/admin/product/list";
+            }
+        } else if (url.search("user") > 0) {
+            const id = $("#add-user").attr("data-flag");
+            if (id === "0") {
+                window.location.href = "http://localhost:9090/mySuFood/admin/user/list";
+            }
+        }
+    });
+
     function loadListuser(value) {
         let html = "";
         let index = 0;
@@ -582,7 +596,7 @@ $(document).ready(function () {
             html += "<td>" + value.statusName + "</td>";
             html += "<td>";
             html += "<a class='dialog-order-edit' title='Edit' data='" + value.id + "' data-status='" + value.status + "' style='color: orange;' data-toggle='modal' data-target='#exampleModal'> <i class='fas fa-pen' style='font-size: 14px;'></i> </a>";
-            html += "<a class='dialog-delete' title='Delete' data-toggle='modal' data-target='#myModal' style='color: red;' data='" + value.id + "' data-index='" + index + "'><i class='fas fa-trash' style='font-size: 14px;'></i></a>";
+            html += "<a class='dialog-delete' title='Delete' data-toggle='modal' data-target='#myModal' style='color: #ff0000;' data='" + value.id + "' data-index='" + index + "'><i class='fas fa-trash' style='font-size: 14px;'></i></a>";
             html += "</td></tr>";
         });
         $(".order-list").empty().append(html);
@@ -748,7 +762,7 @@ $(document).ready(function () {
     }
 
     function modalConfirm(value) {
-        $('#myModalConfirm').modal('show');
+        $('#myModalConfirmAdmin').modal('show');
         $(".content-dialog").empty().html(value);
     }
 
@@ -832,7 +846,7 @@ $(document).ready(function () {
                 html += "</select>";
                 html += "</div>";
                 html += "<div class='form-group'>";
-                html += "<input type='text' class='form-control' name='address' id='address' placeholder='Địa chỉ'/>";
+                html += "<input type='text' class='form-control admin-address' name='address' id='address' placeholder='Địa chỉ'/>";
                 html += "</div>";
                 html += "<div class='form-group'>";
                 html += "<select name='role' class='form-control'>";
@@ -848,18 +862,93 @@ $(document).ready(function () {
                 $("#fileUploadForm").empty().html(html);
             });
         } else {
+            if (user.province != null) {
+                $.ajax({
+                    url: 'http://localhost:9090/mySuFood/province/city',
+                    type: 'GET',
+                    contentType: 'application/json'
+                }).done(function (value) {
+                    if (value != null) {
+                        let html = "<option value='-1'>Chọn Tỉnh/Tp</option>";
+                        $.each(value, function (key, value) {
+                            if (value.cityId === parseInt(user.province.cityId)) {
+                                html += "<option value='" + value.cityId + "' selected>" + value.cityName + "</option>";
+                            } else {
+                                html += "<option value='" + value.cityId + "'>" + value.cityName + "</option>";
+                            }
+                        });
+                        $('#pay-city').html(html);
+                    }
+                });
+                $.ajax({
+                    url: 'http://localhost:9090/mySuFood/province/district',
+                    type: 'GET',
+                    contentType: 'application/json',
+                    data: {
+                        cityId: user.province.cityId
+                    }
+                }).done(function (value) {
+                    if (value != null) {
+                        let html = "<option value='-1'>Chọn Quận/Huyện</option>";
+                        $.each(value, function (key, value) {
+                            if (value.districtId === parseInt(user.province.districtId)) {
+                                html += "<option value='" + value.districtId + "' selected>" + value.districtName + "</option>";
+                            } else {
+                                html += "<option value='" + value.districtId + "'>" + value.districtName + "</option>";
+                            }
+                        });
+                        $('#pay-district').html(html);
+                    }
+                });
+                $.ajax({
+                    url: 'http://localhost:9090/mySuFood/province/ward',
+                    type: 'GET',
+                    contentType: 'application/json',
+                    data: {
+                        cityId: user.province.cityId,
+                        districtId: user.province.districtId
+                    }
+                }).done(function (value) {
+                    if (value != null) {
+                        let html = "<option value='-1'>Chọn Phường/Xã</option>";
+                        $.each(value, function (key, value) {
+                            if (value.wardId === parseInt(user.province.wardId)) {
+                                html += "<option value='" + value.wardId + "' selected>" + value.wardName + "</option>";
+                            } else {
+                                html += "<option value='" + value.wardId + "'>" + value.wardName + "</option>";
+                            }
+                        });
+                        $('#pay-ward').html(html);
+                    }
+                });
+                $("#pay-district").attr("data-city", user.province.cityId);
+                $('#pay-ward').attr("data-district", user.province.districtId);
+            } else {
+                $.ajax({
+                    url: 'http://localhost:9090/mySuFood/province/city',
+                    type: 'GET',
+                    contentType: 'application/json'
+                }).done(function (value) {
+                    if (value != null) {
+                        let html = "<option value='-1'>Chọn Tỉnh/Tp</option>";
+                        $.each(value, function (key, value) {
+                            html += "<option value='" + value.cityId + "'>" + value.cityName + "</option>";
+                        });
+                        $('#pay-city').html(html);
+                    }
+                });
+                $('#pay-district').attr("data-city", 0).html("<option value='-1'>Chọn Quận/Huyện</option>");
+                $('#pay-ward').html("<option value='-1'>Chọn Phường/Xã</option>");
+            }
+
+
             // css + html
             $("#table-detail").find(".item-detail").remove();
             $("#exampleModalLabel").text("Cập nhật thông tin tài khoản");//Thay đổi text từ "Thêm sản phẩm"->"Cập nhật sản phẩm"
             $("#add-user").text("Cập nhật").attr("data-flag", user.id);
             $("input[name=password]").parent().remove();
             $(".user-pass").remove();
-            $("select[name=city]").parent().remove();
-            $(".user-city").remove();
-            $("select[name=district]").parent().remove();
-            $(".user-district").remove();
-            $("select[name=ward]").parent().remove();
-            $(".user-ward").remove();
+            console.log(user);
             // write data
             $("input[name=fullname]").val(user.fullname);
             $("input[name=email]").val(user.userName);
@@ -929,13 +1018,6 @@ $(document).ready(function () {
             });
             $("#table-detail").empty().append(html);
         }
-    }
-
-    function delay(url) {
-        setTimeout(
-            function () {
-                window.location = url;
-            }, 1500);
     }
 });
 

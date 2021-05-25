@@ -161,7 +161,8 @@
                                         <p>
                                             Họ tên <span class="required">*</span>
                                         </p>
-                                        <input type="text" class="required_form" name="name">
+                                        <input type="text" class="required_form fullname" name="fullname">
+                                        <span class="error-message error-message-pay fullname"></span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -170,12 +171,14 @@
                                             Email <span class="required">*</span>
                                         </p>
                                         <input type="text" class="required_form" name="email">
+                                        <span class="error-message error-message-pay email"></span>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <p>
                                             Điện thoại <span class="required">*</span>
                                         </p>
                                         <input type="text" class="required_form" name="phone">
+                                        <span class="error-message error-message-pay phone"></span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -190,6 +193,7 @@
                                             <option th:each="city : ${cities}"
                                                     th:text="${city.cityName}" th:value="${city.cityId}"></option>
                                         </select>
+                                        <span class="error-message error-message-pay city"></span>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <p>
@@ -198,6 +202,7 @@
                                         <select name="district" id="pay-district" data-city="0">
                                             <option value="-1">Chọn Quận/Huyện</option>
                                         </select>
+                                        <span class="error-message error-message-pay district"></span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -209,6 +214,7 @@
                                                 style="width: 100%; height: 30px;">
                                             <option value="-1">Chọn Phường/Xã</option>
                                         </select>
+                                        <span class="error-message error-message-pay ward"></span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -219,6 +225,7 @@
                                         <input type="text"
                                                class="check_required required_form col-md-12 col-sm-12 col-xs-12"
                                                style="width: 100%; height: 30px;" name="address">
+                                        <span class="error-message error-message-pay address"></span>
                                     </div>
                                 </div>
                             </div>
@@ -245,10 +252,62 @@
     </div>
 </div>
 
-
 <!-- footer -->
 <div th:replace="fragments/footer :: footer"></div>
 
 <div th:replace="fragments/script :: script"></div>
+
+<script type="text/javascript">
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user != null) {
+        $.ajax({
+            url: 'http://localhost:9090/mySuFood/province/district',
+            type: 'GET',
+            contentType: 'application/json',
+            data: {
+                cityId: user.city
+            }
+        }).done(function (value) {
+            if (value != null) {
+                let html = "<option value='-1'>Chọn Quận/Huyện</option>";
+                $.each(value, function (key, value) {
+                    if (value.districtId === parseInt(user.district)) {
+                        html += "<option value='" + value.districtId + "' selected>" + value.districtName + "</option>";
+                    } else {
+                        html += "<option value='" + value.districtId + "'>" + value.districtName + "</option>";
+                    }
+                });
+                $('#pay-district').html(html);
+            }
+        });
+
+        $.ajax({
+            url: 'http://localhost:9090/mySuFood/province/ward',
+            type: 'GET',
+            contentType: 'application/json',
+            data: {
+                cityId: user.city,
+                districtId: user.district
+            }
+        }).done(function (value) {
+            if (value != null) {
+                let html = "<option value='-1'>Chọn Phường/Xã</option>";
+                $.each(value, function (key, value) {
+                    if (value.wardId === parseInt(user.ward)) {
+                        html += "<option value='" + value.wardId + "' selected>" + value.wardName + "</option>";
+                    } else {
+                        html += "<option value='" + value.wardId + "'>" + value.wardName + "</option>";
+                    }
+                });
+                $('#pay-ward').html(html);
+            }
+        });
+        $("input[name=email]").val(user.email);
+        $("input[name=fullname]").val(user.name);
+        $("input[name=phone]").val(user.phone);
+        $("select[name=city]").val(user.city);
+        $("input[name=address]").val(user.address);
+    }
+</script>
 </body>
 </html>

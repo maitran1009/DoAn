@@ -1,245 +1,271 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
-<title>Trang chu</title>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Trang chu</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- css -->
-<link
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
-	rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Josefin+Sans"
-	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do"
-	rel="stylesheet">
+    <!-- css -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
+            rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans"
+          rel="stylesheet">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do"
+            rel="stylesheet">
 
-<link rel="stylesheet" th:href="@{/css/open-iconic-bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/css/open-iconic-bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
 
-<link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
-<link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}">
-<link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
 
-<link rel="stylesheet" th:href="@{/css/aos.css}">
+    <link rel="stylesheet" th:href="@{/css/aos.css}">
 
-<link rel="stylesheet" th:href="@{/css/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/ionicons.min.css}">
 
-<link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}">
-<link rel="stylesheet" th:href="@{/css/jquery.timepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/jquery.timepicker.css}">
 
-<link rel="stylesheet" th:href="@{/css/flaticon.css}">
-<link rel="stylesheet" th:href="@{/css/icomoon.css}">
-<link rel="stylesheet" th:href="@{/css/style.css}">
-<link rel="stylesheet" th:href="@{/css/custom.css}">
-<link rel="stylesheet" th:href="@{/fonts/fontawesome/css/all.css}">
-<script th:src="@{/fonts/fontawesome/js/all.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/css/icomoon.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <link rel="stylesheet" th:href="@{/fonts/fontawesome/css/all.css}">
+    <script th:src="@{/fonts/fontawesome/js/all.js}"></script>
 </head>
 
 <body>
-	<!-- header -->
-	<div th:replace="fragments/header :: header"></div>
+<!-- header -->
+<div th:replace="fragments/header :: header"></div>
 
-	<div class="content">
-		<div class="row" style="padding: 30px 0">
-			<div class="container">
-				<div class="progress_new">
-					<div class="pbarcart">
-						<div class="text">Giỏ hàng</div>
-						<div class="bar"></div>
-						<div class="circle ">
-							<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div class="pbarcart">
-						<div class="text">Địa chỉ giao hàng</div>
-						<div class="bar"></div>
-						<div class="circle">
-							<i class="fa fa-map-marker" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div class="pbarcart">
-						<div class="text">Thanh toán</div>
-						<div class="bar"></div>
-						<div class="circle active">
-							<i class="fa fa-credit-card" aria-hidden="true"></i>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="wrap container">
-			<div class="sidebar">
-				<div class="sidebar-content">
-					<div class="order-summary order-summary-is-collapsed">
-						<div class="order-summary-sections">
-							<div class="order-summary-section">
-								<table class="product-table">
-									<thead>
-										<tr>
-											<th class="text-center" style="width: 1%;">Sản phẩm</th>
-											<th style="width: 30%; padding-left: 15px;">Tên sản phẩm</th>
-											<th class="text-center" style="width: 12%">Số lượng</th>
-											<th class="text-right" style="width: 15%">Thành tiền</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr class="product" th:each="cart : ${session.carts}">
-											<td class="product-image text-center">
-												<div class="product-thumbnail">
-													<div class="product-thumbnail-wrapper">
-														<img class="product-thumbnail-image"
-															th:src="@{${cart.image}}" alt="">
-													</div>
-													<span class="product-thumbnail-quantity" aria-hidden="true"
-														th:text="${cart.count}"></span>
-												</div>
-											</td>
-											<td class="product-description"><span
-												class="product-description-name order-summary-emphasis"
-												th:text="${cart.name}"></span><br /> <span
-												class="product-description-variant order-summary-small-text"
-												th:text="${cart.sizeName}"></span></td>
-											<td class="product-quantity text-center">1</td>
-											<td class="product-price text-right"><span
-												class="order-summary-emphasis" th:text="${cart.amount}"></span>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
+<div class="content">
+    <div class="row" style="padding: 30px 0">
+        <div class="container">
+            <div class="progress_new">
+                <div class="pbarcart">
+                    <div class="text">Giỏ hàng</div>
+                    <div class="bar"></div>
+                    <div class="circle ">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="pbarcart">
+                    <div class="text">Địa chỉ giao hàng</div>
+                    <div class="bar"></div>
+                    <div class="circle">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="pbarcart">
+                    <div class="text">Thanh toán</div>
+                    <div class="bar"></div>
+                    <div class="circle active">
+                        <i class="fa fa-credit-card" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrap container">
+        <div class="sidebar">
+            <div class="sidebar-content">
+                <div class="order-summary order-summary-is-collapsed">
+                    <div class="order-summary-sections">
+                        <div class="order-summary-section">
+                            <table class="product-table">
+                                <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 1%;">Sản phẩm</th>
+                                    <th style="width: 30%; padding-left: 15px;">Tên sản phẩm</th>
+                                    <th class="text-center" style="width: 12%">Số lượng</th>
+                                    <th class="text-right" style="width: 15%">Thành tiền</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="product" th:each="cart : ${session.carts}">
+                                    <td class="product-image text-center">
+                                        <div class="product-thumbnail">
+                                            <div class="product-thumbnail-wrapper">
+                                                <img class="product-thumbnail-image"
+                                                     th:src="@{${cart.image}}" alt="">
+                                            </div>
+                                            <span class="product-thumbnail-quantity" aria-hidden="true"
+                                                  th:text="${cart.count}"></span>
+                                        </div>
+                                    </td>
+                                    <td class="product-description"><span
+                                            class="product-description-name order-summary-emphasis"
+                                            th:text="${cart.name}"></span><br/> <span
+                                            class="product-description-variant order-summary-small-text"
+                                            th:text="${cart.sizeName}"></span></td>
+                                    <td class="product-quantity text-center">1</td>
+                                    <td class="product-price text-right"><span
+                                            class="order-summary-emphasis" th:text="${cart.amount}"></span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-							<div
-								class="order-summary-section order-summary-section-total-lines payment-lines"
-								data-order-summary-section="payment-lines">
-								<table class="total-line-table">
-									<tbody>
-										<tr class="total-line total-line-subtotal">
-											<td class="total-line-name">Tạm tính</td>
-											<td class="total-line-price"><span
-												class="order-summary-emphasis" th:text="${totalMoney}"></span>
-											</td>
-										</tr>
+                        <div
+                                class="order-summary-section order-summary-section-total-lines payment-lines"
+                                data-order-summary-section="payment-lines">
+                            <table class="total-line-table">
+                                <tbody>
+                                <tr class="total-line total-line-subtotal">
+                                    <td class="total-line-name">Tạm tính</td>
+                                    <td class="total-line-price"><span
+                                            class="order-summary-emphasis" th:text="${totalMoney}"></span>
+                                    </td>
+                                </tr>
 
-										<tr class="total-line total-line-shipping">
-											<td class="total-line-name">Phí vận chuyển</td>
-											<td class="total-line-price"><span
-												class="order-summary-emphasis"> 15.000 ₫ </span></td>
-										</tr>
+                                <tr class="total-line total-line-shipping">
+                                    <td class="total-line-name">Phí vận chuyển</td>
+                                    <td class="total-line-price"><span
+                                            class="order-summary-emphasis"> 15.000 ₫ </span></td>
+                                </tr>
 
-									</tbody>
-									<tfoot class="total-line-table-footer">
-										<tr class="total-line">
-											<td class="total-line-name payment-due-label"><span
-												class="payment-due-label-total">Tổng cộng</span></td>
-											<td class="total-line-name payment-due" style="float: right;">
-												<span class="payment-due-currency">VND</span> <span
-												class="payment-due-price" th:text="${amount}"></span>
-											</td>
-										</tr>
-									</tfoot>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="main">
-				<div class="main-content">
-					<div class="step">
-						<div class="step-sections " step="1">
-							<div class="section">
-								<h5>Phương thức giao hàng</h5>
-								<ul class="list-unstyled" id="box_shipping_method">
-									<li><input id="shipping_method_1" type="radio" checked=""
-										name="shipping_method" value="1"> <label>Giao
-											hàng chuyển phát nhanh </label> <br> <small>Chuyển hàng
-											tới địa chỉ khách hàng.</small></li>
-								</ul>
-								<h5>Phương thức thanh toán</h5>
-								<p class="pay_text_ts">Mọi giao dịch đều được bảo mật và mã
-									hóa. Thông tin thẻ tín dụng sẽ không bao giờ được lưu lại.</p>
-								<ul class="list-unstyled">
-									<li><input id="payment_method_1" type="radio"
-										name="payment_method" value="1"> <label>Thanh
-											toán VNPAY</label>
-										<div>
-											<img th:src="@{/images/logo_vnpay.png}"
-												style="width: 70px; height: 20px;">
-										</div></li>
-									<li><input id="payment_method_5" type="radio"
-										name="payment_method" value="2"> <label> Thanh
-											toán Momo</label>
-										<div>
-											<img th:src="@{/images/logo_momo.png}" class="">
-										</div></li>
-									<li><input id="payment_method_3" type="radio"
-										name="payment_method" value="3" checked="checked"> <label>
-											Thu tiền tận nơi</label></li>
-								</ul>
-								<div id="box_div_order"></div>
-								<div class="clearfix"></div>
-								<div class="row">
-									<div class="col-md-12 box-order-complete"
-										style="margin-bottom: 20px;">
-										<a id="but-cancel-step1" th:href="@{/pay}" class="">&lt;&lt;
-											Quay lại</a>
-										<button type="button"
-											class="pull-right but-complete but_step2"
-											id="but_step_confirm" data-toggle="modal"
-											data-target="#exampleModal">Hoàn thành</button>
-									</div>
-								</div>
+                                </tbody>
+                                <tfoot class="total-line-table-footer">
+                                <tr class="total-line">
+                                    <td class="total-line-name payment-due-label"><span
+                                            class="payment-due-label-total">Tổng cộng</span></td>
+                                    <td class="total-line-name payment-due" style="float: right;">
+                                        <span class="payment-due-currency">VND</span> <span
+                                            class="payment-due-price" th:text="${amount}"></span>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="main-content">
+                <div class="step">
+                    <div class="step-sections " step="1">
+                        <div class="section">
+                            <h5>Phương thức giao hàng</h5>
+                            <ul class="list-unstyled" id="box_shipping_method">
+                                <li><input id="shipping_method_1" type="radio" checked=""
+                                           name="shipping_method" value="1"> <label>Giao
+                                    hàng chuyển phát nhanh </label> <br> <small>Chuyển hàng
+                                    tới địa chỉ khách hàng.</small></li>
+                            </ul>
+                            <h5>Phương thức thanh toán</h5>
+                            <p class="pay_text_ts">Mọi giao dịch đều được bảo mật và mã
+                                hóa. Thông tin thẻ tín dụng sẽ không bao giờ được lưu lại.</p>
+                            <ul class="list-unstyled">
+                                <li><input id="payment_method_1" type="radio"
+                                           name="payment_method" value="1"> <label>Thanh
+                                    toán VNPAY</label>
+                                    <div>
+                                        <img th:src="@{/images/logo_vnpay.png}"
+                                             style="width: 70px; height: 20px;">
+                                    </div>
+                                </li>
+                                <li><input id="payment_method_5" type="radio"
+                                           name="payment_method" value="2"> <label> Thanh
+                                    toán Momo</label>
+                                    <div>
+                                        <img th:src="@{/images/logo_momo.png}" class="">
+                                    </div>
+                                </li>
+                                <li><input id="payment_method_3" type="radio"
+                                           name="payment_method" value="3" checked="checked"> <label>
+                                    Thu tiền tận nơi</label></li>
+                            </ul>
+                            <div id="box_div_order"></div>
+                            <div class="clearfix"></div>
+                            <div class="row">
+                                <div class="col-md-12 box-order-complete"
+                                     style="margin-bottom: 20px;">
+                                    <a id="but-cancel-step1" th:href="@{/pay}" class="">&lt;&lt;
+                                        Quay lại</a>
+                                    <button type="button"
+                                            class="pull-right but-complete but_step2"
+                                            id="but_step_confirm" data-toggle="modal"
+                                            data-target="#exampleModal">Hoàn thành
+                                    </button>
+                                </div>
+                            </div>
 
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	</div>
+</div>
 
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title text-center" id="exampleModalLabel">Xác
-						thực đặt hàng</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form method="POST" class="row" id="fileUploadForm">
-						<div class="col-3">
-							<label class="style-label">Ảnh</label>
-						</div>
-						<div class="col-9">
-							<div class="form-group">
-								<input type="text" class="form-control confirm-code" name="code"
-									placeholder="Mã xác thực" />
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-success" id="pay-confirm">Xác
-						thực</button>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="exampleModalLabel">Xác
+                    thực đặt hàng</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" class="row" id="fileUploadForm">
+                    <div class="col-3">
+                        <label class="style-label">Mã xác thực</label>
+                    </div>
+                    <div class="col-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control confirm-code" name="code" placeholder="Mã xác thực"/>
+							<span class="error-message" style="display: none;">Mã xác thực không chính xác</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="pay-confirm" style="background-color: #218838;">
+					Xác thực
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background-color: #5a6268;">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
-	<!-- footer -->
-	<div th:replace="fragments/footer :: footer"></div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header modal-header-success">
+                <h4 class="modal-title">MySu Food</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body text-center content-dialog">
+				Bạn đã thanh toán thành công đơn hàng. <br/>
+				Vui lòng kiểm tra email để xem chi tiết đơn hàng.
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-	<div th:replace="fragments/script :: script"></div>
+<!-- footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
+<div th:replace="fragments/script :: script"></div>
 </body>
 </html>

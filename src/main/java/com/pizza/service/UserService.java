@@ -58,6 +58,7 @@ public class UserService {
     @Transactional(rollbackOn = Exception.class)
     public String register(RegisterInput userInput) {
         String result = "";
+        StringBuilder address = new StringBuilder();
         User user;
         try {
             if (userInput.getId() > 0) {
@@ -74,7 +75,6 @@ public class UserService {
                 user.setPhone(userInput.getPhone());
                 user.setUserName(userInput.getEmail());
                 user.setRole(roleRepository.findById(userInput.getRole()).orElse(null));
-                user.setAddress(userInput.getAddress());
             } else {
                 // step 2: check email exists
                 if (!ObjectUtils.isEmpty(userRepository.findByUserName(userInput.getEmail()))) {
@@ -86,10 +86,20 @@ public class UserService {
                 user.setPassword(BCrypt.hashpw(userInput.getPassword(), BCrypt.gensalt(12)));
                 user.setCreateDate(new Date());
                 user.setStatus(Constant.STATUS_ENABLE);
-                Province province = provinceRepository.findById(userInput.getWard()).orElse(new Province());
-                user.setAddress(userInput.getAddress() + " " + province.getWardName() + " " + province.getDistrictName()
-                        + " " + province.getCityName());
             }
+
+            Province province = provinceRepository.findById(userInput.getWard()).orElse(null);
+            address.append(userInput.getAddress());
+            if (!ObjectUtils.isEmpty(province)) {
+                address.append(" ");
+                address.append(province.getWardName());
+                address.append(" ");
+                address.append(province.getDistrictName());
+                address.append(" ");
+                address.append(province.getCityName());
+            }
+            user.setAddress(address.toString());
+            user.setWard(userInput.getWard());
 
             // step 3: save
             userRepository.save(user);
@@ -105,7 +115,17 @@ public class UserService {
     }
 
     public User getUserInfo(int id) {
-        return userRepository.findById(id).orElse(null);
+        User user = userRepository.findById(id).orElse(new User());
+        Province province = provinceRepository.findById(user.getWard()).orElse(null);
+        if (!ObjectUtils.isEmpty(province)) {
+            String address = user.getAddress()
+                    .replace(" " + province.getWardName(), "")
+                    .replace(" " + province.getDistrictName(), "")
+                    .replace(" " + province.getCityName(), "");
+            user.setAddress(address);
+        }
+        user.setProvince(province);
+        return user;
     }
 
     public void deleteUser(int id) {

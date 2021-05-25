@@ -13,6 +13,7 @@ public class OrderOutput {
 	private String phone;
 	private String address;
 	private int status;
+	@SuppressWarnings("unused")
 	private String statusName;
 	private int amount;
 	private String createDate;

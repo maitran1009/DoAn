@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
+    <title></title>
 </head>
 <body>
 <div th:fragment="script">
@@ -13,8 +14,6 @@
                     stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/>
         </svg>
     </div>
-
-
     <script th:src="@{/js/jquery.min.js}"></script>
     <script th:src="@{/js/jquery-migrate-3.0.1.min.js}"></script>
     <script th:src="@{/js/popper.min.js}"></script>
@@ -29,12 +28,9 @@
     <script th:src="@{/js/bootstrap-datepicker.js}"></script>
     <script th:src="@{/js/jquery.timepicker.min.js}"></script>
     <script th:src="@{/js/scrollax.min.js}"></script>
-    <script th:src="@{/js/google-map.js}"></script>
     <script th:src="@{/js/main.js}"></script>
     <script th:src="@{/js/custom.js}"></script>
     <script th:src="@{/admin/js/custom.js}"></script>
-    <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 </div>
 </body>
 </html>

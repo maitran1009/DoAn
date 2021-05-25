@@ -4,8 +4,8 @@ $(document).ready(function () {
 
         $(this).addClass("size-css-active");
 
-        var detail = $(this).attr("data");
-        var url = $(this).closest("div.change-url").find("#add-cart").attr("data-url");
+        const detail = $(this).attr("data");
+        let url = $(this).closest("div.change-url").find("#add-cart").attr("data-url");
         url = url + "&detail=" + detail;
         $(this).closest("div.change-url").find("#add-cart").attr("href", url);
         $(this).closest("div.change-url").find("#add-cart").attr("href", url);
@@ -13,12 +13,13 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".no-add-cart", function () {
-        alert("Vui lòng chọn kích thước sản phẩm");
+        $('#myModalConfirm').modal('show');
     });
 
-    $('body').on('change', '#pay-city', function () {
+    $(document).on('change', '#pay-city', function () {
+        const district = $('#pay-district');
         if (this.value > 0) {
-            $('#pay-district').attr("data-city", this.value);
+            district.attr("data-city", this.value);
             $.ajax({
                 url: 'http://localhost:9090/mySuFood/province/district',
                 type: 'GET',
@@ -28,7 +29,7 @@ $(document).ready(function () {
                 }
             }).done(function (value) {
                 if (value != null) {
-                    var html = "<option value='-1'>Chọn Quận/Huyện</option>";
+                    let html = "<option value='-1'>Chọn Quận/Huyện</option>";
                     $.each(value, function (key, value) {
                         html += "<option value='" + value.districtId + "'>" + value.districtName + "</option>";
                     });
@@ -36,11 +37,13 @@ $(document).ready(function () {
                 }
             });
         } else {
-            $('#pay-district').attr("data-city", 0).html("<option value='-1'>Chọn Quận/Huyện</option>");
-            $('#pay-ward').html("<option value='-1'>Chọn Phường/Xã</option>");
+            district.attr("data-city", 0).html("<option value='-1'>Chọn Quận/Huyện</option>");
         }
+        $('#pay-ward').html("<option value='-1'>Chọn Phường/Xã</option>");
+        $(".admin-address").val("");
     });
-    $('body').on('change', '#pay-district', function () {
+
+    $(document).on('change', '#pay-district', function () {
         if (this.value > 0) {
             $.ajax({
                 url: 'http://localhost:9090/mySuFood/province/ward',
@@ -52,51 +55,62 @@ $(document).ready(function () {
                 }
             }).done(function (value) {
                 if (value != null) {
-                    var html = "<option value='-1'>Chọn Phường/Xã</option>";
+                    let html = "<option value='-1'>Chọn Phường/Xã</option>";
                     $.each(value, function (key, value) {
                         html += "<option value='" + value.wardId + "'>" + value.wardName + "</option>";
                     });
                     $('#pay-ward').html(html);
                 }
             });
-        } else {
-            $('#pay-ward').html("<option value='-1'>Chọn Phường/Xã</option>");
+        }
+        $('#pay-ward').html("<option value='-1'>Chọn Phường/Xã</option>");
+        $(".admin-address").val("");
+    });
+
+    $(document).on('change', '#pay-ward', function () {
+        $(".admin-address").val("");
+    });
+
+    $(document).on("click", "#redirect-pay", function () {
+        const user = {};
+        user["email"] = $("input[name=email]").val();
+        user["name"] = $("input[name=fullname]").val();
+        user["phone"] = $("input[name=phone]").val();
+        user["city"] = $("select[name=city]").val();
+        user["district"] = $("select[name=district]").val();
+        user["ward"] = $("select[name=ward]").val();
+        user["address"] = $("input[name=address]").val();
+        if (validateRegist(user)) {
+            localStorage.setItem("user", JSON.stringify(user));
+            window.location.href = "http://localhost:9090/mySuFood/pay/type";
         }
     });
 
+    $('#myModalPay').on('hidden.bs.modal', function () {
+        window.location.href = "http://localhost:9090/mySuFood";
+    });
 
-    $(document).on("click", "#redirect-pay", function () {
-        var user = {};
-        user["email"] = $("input[name=email]").val();
-        user["name"] = $("input[name=name]").val();
-        user["phone"] = $("input[name=phone]").val();
-        user["ward"] = $("select[name=ward]").val();
-        user["address"] = $("input[name=address]").val();
-        localStorage.setItem("user", JSON.stringify(user));
-
-        window.location.href = "http://localhost:9090/mySuFood/pay/type";
+    $('#myModalUser').on('hidden.bs.modal', function () {
+        window.location.href = "http://localhost:9090/mySuFood/dang-nhap";
     });
 
     $(document).on("change", "input[name=payment_method]", function () {
-        var key = $(this).val();
-        console.log(key);
-        if (key != 2) {
-            $("button.but_step2").attr("data-toggle", "modal");
-            $("button.but_step2").attr("data-target", "#exampleModal");
-            $("button.but_step2").attr("id", "but_step_confirm");
+        const key = $(this).val();
+        const button = $("button.but_step2");
+        if (key !== "2") {
+            button.attr("data-toggle", "modal").attr("data-target", "#exampleModal").attr("id", "but_step_confirm");
         } else {
-            $("button.but_step2").removeAttr("data-toggle");
-            $("button.but_step2").removeAttr("data-target");
-            $("button.but_step2").attr("id", "but_step2");
+            button.removeAttr("data-toggle").removeAttr("data-target").attr("id", "but_step2");
         }
     });
 
 
     $(document).on("click", "#but_step2", function () {
-        var type = $("input[name=payment_method]:checked").val();
-        var user = JSON.parse(localStorage.getItem("user"));
-        var amount = $(".payment-due-price").text();
-        if (type == 2) {
+        const type = $("input[name=payment_method]:checked").val();
+        const user = JSON.parse(localStorage.getItem("user"));
+        const amount = $(".payment-due-price").text();
+        console.log(type);
+        if (type === "2") {
             $.ajax({
                 url: 'http://localhost:9090/mySuFood/pay/momo/get-url',
                 type: 'GET',
@@ -118,7 +132,8 @@ $(document).ready(function () {
 
 
     $(document).on("click", "#but_step_confirm", function () {
-        var user = JSON.parse(localStorage.getItem("user"));
+        $("span.error-message").attr("style", "display:none;")
+        const user = JSON.parse(localStorage.getItem("user"));
         $.ajax({
             url: 'http://localhost:9090/mySuFood/pay/confirm',
             type: 'GET',
@@ -131,10 +146,9 @@ $(document).ready(function () {
     });
 
     $(document).on("click", "#pay-confirm", function () {
-        var user = JSON.parse(localStorage.getItem("user"));
-        var type = $("input[name=payment_method]:checked").val();
-        var code = $("input[name=code]").val();
-
+        const user = JSON.parse(localStorage.getItem("user"));
+        const type = $("input[name=payment_method]:checked").val();
+        const code = $("input[name=code]").val();
         $.ajax({
             url: 'http://localhost:9090/mySuFood/pay/success',
             type: 'GET',
@@ -150,10 +164,11 @@ $(document).ready(function () {
             }
         }).done(function (value) {
             if (value) {
+                $('#exampleModal').modal('hide');
+                $('#myModal').modal('show');
                 localStorage.removeItem("user");
-                window.location.href = "http://localhost:9090/mySuFood/pay/pay-success";
             } else {
-                alert("Mã xác thực không chính xác");
+                $("span.error-message").attr("style", "display:block;margin-top: 0;")
             }
         });
     });
@@ -189,8 +204,8 @@ $(document).ready(function () {
             }).done(function (value) {
                 console.log(value);
                 if (value === "") {
-                    alert("Bạn đã đăng ký thành công tài khoản. \n Vui lòng kiểm tra mail để xác nhận.");
-                    window.location.href = "http://localhost:9090/mySuFood/dang-nhap";
+                    $('#myModalUser').modal('show');
+
                 } else {
                     $(".error-server").text(value);
                 }
@@ -201,69 +216,74 @@ $(document).ready(function () {
     function validateRegist(user) {
         const regexEmail = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         const regexPhone = /^(84|0[3|5|7|8|9])+([0-9]{8})\b/;
-        const flag = false;
 
         const fullname = $("span.fullname");
-        if (user.fullname === "") {
-            fullname.text("Vui lòng nhập họ và tên");
-            fullname.addClass("fail");
+        if (user.fullname === "" || user.name === "") {
+            fullname.text("Vui lòng nhập họ và tên").addClass("fail");
         } else {
-            fullname.empty();
-            fullname.removeClass("fail");
+            fullname.empty().removeClass("fail");
         }
 
         const email = $("span.email");
         if (user.email === "") {
-            email.text("Vui lòng nhập email");
-            email.addClass("fail");
+            email.text("Vui lòng nhập email").addClass("fail");
         } else if (!regexEmail.test(user.email)) {
-            email.text("Email không đúng định dạng");
-            email.addClass("fail");
+            email.text("Email không đúng định dạng").addClass("fail");
         } else {
-            email.empty();
-            email.removeClass("fail");
+            email.empty().removeClass("fail");
         }
 
         const phone = $("span.phone");
         if (user.phone === "") {
-            phone.text("Vui lòng nhập số điện thoại");
-            phone.addClass("fail");
+            phone.text("Vui lòng nhập số điện thoại").addClass("fail");
         } else if (!regexPhone.test(user.phone)) {
-            phone.text("Số điện thoại không đúng định dạng");
-            phone.addClass("fail");
+            phone.text("Số điện thoại không đúng định dạng").addClass("fail");
         } else {
-            phone.empty();
-            phone.removeClass("fail");
+            phone.empty().removeClass("fail");
+        }
+
+        const city = $("span.city");
+        if (user.city === "-1") {
+            city.text("Vui lòng chọn Tỉnh/TP").addClass("fail");
+        } else {
+            city.empty().removeClass("fail");
+        }
+
+        const district = $("span.district");
+        if (user.district === "-1") {
+            district.text("Vui lòng chọn Quận/Huyện").addClass("fail");
+        } else {
+            district.empty().removeClass("fail");
+        }
+
+        const ward = $("span.ward");
+        if (user.ward === "-1") {
+            ward.text("Vui lòng chọn Phường/Xã").addClass("fail");
+        } else {
+            ward.empty().removeClass("fail");
         }
 
         const address = $("span.address");
         if (user.address === "" || user.ward === "-1") {
-            address.text("Vui lòng nhập địa chỉ");
-            address.addClass("fail");
+            address.text("Vui lòng nhập địa chỉ").addClass("fail");
         } else {
-            address.empty();
-            address.removeClass("fail");
+            address.empty().removeClass("fail");
         }
 
         const password = $("span.password");
         if (user.password === "") {
-            password.text("Vui lòng nhập mật khẩu");
-            password.addClass("fail");
+            password.text("Vui lòng nhập mật khẩu").addClass("fail");
         } else {
-            password.empty();
-            password.removeClass("fail");
+            password.empty().removeClass("fail");
         }
 
         const rePassword = $("span.rePassword");
         if (user.rePassword === "") {
-            rePassword.text("Vui lòng nhập lại mật khẩu");
-            rePassword.addClass("fail");
+            rePassword.text("Vui lòng nhập lại mật khẩu").addClass("fail");
         } else if (user.password !== user.rePassword) {
-            rePassword.text("Không khớp với mật khẩu");
-            rePassword.addClass("fail");
+            rePassword.text("Không khớp với mật khẩu").addClass("fail");
         } else {
-            rePassword.empty();
-            rePassword.removeClass("fail");
+            rePassword.empty().removeClass("fail");
         }
 
         return !$("span").hasClass("fail");
