@@ -83,8 +83,8 @@ public class OrderOutput {
 		this.status = status;
 	}
 
-	public int getAmount() {
-		return amount;
+	public String getAmount() {
+		return Utils.currencyMoney(amount);
 	}
 
 	public void setAmount(int amount) {

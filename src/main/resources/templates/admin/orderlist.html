@@ -55,6 +55,7 @@
                         <th rowspan="2" style="width: 12%;">Email</th>
                         <th rowspan="2" style="width: 8%;">Số điện thoại</th>
                         <th rowspan="2" style="width: 20%;">Địa chỉ</th>
+                        <th rowspan="2">Tổng tiền</th>
                         <th colspan="3">Chi tiết đơn hàng</th>
                         <th rowspan="2" style="width: 8%;">Trạng thái</th>
                         <th rowspan="2" style="width: 6%;"></th>
@@ -72,6 +73,7 @@
                         <td th:text="${order.email}"></td>
                         <td th:text="${order.phone}"></td>
                         <td th:text="${order.address}"></td>
+                        <td th:text="${order.amount}"></td>
                         <td>
                             <p th:each="detail : ${order.orderDetails}" th:text="${detail.productName}"
                                class="style-detail text-left"></p>

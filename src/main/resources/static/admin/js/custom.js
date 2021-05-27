@@ -362,6 +362,7 @@ $(document).ready(function () {
         const index = $(this).attr("data-index");
         $(".user-delete").attr("data", id).attr("data-index", index);
         $(".product-delete").attr("data", id).attr("data-index", index);
+        $(".order-delete").attr("data", id).attr("data-index", index);
     });
 
     //Button delete
@@ -578,6 +579,7 @@ $(document).ready(function () {
             html += "<td>" + value.email + "</td>";
             html += "<td>" + value.phone + "</td>";
             html += "<td>" + value.address + "</td>";
+            html += "<td>" + value.amount + "</td>";
             html += "<td>";
             $.each(value.orderDetails, function (key, value1) {
                 html += "<p class='style-detail'>" + value1.productName + "</p>";

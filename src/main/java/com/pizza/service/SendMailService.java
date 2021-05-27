@@ -44,6 +44,7 @@ public class SendMailService {
             Product product;
             ProductDetail productDetail;
             int i = 0;
+            String subject1 = "";
             String title = "Bạn đã đặt 1 đơn hàng của cửa hàng MySu Food";
             String subject = "Thông báo đặt hàng thành công tại MySu Food";
 
@@ -55,7 +56,16 @@ public class SendMailService {
             templateVariables.put("orderId", order.getId());
 
             if (!flag) {
-                title = "Đơn hàng đã bị huỷ";
+                if(order.getStatus() == 0){
+                    title = "Đơn hàng đã bị huỷ";
+                    subject1 = "Thông báo huỷ đơn hàng tại MySu Food";
+                }else if(order.getStatus() == 1){
+                    title = "Đơn hàng của bạn đang được giao";
+                    subject1 = "Thông báo đơn hàng của bạn đang được giao";
+                }else{
+                    title = "Đơn hàng của bạn đã giao thành công";
+                    subject1 = "Thông báo đã hoàn thành đơn hàng tại MySu Food";
+                }
             }
             templateVariables.put(TITLE, title);
 
@@ -86,7 +96,7 @@ public class SendMailService {
             }
 
             if (!flag) {
-                subject = "Thông báo huỷ đơn hàng tại MySu Food";
+                subject = subject1;
             }
 
             helper.setSubject(subject);
