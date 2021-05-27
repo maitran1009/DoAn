@@ -2,6 +2,8 @@ package com.pizza.model.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -103,8 +105,9 @@ public class User implements Serializable {
         this.forgetCode = forgetCode;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public String getCreateDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return dateFormat.format(createDate);
     }
 
     public void setCreateDate(Date createDate) {

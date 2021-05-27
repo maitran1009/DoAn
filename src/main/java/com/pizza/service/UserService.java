@@ -119,7 +119,7 @@ public class UserService {
         Province province = provinceRepository.findById(user.getWard()).orElse(null);
         if (!ObjectUtils.isEmpty(province)) {
             String address = user.getAddress()
-                    .replace(" " + province.getWardName(), "")
+                    .replace(province.getWardName(), "")
                     .replace(" " + province.getDistrictName(), "")
                     .replace(" " + province.getCityName(), "");
             user.setAddress(address);

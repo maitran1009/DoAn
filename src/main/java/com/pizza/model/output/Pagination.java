@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Pagination {
     private int page;
-    private int pageSize = 2;
+    private int pageSize = 10;
     private long total;
 
     public int getPage() {
